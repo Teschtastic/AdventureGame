@@ -32,7 +32,13 @@ public class Actions {
     }
 
     public static void help() {
-        System.out.println("\nThis is the help screen\n\nq, e, quit, or exit to quit the game\n");
+        System.out.println("\nThis is the help screen\n");
+
+        System.out.println("Actions the you have access to:");
+        for (Map.Entry<Integer, List<String>> entry: actionsMap.entrySet()) {
+            System.out.println(entry.getValue());
+        }
+        System.out.println("\n");
     }
 
     public static void exitMessage() {
