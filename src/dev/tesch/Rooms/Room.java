@@ -5,42 +5,67 @@ package dev.tesch.Rooms;
 //  maybe change to abstract class and have separate class with the actual rooms
 public class Room {
 
-    public Room(String s) {
-        setName(s);
-        setInMessage(s);
+    // Constructing the room object
+    public Room(Integer index, int[] moves, int[] connections, String name) {
+        setName(name);
+        setStartMessage(name);
+        setInMessage(name);
+        setEnterMessage(name);
+        setLeaveMessage(name);
+        setLocation(index);
+        setMoves(moves);
+        setConnectedRooms(connections);
     }
 
-    private String enterMessage;
-    private String inMessage;
-    private String name;
-    private int location;
-    private int[] moves;
-    private boolean[] canMove;
-    private boolean[] cannotMove;
+    // Vars for room data
+    private String name;            // Room name
+    private String startMessage;    // Message used for if you start in that room
+    private String enterMessage;    // Message for when you enter a room
+    private String leaveMessage;    // Message for when you leave a room
+    private String inMessage;       // Message for when you're already in a room
+    private int location;           // Int value for which room you're in
+    private int[] moves;            // Directions [N, E, S, W] that are essentially exits
+    private int[] connectedRooms;   // Stores either the rooms Key index if it's connected, or else -1
 
-
-    public void getEnterMessage() {
-        System.out.println(enterMessage);
-    }
-
-    public void setEnterMessage(String name) {
-        this.enterMessage = "You've entered " + getName();
-    }
-
-    public void getInMessage() {
-        System.out.println(inMessage);
-    }
-
-    public void setInMessage(String inMessage) {
-        this.inMessage = "You're in " + getName();
-    }
-
+    // Getters and Setters
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void getStartMessage() {
+        System.out.println(startMessage);
+    }
+
+    public void setStartMessage(String name) {
+        this.startMessage = "You start in " + name;;
+    }
+
+    public void getEnterMessage() {
+        System.out.println(enterMessage);
+    }
+
+    public void setEnterMessage(String name) {
+        this.enterMessage = "You've entered " + name;
+    }
+
+    public void getLeaveMessage() {
+        System.out.println(leaveMessage);
+    }
+
+    public void setLeaveMessage(String name) {
+        this.leaveMessage = "You've left " + name;
+    }
+
+    public void getInMessage() {
+        System.out.println(inMessage);
+    }
+
+    public void setInMessage(String name) {
+        this.inMessage = "You're in " + name;
     }
 
     public int getLocation() {
@@ -51,10 +76,6 @@ public class Room {
         this.location = location;
     }
 
-    public boolean[] getCanMove() {
-        return canMove;
-    }
-
     public int[] getMoves() {
         return moves;
     }
@@ -63,15 +84,11 @@ public class Room {
         this.moves = moves;
     }
 
-    public void setCanMove(boolean[] canMove) {
-        this.canMove = canMove;
+    public int[] getConnectedRooms() {
+        return connectedRooms;
     }
 
-    public boolean[] getCannotMove() {
-        return cannotMove;
-    }
-
-    public void setCannotMove(boolean[] cannotMove) {
-        this.cannotMove = cannotMove;
+    public void setConnectedRooms(int[] connectedRooms) {
+        this.connectedRooms = connectedRooms;
     }
 }
