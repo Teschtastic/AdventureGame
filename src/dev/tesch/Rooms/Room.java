@@ -1,12 +1,17 @@
 package dev.tesch.Rooms;
 
+// Class for the structure of each room
+// TODO: add more element for the rooms, also,
+//  maybe change to abstract class and have separate class with the actual rooms
 public class Room {
 
     public Room(String s) {
         setName(s);
+        setInMessage(s);
     }
 
     private String enterMessage;
+    private String inMessage;
     private String name;
     private int location;
     private int[] moves;
@@ -14,12 +19,20 @@ public class Room {
     private boolean[] cannotMove;
 
 
-    public String getEnterMessage() {
-        return enterMessage;
+    public void getEnterMessage() {
+        System.out.println(enterMessage);
     }
 
-    public void setEnterMessage(String enterMessage) {
-        this.enterMessage = enterMessage;
+    public void setEnterMessage(String name) {
+        this.enterMessage = "You've entered " + getName();
+    }
+
+    public void getInMessage() {
+        System.out.println(inMessage);
+    }
+
+    public void setInMessage(String inMessage) {
+        this.inMessage = "You're in " + getName();
     }
 
     public String getName() {
@@ -60,9 +73,5 @@ public class Room {
 
     public void setCannotMove(boolean[] cannotMove) {
         this.cannotMove = cannotMove;
-    }
-
-    public void enterMessage() {
-        System.out.println("You've entered " + getName());
     }
 }
