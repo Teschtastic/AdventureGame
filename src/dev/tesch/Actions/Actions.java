@@ -24,14 +24,16 @@ public class Actions {
     // Various messages that will print to the user based oin their choices
     // TODO: add more messages and more functionality
     public static void welcome() {
-        System.out.println("\nWelcome to my Adventure Game!" +
-                            "\nThis is still a WIP." +
-                            "\n(Type 'h' or 'help' for help menu)\n");
+        System.out.println("+------------------------------------+" +
+                         "\n| Welcome to my Adventure Game!      |" +
+                         "\n| This is still a WIP.               |" +
+                         "\n| (Type 'h' or 'help' for help menu) |" +
+                         "\n+------------------------------------+\n");
     }
 
     // Generic type choice message
     public static void typeChoice() {
-        System.out.println("\nType your choice:");
+        System.out.print("\nType your choice:\n> ");
     }
 
     // Method to display your inventory, so far no implementation
@@ -41,18 +43,17 @@ public class Actions {
     }
 
     public static void help() {
-        System.out.println("\nThis is the help screen\n");
+        System.out.println("\n/* ~ This is the help screen ~ */\n");
 
         System.out.println("Actions the you have access to:");
         for (Map.Entry<Integer, List<String>> entry: actionsMap.entrySet()) {
-            System.out.println(entry.getValue());
+            System.out.println(" " + entry.getValue());
         }
-        System.out.println("\n");
     }
 
     // Method to display which room you're in
     public static void printLocation(Integer roomIndex, Map<Integer, Room> userRooms) {
-        System.out.println("You are in " + userRooms.get(roomIndex).getName() + "\n");
+        System.out.println("\nYou are in " + userRooms.get(roomIndex).getName());
     }
 
     // Method used to change rooms
@@ -87,7 +88,10 @@ public class Actions {
 
     // Method used to display exit message
     public static void exitMessage() {
-        System.out.println("\nNow exiting the game. Goodbye.");
+        System.out.println("\n@@@@@@@@@@@@@@@@@@@@@@@@@@@\n" +
+                           "@  Thank you for playing  @\n" +
+                           "@  Now exiting the game   @\n" +
+                           "@@@@@@@@@@@@@@@@@@@@@@@@@@@");
     }
 
     // Method used to display user input error
