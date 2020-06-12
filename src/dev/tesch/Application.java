@@ -12,7 +12,6 @@ public class Application {
 
     public static void main(String[] args) {
         /* ~ Variables ~ */
-
         // Actions object and HashMap
         Actions actions = new Actions();
         Map<Integer, List<String>> userActions = actions.actionsMap;
@@ -23,13 +22,9 @@ public class Application {
 
         // Scanners for player choices
         Scanner playerAction = new Scanner(System.in);
-        Scanner moveAction = new Scanner(System.in);
-        Scanner itemAction = new Scanner(System.in);
-        Scanner npcAction = new Scanner(System.in);
 
         // Vars used in player choice
         String choice;
-        Integer choiceIndex = null;
         Integer roomIndex = 1;
 
         // Welcome message
@@ -41,6 +36,7 @@ public class Application {
         // TODO: Make output look prettier
         GAME:
         while(true) {
+            Integer choiceIndex = null;
 
             // Scans the System.in for the next user choice
             Actions.typeChoice();
@@ -73,8 +69,7 @@ public class Application {
 
                 case 4:
                     // Moves into a new room
-                    roomIndex = Actions.move(moveAction, userRooms, roomIndex);
-                    userRooms.get(roomIndex).getEnterMessage();
+                    roomIndex = Actions.move(userRooms, roomIndex);
                     break;
 
                 case 0:

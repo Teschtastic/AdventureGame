@@ -56,7 +56,7 @@ public class Actions {
     }
 
     // Method used to change rooms
-    public static int move(Scanner moveAction, Map<Integer, Room> userRooms, Integer roomIndex) {
+    public static int move(Map<Integer, Room> userRooms, Integer roomIndex) {
         String[] directions = {"N", "E", "S", "W"};
         String moveDirection;
         Room currentRoom = userRooms.get(roomIndex);
@@ -65,6 +65,7 @@ public class Actions {
 
         // Gets user choice
         System.out.println("\nWhich direction would you like to go?\n(N S E W)\n");
+        Scanner moveAction = new Scanner(System.in);
         moveDirection = moveAction.nextLine().toUpperCase();
 
         // Checks which direction you want to move and if you can move there
@@ -74,6 +75,7 @@ public class Actions {
             if (moveDirection.equals(directions[i]) && currentRoomMoves[i] == 1) {
                 System.out.println("You went " + moveDirection + "\n");
                 currentRoom.getLeaveMessage();
+                userRooms.get(connectedRooms[i]).getEnterMessage();
                 return connectedRooms[i];
             }
         }
