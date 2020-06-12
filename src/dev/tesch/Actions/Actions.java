@@ -65,7 +65,7 @@ public class Actions {
         int[] connectedRooms = currentRoom.getConnectedRooms();
 
         // Gets user choice
-        System.out.println("\nWhich direction would you like to go?\n(N S E W)\n");
+        System.out.print("\nWhich direction would you like to go?\n[N, S, E, W]:\n> ");
         Scanner moveAction = new Scanner(System.in);
         moveDirection = moveAction.nextLine().toUpperCase();
 
@@ -74,7 +74,7 @@ public class Actions {
             // If you can move there, prints which room you're leaving and returns
             // the index to the new room you are entering
             if (moveDirection.equals(directions[i]) && currentRoomMoves[i] == 1) {
-                System.out.println("You went " + moveDirection + "\n");
+                System.out.println("\nYou went " + moveDirection + "\n");
                 currentRoom.getLeaveMessage();
                 userRooms.get(connectedRooms[i]).getEnterMessage();
                 return connectedRooms[i];
