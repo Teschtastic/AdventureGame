@@ -20,6 +20,7 @@ public class Actions {
         actionsMap.put(3, Arrays.asList("w", "where"));
         actionsMap.put(4, Arrays.asList("m", "move", "g", "go"));
         actionsMap.put(5, Arrays.asList("v", "view", "l", "look"));
+        actionsMap.put(6, Arrays.asList("p", "pickup", "g", "grab"));
         actionsMap.put(0, Arrays.asList("q", "quit", "e", "exit"));
     }
 
@@ -35,7 +36,7 @@ public class Actions {
 
     // Generic type choice message
     public static void typeChoice() {
-        System.out.print("\nType your choice:\n> ");
+        System.out.print("\n--------------------------------------\nType your choice:\n> ");
     }
 
     // Method to display your inventory, so far no implementation
@@ -43,12 +44,15 @@ public class Actions {
     public static void inventory(List<Item> inventory) {
         if (inventory.isEmpty())
             System.out.println("\nYour inventory is empty.");
+        else {
+            System.out.println("\nYour inventory contains:");
+            for (Item i : inventory)
+                System.out.println(i.getName());
+        }
     }
 
     public static void help(Map<Integer, List<String>> userActions) {
-        System.out.println("\n/* ~ This is the help screen ~ */\n");
-
-        System.out.println("Actions the you have access to:");
+        System.out.println("\n/* ~ This is the help screen ~ */\nActions the you have access to:");
         for (Map.Entry<Integer, List<String>> entry: userActions.entrySet()) {
             System.out.println(" " + entry.getValue());
         }
@@ -85,7 +89,7 @@ public class Actions {
         }
 
         // If you can't move, tells you so, and returns the current room index
-        System.out.println("\nCouldn't move that way.\n");
+        System.out.println("\nCouldn't move that way.");
         return roomIndex;
     }
 
@@ -98,6 +102,31 @@ public class Actions {
         else {
             Item item = userItems.get(room.getItemInRoom());
             System.out.println("\nYou see a " + item.getName());
+        }
+    }
+
+    // Method used for attempting to pickup an item
+    public static void pickupItem(Map<Integer, Room> userRooms, Integer roomIndex, Map<Integer, Item> userItems, List<Item> inventory) {
+        Room room = userRooms.get(roomIndex);
+
+        // If there isn't an item in the room, nothing to pickup
+        if (!room.isHasItem())
+            System.out.println("\nThere is no item to pickup.");
+        // This means there is something in the room
+        else {
+            Item item = userItems.get(room.getItemInRoom());
+            // The item is able to be picked up, so remove it from the room and remove the room tag for the item
+            // then add the item to the players inventory
+            if (item.getCanPickup()) {
+                System.out.println("\nYou pickup a " + item.getName());
+                room.setItemInRoom(-1);
+                room.setHasItem(false);
+                item.setRoomLocation(-1);
+                inventory.add(item);
+            }
+            // Otherwise, the item isn't able to be picked up
+            else
+                System.out.println("\nYou can't pickup the " + item.getName());
         }
     }
 

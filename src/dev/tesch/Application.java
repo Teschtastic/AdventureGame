@@ -33,12 +33,15 @@ public class Application {
         // Scanners for player choices
         Scanner playerAction = new Scanner(System.in);
 
-        // Vars used in player choice
+        // Var used in player choice
         String choice;
+
+        // Var used to keep track of the room index
         Integer roomIndex = 1;
 
         // Welcome message
         Actions.welcome();
+
         // Tells you which room you're in
         userRooms.get(roomIndex).getStartMessage();
 
@@ -53,10 +56,13 @@ public class Application {
             choice = playerAction.nextLine();
 
             // Checks to see if the user choice is defined in the actions scope, then assigns it to an Integer
-            for (Map.Entry<Integer, List<String>> entry: userActions.entrySet())
-                if (entry.getValue().contains(choice.toLowerCase()))
+            for (Map.Entry<Integer, List<String>> entry: userActions.entrySet()) {
+                if (entry.getValue().contains(choice.toLowerCase())) {
                     choiceIndex = entry.getKey();
+                }
+            }
 
+            // If there was no action for the choice given, set to error choice
             if (choiceIndex == null)
                 choiceIndex = -1;
 
@@ -85,6 +91,11 @@ public class Application {
                 case 5:
                     // Looks around the room
                     Actions.lookAround(userRooms, roomIndex, userItems);
+                    break;
+
+                case 6:
+                    // Attempts to pickup an item
+                    Actions.pickupItem(userRooms, roomIndex, userItems, inventory);
                     break;
 
                 case 0:
