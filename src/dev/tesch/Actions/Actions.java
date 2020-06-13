@@ -153,8 +153,11 @@ public class Actions {
             System.out.print("\nWhich item would you like to inspect? (0 - " + size + ")\n>");
             itemChoice = itemDesc.nextInt();
 
-            System.out.println("\nYou inspect your " + inventory.get(itemChoice).getName() +
-                                "\nYou describe it as: " + inventory.get(itemChoice).getDescription());
+            if (itemChoice >= 0 && itemChoice <= size)
+                System.out.println("\nYou inspect your " + inventory.get(itemChoice).getName() +
+                                    "\nYou describe it as: " + inventory.get(itemChoice).getDescription());
+            else
+                System.out.println("\nInvalid item, try again.");
         }
     }
 
