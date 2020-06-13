@@ -12,5 +12,7 @@ public class Items {
         // Constructs each item with it's index, name, description, room location, and if the player can pick it up
         itemsMap.put(1, new Item("Dr. Pepper", "Yummy, delicious nectar of the gods", 8, true));
         itemsMap.put(2, new Item("Desktop PC", "My AMD beast", 1, false));
+        itemsMap.put(3, new Item("Camping chair", "The only furniture in the living room", 9, false));
+        itemsMap.put(4, new Item("Cardboard boxes", "What can I say, I like ordering from Amazon", 7, true));
     }
 }

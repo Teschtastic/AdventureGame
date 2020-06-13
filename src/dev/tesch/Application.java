@@ -98,6 +98,11 @@ public class Application {
                     Actions.pickupItem(userRooms, roomIndex, userItems, inventory);
                     break;
 
+                case 7:
+                    // Describes an item in your inventory
+                    Actions.describeItem(inventory);
+                    break;
+
                 case 0:
                     // Quits the game
                     Actions.exitMessage();

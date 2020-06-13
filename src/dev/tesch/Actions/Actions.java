@@ -21,6 +21,7 @@ public class Actions {
         actionsMap.put(4, Arrays.asList("m", "move", "g", "go"));
         actionsMap.put(5, Arrays.asList("v", "view", "l", "look"));
         actionsMap.put(6, Arrays.asList("p", "pickup", "g", "grab"));
+        actionsMap.put(7, Arrays.asList("d", "describe"));
         actionsMap.put(0, Arrays.asList("q", "quit", "e", "exit"));
     }
 
@@ -47,7 +48,7 @@ public class Actions {
         else {
             System.out.println("\nYour inventory contains:");
             for (Item i : inventory)
-                System.out.println(i.getName());
+                System.out.println(" - " + i.getName());
         }
     }
 
@@ -130,12 +131,39 @@ public class Actions {
         }
     }
 
+    // Method used to describe an item in your inventory
+    // TODO: Add functionality to describe items that you can't pickup and
+    //  therefore aren't in the player's inventory
+    public static void describeItem(List<Item> inventory) {
+        if (inventory.size() == 0)
+            System.out.println("\nThere is nothing in your inventory to describe.");
+        else if (inventory.size() == 1)
+            System.out.println("\nYou inspect your " + inventory.get(0).getName() +
+                                "\nYou describe it as: " + inventory.get(0).getDescription());
+        else {
+            int i = 0;
+            int size = inventory.size() - 1;
+            Scanner itemDesc = new Scanner(System.in);
+            int itemChoice;
+
+            System.out.println("\nYour inventory contains:");
+            for (Item it : inventory)
+                System.out.println(i++ + " " + it.getName());
+
+            System.out.print("\nWhich item would you like to inspect? (0 - " + size + ")\n>");
+            itemChoice = itemDesc.nextInt();
+
+            System.out.println("\nYou inspect your " + inventory.get(itemChoice).getName() +
+                                "\nYou describe it as: " + inventory.get(itemChoice).getDescription());
+        }
+    }
+
     // Method used to display exit message
     public static void exitMessage() {
-        System.out.println("\n@@@@@@@@@@@@@@@@@@@@@@@@@@@\n" +
-                           "@  Thank you for playing  @\n" +
-                           "@  Now exiting the game   @\n" +
-                           "@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        System.out.println("\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n" +
+                             "@        Thank you for playing       @\n" +
+                             "@        Now exiting the game        @\n" +
+                             "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
     }
 
     // Method used to display user input error

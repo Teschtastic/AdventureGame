@@ -17,8 +17,8 @@ public class Rooms {
         roomsMap.put(5, new Room(5, new int[]{0, 0, 0, 1}, new int[] {-1, -1, -1, 3}, "Jack's bedroom", false, -1));
 
         roomsMap.put(6, new Room(6, new int[]{1, 1, 1, 1}, new int[] {8, 7, 3, 9}, "Apartment outer hallway", false, -1));
-        roomsMap.put(7, new Room(7, new int[]{0, 0, 0, 1}, new int[] {-1, -1, -1, 6}, "Apartment dining room", false, -1));
+        roomsMap.put(7, new Room(7, new int[]{0, 0, 0, 1}, new int[] {-1, -1, -1, 6}, "Apartment dining room", true, 4));
         roomsMap.put(8, new Room(8, new int[]{0, 0, 1, 0}, new int[] {-1, -1, 6, -1}, "Apartment kitchen", true, 1));
-        roomsMap.put(9, new Room(9, new int[]{0, 1, 0, 0}, new int[] {-1, 6, -1, -1}, "Apartment living room", false, -1));
+        roomsMap.put(9, new Room(9, new int[]{0, 1, 0, 0}, new int[] {-1, 6, -1, -1}, "Apartment living room", true, 3));
     }
 }
