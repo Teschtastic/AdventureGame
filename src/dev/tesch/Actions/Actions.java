@@ -1,5 +1,6 @@
 package dev.tesch.Actions;
 
+import dev.tesch.Items.Item;
 import dev.tesch.Rooms.Room;
 
 import java.util.*;
@@ -9,16 +10,17 @@ public class Actions {
 
     // HashMap used for storing Lists of different actions that a user might type as values
     // and assigning them to an Integer key for easier and prettier parsing
-    public static Map<Integer, List<String>> actionsMap = new HashMap<>();
+    public Map<Integer, List<String>> actionsMap = new HashMap<>();
 
     // Constructing the different actions that will be used
     // TODO: add more actions to this HashMap
     public Actions() {
-        actionsMap.put(1, Arrays.asList(new String[] {"i", "inventory"}));
-        actionsMap.put(2, Arrays.asList(new String[] {"h", "help"}));
-        actionsMap.put(3, Arrays.asList(new String[] {"l", "location"}));
-        actionsMap.put(4, Arrays.asList(new String[] {"m", "move", "g", "go"}));
-        actionsMap.put(0, Arrays.asList(new String[] {"q", "quit", "e", "exit"}));
+        actionsMap.put(1, Arrays.asList("i", "inventory"));
+        actionsMap.put(2, Arrays.asList("h", "help"));
+        actionsMap.put(3, Arrays.asList("w", "where"));
+        actionsMap.put(4, Arrays.asList("m", "move", "g", "go"));
+        actionsMap.put(5, Arrays.asList("v", "view", "l", "look"));
+        actionsMap.put(0, Arrays.asList("q", "quit", "e", "exit"));
     }
 
     // Various messages that will print to the user based oin their choices
@@ -38,22 +40,23 @@ public class Actions {
 
     // Method to display your inventory, so far no implementation
     // TODO: When I implement items, work on inventory system
-    public static void inventory() {
-        System.out.println("\nNo inventory yet.\n");
+    public static void inventory(List<Item> inventory) {
+        if (inventory.isEmpty())
+            System.out.println("\nYour inventory is empty.");
     }
 
-    public static void help() {
+    public static void help(Map<Integer, List<String>> userActions) {
         System.out.println("\n/* ~ This is the help screen ~ */\n");
 
         System.out.println("Actions the you have access to:");
-        for (Map.Entry<Integer, List<String>> entry: actionsMap.entrySet()) {
+        for (Map.Entry<Integer, List<String>> entry: userActions.entrySet()) {
             System.out.println(" " + entry.getValue());
         }
     }
 
     // Method to display which room you're in
     public static void printLocation(Integer roomIndex, Map<Integer, Room> userRooms) {
-        System.out.println("\nYou are in " + userRooms.get(roomIndex).getName());
+        userRooms.get(roomIndex).getInMessage();
     }
 
     // Method used to change rooms
@@ -84,6 +87,18 @@ public class Actions {
         // If you can't move, tells you so, and returns the current room index
         System.out.println("\nCouldn't move that way.\n");
         return roomIndex;
+    }
+
+    // Method used to look in the room you're in
+    public static void lookAround(Map<Integer, Room> userRooms, Integer roomIndex, Map<Integer, Item> userItems) {
+        Room room = userRooms.get(roomIndex);
+
+        if (!room.isHasItem())
+            System.out.println("\nYou look around and see nothing.");
+        else {
+            Item item = userItems.get(room.getItemInRoom());
+            System.out.println("\nYou see a " + item.getName());
+        }
     }
 
     // Method used to display exit message

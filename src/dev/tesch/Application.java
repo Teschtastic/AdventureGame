@@ -1,9 +1,12 @@
 package dev.tesch;
 
 import dev.tesch.Actions.Actions;
+import dev.tesch.Items.Item;
+import dev.tesch.Items.Items;
 import dev.tesch.Rooms.Room;
 import dev.tesch.Rooms.Rooms;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -12,13 +15,20 @@ public class Application {
 
     public static void main(String[] args) {
         /* ~ Variables ~ */
-        // Actions object and HashMap
+        // Actions HashMap
         Actions actions = new Actions();
         Map<Integer, List<String>> userActions = actions.actionsMap;
 
         // Rooms object and HashMap
         Rooms rooms = new Rooms();
         Map<Integer, Room> userRooms = rooms.roomsMap;
+
+        // Items object and HashMap
+        Items items = new Items();
+        Map<Integer, Item> userItems = items.itemsMap;
+
+        // List used for inventory
+        List<Item> inventory = new ArrayList<>();
 
         // Scanners for player choices
         Scanner playerAction = new Scanner(System.in);
@@ -54,12 +64,12 @@ public class Application {
             switch (choiceIndex) {
                 case 1:
                     // Accesses the inventory
-                    Actions.inventory();
+                    Actions.inventory(inventory);
                     break;
 
                 case 2:
                     // Accesses the help menu
-                    Actions.help();
+                    Actions.help(userActions);
                     break;
 
                 case 3:
@@ -70,6 +80,11 @@ public class Application {
                 case 4:
                     // Moves into a new room
                     roomIndex = Actions.move(userRooms, roomIndex);
+                    break;
+
+                case 5:
+                    // Looks around the room
+                    Actions.lookAround(userRooms, roomIndex, userItems);
                     break;
 
                 case 0:
@@ -85,7 +100,7 @@ public class Application {
                 default:
                     // Outputs a generic invalid choice message to the user
                     Actions.genericError();
-                    continue GAME;
+                    break;
             }
         }
     }

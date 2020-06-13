@@ -6,7 +6,7 @@ package dev.tesch.Rooms;
 public class Room {
 
     // Constructing the room object
-    public Room(Integer index, int[] moves, int[] connections, String name) {
+    public Room(Integer index, int[] moves, int[] connections, String name, boolean hasItem, int iIR) {
         setName(name);
         setStartMessage(name);
         setInMessage(name);
@@ -15,6 +15,8 @@ public class Room {
         setLocation(index);
         setMoves(moves);
         setConnectedRooms(connections);
+        setHasItem(hasItem);
+        setItemInRoom(iIR);
     }
 
     // Vars for room data
@@ -26,6 +28,8 @@ public class Room {
     private int location;           // Int value for which room you're in
     private int[] moves;            // Directions [N, E, S, W] that are essentially exits
     private int[] connectedRooms;   // Stores either the rooms Key index if it's connected, or else -1
+    private boolean hasItem;        // Tells if there is an item in the room
+    private int itemInRoom;         // Int used to show which item is in the room
 
     // Getters and Setters
     public String getName() {
@@ -65,7 +69,7 @@ public class Room {
     }
 
     public void setInMessage(String name) {
-        this.inMessage = "You're in " + name;
+        this.inMessage = "\nYou're in " + name;
     }
 
     public int getLocation() {
@@ -90,5 +94,21 @@ public class Room {
 
     public void setConnectedRooms(int[] connectedRooms) {
         this.connectedRooms = connectedRooms;
+    }
+
+    public boolean isHasItem() {
+        return hasItem;
+    }
+
+    public void setHasItem(boolean hasItem) {
+        this.hasItem = hasItem;
+    }
+
+    public int getItemInRoom() {
+        return itemInRoom;
+    }
+
+    public void setItemInRoom(int itemInRoom) {
+        this.itemInRoom = itemInRoom;
     }
 }
