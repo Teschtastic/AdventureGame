@@ -6,14 +6,13 @@ import dev.tesch.Rooms.Room;
 
 import java.util.*;
 
-// Class for the various actions
 public class Actions {
 
-    // HashMap used for storing Lists of different actions that a user might type as values
-    // and assigning them to an Integer key for easier and prettier parsing
+    /* HashMap used for storing Lists of different actions that a user might type as values
+       and assigning them to an Integer key for easier and prettier parsing */
     public Map<Integer, List<String>> actionsMap = new HashMap<>();
 
-    // Constructing the different actions that will be used
+    /* Constructing the different actions that will be used */
     // TODO: add more actions to this HashMap
     public Actions() {
         actionsMap.put(1, Arrays.asList("i", "inventory"));
@@ -22,11 +21,12 @@ public class Actions {
         actionsMap.put(4, Arrays.asList("m", "move", "g", "go"));
         actionsMap.put(5, Arrays.asList("v", "view", "l", "look"));
         actionsMap.put(6, Arrays.asList("p", "pickup", "g", "grab"));
-        actionsMap.put(7, Arrays.asList("d", "describe"));
+        actionsMap.put(7, Arrays.asList("de", "describe"));
+        actionsMap.put(8, Arrays.asList("dr", "drop", "t", "toss"));
         actionsMap.put(0, Arrays.asList("q", "quit", "e", "exit"));
     }
 
-    // Various messages that will print to the user based oin their choices
+    /* Various messages that will print to the user based oin their choices */
     // TODO: add more messages and more functionality
     public static void welcome() {
         System.out.println("+------------------------------------+" +
@@ -36,12 +36,12 @@ public class Actions {
                          "\n+------------------------------------+\n");
     }
 
-    // Generic type choice message
+    /* Generic type choice message */
     public static void typeChoice() {
         System.out.print("\n--------------------------------------\nType your choice:\n> ");
     }
 
-    // Method to display your inventory, so far no implementation
+    /* Method to display your inventory, so far no implementation */
     // TODO: When I implement items, work on inventory system
     public static void inventory(Player player) {
         if (player.getInventory().isEmpty())
@@ -53,6 +53,7 @@ public class Actions {
         }
     }
 
+    /* Method to print the help menu */
     public static void help(Map<Integer, List<String>> userActions) {
         System.out.println("\n/* ~ This is the help screen ~ */\nActions the you have access to:");
         for (Map.Entry<Integer, List<String>> entry: userActions.entrySet()) {
@@ -60,12 +61,12 @@ public class Actions {
         }
     }
 
-    // Method to display which room you're in
+    /* Method to display which room you're in */
     public static void printLocation(Integer roomIndex, Map<Integer, Room> userRooms) {
         userRooms.get(roomIndex).getInMessage();
     }
 
-    // Method used to change rooms
+    /* Method used to change rooms */
     public static int move(Map<Integer, Room> userRooms, Integer roomIndex) {
         String[] directions = {"N", "E", "S", "W"};
         String moveDirection;
@@ -95,7 +96,7 @@ public class Actions {
         return roomIndex;
     }
 
-    // Method used to look in the room you're in
+    /* Method used to look in the room you're in */
     public static void lookAround(Map<Integer, Room> userRooms, Integer roomIndex, Map<Integer, Item> userItems) {
         Room room = userRooms.get(roomIndex);
 
@@ -107,7 +108,7 @@ public class Actions {
         }
     }
 
-    // Method used for attempting to pickup an item
+    /* Method used for attempting to pickup an item */
     public static void pickupItem(Map<Integer, Room> userRooms, Integer roomIndex, Map<Integer, Item> userItems, Player player) {
         Room room = userRooms.get(roomIndex);
 
@@ -132,7 +133,7 @@ public class Actions {
         }
     }
 
-    // Method used to describe an item in your inventory
+    /* Method used to describe an item in your inventory */
     // TODO: Add functionality to describe items that you can't pickup and
     //  therefore aren't in the player's inventory
     public static void describeItem(List<Item> inventory) {
@@ -162,7 +163,56 @@ public class Actions {
         }
     }
 
-    // Method used to display exit message
+    /* Method used to drop and item in your inventory */
+    // TODO: Check if there's already an item in the room before dropping
+    //  if so, don't drop the item
+    public static void dropItem(Map<Integer, Room> userRooms, Integer roomIndex, Player player) {
+
+        Room room = userRooms.get(roomIndex);
+        Item item;
+
+        // Nothing in inventory to drop
+        if (player.getInventory().size() == 0)
+            System.out.println("\nThere is nothing in your inventory to drop.");
+        // Only one item in your inventory to drop
+        else if (player.getInventory().size() == 1) {
+            item = player.getInventory().get(0);
+
+            System.out.println("\nYou drop your " + item.getName());
+
+            room.setHasItem(true);
+            item.setRoomLocation(roomIndex);
+            room.setItemInRoom(item.getItemIndex());
+            player.getInventory().remove(0);
+        }
+        // Multiple items in inventory, choose which one to drop
+        else {
+            int i = 0;
+            int size = player.getInventory().size() - 1;
+            Scanner itemDesc = new Scanner(System.in);
+            int itemChoice;
+
+            System.out.println("\nYour inventory contains:");
+            for (Item it : player.getInventory())
+                System.out.println(i++ + " " + it.getName());
+
+            System.out.print("\nWhich item would you like to drop?\n(0 - " + size + ")\n>");
+            itemChoice = itemDesc.nextInt();
+
+            if (itemChoice >= 0 && itemChoice <= size) {
+                item = player.getInventory().get(itemChoice);
+                System.out.println("\nYou drop your " + item.getName());
+                room.setHasItem(true);
+                item.setRoomLocation(roomIndex);
+                room.setItemInRoom(item.getItemIndex());
+                player.getInventory().remove(itemChoice);
+            }
+            else
+                System.out.println("\nInvalid item, try again.");
+        }
+    }
+
+    /* Method used to display exit message */
     public static void exitMessage() {
         System.out.println("\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n" +
                              "@        Thank you for playing       @\n" +
@@ -171,12 +221,12 @@ public class Actions {
         System.exit(0);
     }
 
-    // Method used to display user input error
+    /* Method used to display user input error */
     public static void inputError() {
         System.out.println("\nError. Not a valid input.\nTry again.\n");
     }
 
-    // Method used to display a generic error
+    /* Method used to display a generic error */
     public static void genericError() {
         System.out.println("\nError.\n");
     }

@@ -15,8 +15,11 @@ import java.util.Map;
 public class Application {
 
     public static void main(String[] args) {
-        /* ~ Variables ~ */
-        // Actions HashMap
+
+        // Player object
+        Player player = new Player("Sean", 100, 10, new ArrayList<>());
+
+        // Actions object and HashMap
         Actions actions = new Actions();
         Map<Integer, List<String>> userActions = actions.actionsMap;
 
@@ -28,10 +31,7 @@ public class Application {
         Items items = new Items();
         Map<Integer, Item> userItems = items.itemsMap;
 
-        // Player object
-        Player player = new Player("Sean", 100, 10, new ArrayList<>());
-
         // Running the main game loop
-        ActionsParser.parseActions(userActions, userRooms, userItems, player);
+        ActionsParser.gameLoop(userActions, userRooms, userItems, player);
     }
 }

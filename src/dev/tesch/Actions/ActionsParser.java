@@ -12,30 +12,19 @@ import static dev.tesch.Actions.Actions.*;
 
 public class ActionsParser {
 
-    public static void parseActions(Map<Integer, List<String>> userActions, Map<Integer, Room> userRooms, Map<Integer, Item> userItems, Player player) {
-        // Scanners for player choices
-        Scanner playerAction = new Scanner(System.in);
+    public static void gameLoop(Map<Integer, List<String>> userActions, Map<Integer, Room> userRooms, Map<Integer, Item> userItems, Player player) {
 
-        // Var used in player choice
-        String choice;
+        Scanner playerAction = new Scanner(System.in);  // Scanners for player choices
+        String choice;                                  // Var used in player choice
+        Integer roomIndex = 1;                          // Var used to keep track of the room index
+        Actions.welcome();                              // Welcome message
+        userRooms.get(roomIndex).getStartMessage();     // Tells you which room you're in
 
-        // Var used to keep track of the room index
-        Integer roomIndex = 1;
-
-        // Welcome message
-        Actions.welcome();
-
-        // Tells you which room you're in
-        userRooms.get(roomIndex).getStartMessage();
-
-        // Main game loop
         // TODO: Make output look prettier
-        while(true) {
+        while(true) {                                   // Main game loop
             Integer choiceIndex = null;
-
-            // Scans the System.in for the next user choice
             Actions.typeChoice();
-            choice = playerAction.nextLine();
+            choice = playerAction.nextLine();           // Scans the System.in for the next user choice
 
             // Checks to see if the user choice is defined in the actions scope, then assigns it to an Integer
             for (Map.Entry<Integer, List<String>> entry: userActions.entrySet()) {
@@ -48,56 +37,49 @@ public class ActionsParser {
             if (choiceIndex == null)
                 choiceIndex = -1;
 
-            // Switch case to parse the user's choice
-            switch (choiceIndex) {
+            switch (choiceIndex) {                                          // Switch case to parse the user's choice
                 case 1:
-                    // Accesses the inventory
-                    inventory(player);
+                    inventory(player);                                      // Accesses the inventory
                     break;
 
                 case 2:
-                    // Accesses the help menu
-                    help(userActions);
+                    help(userActions);                                      // Accesses the help menu
                     break;
 
                 case 3:
-                    // Prints your location
-                    printLocation(roomIndex, userRooms);
+                    printLocation(roomIndex, userRooms);                    // Prints your location
                     break;
 
                 case 4:
-                    // Moves into a new room
-                    roomIndex = move(userRooms, roomIndex);
+                    roomIndex = move(userRooms, roomIndex);                 // Moves into a new room
                     break;
 
                 case 5:
-                    // Looks around the room
-                    lookAround(userRooms, roomIndex, userItems);
+                    lookAround(userRooms, roomIndex, userItems);            // Looks around the room
                     break;
 
                 case 6:
-                    // Attempts to pickup an item
-                    pickupItem(userRooms, roomIndex, userItems, player);
+                    pickupItem(userRooms, roomIndex, userItems, player);    // Attempts to pickup an item
                     break;
 
                 case 7:
-                    // Describes an item in your inventory
-                    describeItem(player.getInventory());
+                    describeItem(player.getInventory());                    // Describes an item in your inventory
+                    break;
+
+                case 8:
+                    dropItem(userRooms, roomIndex, player);
                     break;
 
                 case 0:
-                    // Quits the game
-                    exitMessage();
-                    return;
+                    exitMessage();                                          // Quits the game
+                    break;
 
                 case -1:
-                    // Input error
-                    inputError();
+                    inputError();                                           // Input error
                     break;
 
                 default:
-                    // Outputs a generic invalid choice message to the user
-                    genericError();
+                    genericError();                                         // Outputs a generic error to the user
                     break;
             }
         }
