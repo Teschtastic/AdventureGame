@@ -1,6 +1,7 @@
 package dev.tesch.Actions;
 
 import dev.tesch.Items.Item;
+import dev.tesch.Player.Player;
 import dev.tesch.Rooms.Room;
 
 import java.util.*;
@@ -42,12 +43,12 @@ public class Actions {
 
     // Method to display your inventory, so far no implementation
     // TODO: When I implement items, work on inventory system
-    public static void inventory(List<Item> inventory) {
-        if (inventory.isEmpty())
+    public static void inventory(Player player) {
+        if (player.getInventory().isEmpty())
             System.out.println("\nYour inventory is empty.");
         else {
             System.out.println("\nYour inventory contains:");
-            for (Item i : inventory)
+            for (Item i : player.getInventory())
                 System.out.println(" - " + i.getName());
         }
     }
@@ -107,7 +108,7 @@ public class Actions {
     }
 
     // Method used for attempting to pickup an item
-    public static void pickupItem(Map<Integer, Room> userRooms, Integer roomIndex, Map<Integer, Item> userItems, List<Item> inventory) {
+    public static void pickupItem(Map<Integer, Room> userRooms, Integer roomIndex, Map<Integer, Item> userItems, Player player) {
         Room room = userRooms.get(roomIndex);
 
         // If there isn't an item in the room, nothing to pickup
@@ -123,7 +124,7 @@ public class Actions {
                 room.setItemInRoom(-1);
                 room.setHasItem(false);
                 item.setRoomLocation(-1);
-                inventory.add(item);
+                player.addToInventory(item);
             }
             // Otherwise, the item isn't able to be picked up
             else
@@ -139,7 +140,7 @@ public class Actions {
             System.out.println("\nThere is nothing in your inventory to describe.");
         else if (inventory.size() == 1)
             System.out.println("\nYou inspect your " + inventory.get(0).getName() +
-                                "\nYou describe it as: " + inventory.get(0).getDescription());
+                                "\nYou describe it as:\n" + inventory.get(0).getDescription());
         else {
             int i = 0;
             int size = inventory.size() - 1;
@@ -150,12 +151,12 @@ public class Actions {
             for (Item it : inventory)
                 System.out.println(i++ + " " + it.getName());
 
-            System.out.print("\nWhich item would you like to inspect? (0 - " + size + ")\n>");
+            System.out.print("\nWhich item would you like to inspect?\n(0 - " + size + ")\n>");
             itemChoice = itemDesc.nextInt();
 
             if (itemChoice >= 0 && itemChoice <= size)
                 System.out.println("\nYou inspect your " + inventory.get(itemChoice).getName() +
-                                    "\nYou describe it as: " + inventory.get(itemChoice).getDescription());
+                                    "\nYou describe it as:\n" + inventory.get(itemChoice).getDescription());
             else
                 System.out.println("\nInvalid item, try again.");
         }
@@ -167,6 +168,7 @@ public class Actions {
                              "@        Thank you for playing       @\n" +
                              "@        Now exiting the game        @\n" +
                              "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        System.exit(0);
     }
 
     // Method used to display user input error
