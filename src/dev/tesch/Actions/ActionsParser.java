@@ -67,7 +67,11 @@ public class ActionsParser {
                     break;
 
                 case 8:
-                    dropItem(userRooms, roomIndex, player);
+                    dropItem(userRooms, roomIndex, player);                 // Drops an item into the current room
+                    break;
+
+                case 9:
+                    useItem(userRooms, roomIndex, player);                  // Uses an item in your inventory
                     break;
 
                 case 0:

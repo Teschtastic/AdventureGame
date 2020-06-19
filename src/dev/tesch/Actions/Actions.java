@@ -23,6 +23,7 @@ public class Actions {
         actionsMap.put(6, Arrays.asList("p", "pickup", "g", "grab"));
         actionsMap.put(7, Arrays.asList("de", "describe"));
         actionsMap.put(8, Arrays.asList("dr", "drop", "t", "toss"));
+        actionsMap.put(9, Arrays.asList("u", "use"));
         actionsMap.put(0, Arrays.asList("q", "quit", "e", "exit"));
     }
 
@@ -206,6 +207,60 @@ public class Actions {
                 item.setRoomLocation(roomIndex);
                 room.setItemInRoom(item.getItemIndex());
                 player.getInventory().remove(itemChoice);
+            }
+            else
+                System.out.println("\nInvalid item, try again.");
+        }
+    }
+
+    public static void useItem(Map<Integer, Room> userRooms, Integer roomIndex, Player player) {
+        Room room = userRooms.get(roomIndex);
+        Item item;
+
+        // Nothing in inventory to use
+        if (player.getInventory().size() == 0)
+            System.out.println("\nThere is nothing in your inventory to use.");
+            // Only one item in your inventory to use
+        else if (player.getInventory().size() == 1) {
+            item = player.getInventory().get(0);
+
+            // If the item has the can use flag, use it and remove
+            // it from the player's inventory
+            if (player.getInventory().get(0).isCanUse()) {
+                System.out.println(item.getUseMessage());
+                player.getInventory().remove(0);
+            }
+            else
+                System.out.println("\nYou can't use " + item.getName());
+        }
+        // Multiple items in inventory, choose which one to use
+        else {
+            int i = 0;
+            int size = player.getInventory().size() - 1;
+            Scanner itemDesc = new Scanner(System.in);
+            int itemChoice;
+
+            // Prints the inventory for the user
+            System.out.println("\nYour inventory contains:");
+            for (Item it : player.getInventory())
+                System.out.println(i++ + " " + it.getName());
+
+            // Choice as to which item to use
+            System.out.print("\nWhich item would you like to use?\n(0 - " + size + ")\n>");
+            itemChoice = itemDesc.nextInt();
+
+
+            if (itemChoice >= 0 && itemChoice <= size) {
+                item = player.getInventory().get(itemChoice);
+
+                if (player.getInventory().get(itemChoice).isCanUse()) {
+
+                    System.out.println(item.getUseMessage());
+
+                    player.getInventory().remove(itemChoice);
+                }
+                else
+                    System.out.println("\nYou can't use " + item.getName());
             }
             else
                 System.out.println("\nInvalid item, try again.");
