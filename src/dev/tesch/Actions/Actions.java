@@ -174,8 +174,6 @@ public class Actions {
     }
 
     /* Method used to drop and item in your inventory */
-    // TODO: Check if there's already an item in the room before dropping
-    //  if so, don't drop the item
     public static void dropItem(Map<Integer, Room> userRooms, Integer roomIndex, Player player) {
 
         Room room = userRooms.get(roomIndex);
@@ -185,6 +183,8 @@ public class Actions {
         if (player.getInventory().size() == 0)
             System.out.println("\nThere is nothing in your inventory to drop.");
         // Only one item in your inventory to drop
+        else if (room.isHasItem() && player.getInventory().size() > 0)
+            System.out.println("\nYou cannot drop the item.\nThe room already has an item in it.");
         else if (player.getInventory().size() == 1) {
             item = player.getInventory().get(0);
 
