@@ -280,7 +280,11 @@ public class Actions {
         Room room = userRooms.get(roomIndex);
         NPC npc = userNpcs.get(room.getNpcInRoom());
 
-        System.out.println("\n" + npc.getName() + " says \"" + npc.getMessage() + "\"");
+        if (!room.isHasNPC()) {
+            System.out.println("\nThere is nobody to talk to.");
+        } else {
+            System.out.println("\n" + npc.getName() + " says \"" + npc.getMessage() + "\"");
+        }
     }
 
     /* Method used to display exit message */
