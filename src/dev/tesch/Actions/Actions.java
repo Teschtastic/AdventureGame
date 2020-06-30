@@ -6,7 +6,9 @@ import dev.tesch.Player.Player;
 import dev.tesch.Rooms.Room;
 
 import java.util.*;
-
+// TODO: Potentially split this file into multiple parts based off of
+//  which type of action is being performed, such as for items, rooms,
+//  or NPCs to improve readability and make it easier to add new actions
 public class Actions {
 
     /* HashMap used for storing Lists of different actions that a user might type as values
