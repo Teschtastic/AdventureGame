@@ -6,17 +6,19 @@ package dev.tesch.Rooms;
 public class Room {
 
     // Constructing the room object
-    public Room(Integer index, int[] moves, int[] connections, String name, boolean hasItem, int iIR) {
+    public Room(int index, int[] moves, int[] connections, String name, boolean hasItem, int iIR, boolean hNPC, int npcInR) {
         setName(name);
         setStartMessage(name);
         setInMessage(name);
         setEnterMessage(name);
         setLeaveMessage(name);
-        setLocation(index);
+        setRoomIndex(index);
         setMoves(moves);
         setConnectedRooms(connections);
         setHasItem(hasItem);
         setItemInRoom(iIR);
+        setHasNPC(hNPC);
+        setNpcInRoom(npcInR);
     }
 
     // Vars for room data
@@ -25,11 +27,13 @@ public class Room {
     private String enterMessage;    // Message for when you enter a room
     private String leaveMessage;    // Message for when you leave a room
     private String inMessage;       // Message for when you're already in a room
-    private int location;           // Int value for which room you're in
+    private int roomIndex;           // Int value for which room you're in
     private int[] moves;            // Directions [N, E, S, W] that are essentially exits
     private int[] connectedRooms;   // Stores either the rooms Key index if it's connected, or else -1
     private boolean hasItem;        // Tells if there is an item in the room
     private int itemInRoom;         // Int used to show which item is in the room
+    private boolean hasNPC;
+    private int npcInRoom;
 
     // Getters and Setters
     public String getName() {
@@ -72,12 +76,12 @@ public class Room {
         this.inMessage = "\nYou're in " + name;
     }
 
-    public int getLocation() {
-        return location;
+    public int getRoomIndex() {
+        return roomIndex;
     }
 
-    public void setLocation(int location) {
-        this.location = location;
+    public void setRoomIndex(int roomIndex) {
+        this.roomIndex = roomIndex;
     }
 
     public int[] getMoves() {
@@ -110,5 +114,21 @@ public class Room {
 
     public void setItemInRoom(int itemInRoom) {
         this.itemInRoom = itemInRoom;
+    }
+
+    public boolean isHasNPC() {
+        return hasNPC;
+    }
+
+    public void setHasNPC(boolean hasNPC) {
+        this.hasNPC = hasNPC;
+    }
+
+    public int getNpcInRoom() {
+        return npcInRoom;
+    }
+
+    public void setNpcInRoom(int npcInRoom) {
+        this.npcInRoom = npcInRoom;
     }
 }

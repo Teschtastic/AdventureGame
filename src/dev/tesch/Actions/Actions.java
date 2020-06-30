@@ -1,6 +1,7 @@
 package dev.tesch.Actions;
 
 import dev.tesch.Items.Item;
+import dev.tesch.NPCs.NPC;
 import dev.tesch.Player.Player;
 import dev.tesch.Rooms.Room;
 
@@ -24,6 +25,7 @@ public class Actions {
         actionsMap.put(7, Arrays.asList("de", "describe"));
         actionsMap.put(8, Arrays.asList("dr", "drop", "t", "toss"));
         actionsMap.put(9, Arrays.asList("u", "use"));
+        actionsMap.put(10, Arrays.asList("t", "talk", "s", "speak"));
         actionsMap.put(0, Arrays.asList("q", "quit", "e", "exit"));
     }
 
@@ -98,11 +100,18 @@ public class Actions {
     }
 
     /* Method used to look in the room you're in */
-    public static void lookAround(Map<Integer, Room> userRooms, Integer roomIndex, Map<Integer, Item> userItems) {
+    public static void lookAround(Map<Integer, NPC> userNpcs, Map<Integer, Room> userRooms, Integer roomIndex, Map<Integer, Item> userItems) {
         Room room = userRooms.get(roomIndex);
 
+        if (!room.isHasNPC()) {
+            System.out.println("\nYou don't see any people.");
+        } else {
+            NPC npc = userNpcs.get(room.getNpcInRoom());
+            System.out.println("\nYou see " + npc.getName());
+        }
+
         if (!room.isHasItem())
-            System.out.println("\nYou look around and see nothing.");
+            System.out.println("\nYou don't see any items.");
         else {
             Item item = userItems.get(room.getItemInRoom());
             System.out.println("\nYou see a " + item.getName());
@@ -265,6 +274,13 @@ public class Actions {
             else
                 System.out.println("\nInvalid item, try again.");
         }
+    }
+
+    public static void talkToNPC(Map<Integer, NPC> userNpcs, Map<Integer, Room> userRooms, int roomIndex) {
+        Room room = userRooms.get(roomIndex);
+        NPC npc = userNpcs.get(room.getNpcInRoom());
+
+        System.out.println("\n" + npc.getName() + " says \"" + npc.getMessage() + "\"");
     }
 
     /* Method used to display exit message */

@@ -1,6 +1,7 @@
 package dev.tesch.Actions;
 
 import dev.tesch.Items.Item;
+import dev.tesch.NPCs.NPC;
 import dev.tesch.Player.Player;
 import dev.tesch.Rooms.Room;
 
@@ -12,11 +13,11 @@ import static dev.tesch.Actions.Actions.*;
 
 public class ActionsParser {
 
-    public static void gameLoop(Map<Integer, List<String>> userActions, Map<Integer, Room> userRooms, Map<Integer, Item> userItems, Player player) {
+    public static void gameLoop(Map<Integer, List<String>> userActions, Map<Integer, NPC> userNpcs, Map<Integer, Room> userRooms, Map<Integer, Item> userItems, Player player) {
 
         Scanner playerAction = new Scanner(System.in);  // Scanners for player choices
         String choice;                                  // Var used in player choice
-        Integer roomIndex = 1;                          // Var used to keep track of the room index
+        int roomIndex = 1;                              // Var used to keep track of the room index
         Actions.welcome();                              // Welcome message
         userRooms.get(roomIndex).getStartMessage();     // Tells you which room you're in
 
@@ -55,7 +56,7 @@ public class ActionsParser {
                     break;
 
                 case 5:
-                    lookAround(userRooms, roomIndex, userItems);            // Looks around the room
+                    lookAround(userNpcs, userRooms, roomIndex, userItems);            // Looks around the room
                     break;
 
                 case 6:
@@ -72,6 +73,10 @@ public class ActionsParser {
 
                 case 9:
                     useItem(userRooms, roomIndex, player);                  // Uses an item in your inventory
+                    break;
+
+                case 10:
+                    talkToNPC(userNpcs, userRooms, roomIndex);
                     break;
 
                 case 0:

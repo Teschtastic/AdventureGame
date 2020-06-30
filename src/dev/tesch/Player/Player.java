@@ -7,7 +7,7 @@ import java.util.List;
 public class Player {
 
     // Constructing the player object
-    public Player(String n, Integer h, Integer aDamage, List<Item> inv) {
+    public Player(String n, int h, int aDamage, List<Item> inv) {
         setName(n);
         setHealth(h);
         setAttackDamage(aDamage);
@@ -15,8 +15,8 @@ public class Player {
     }
 
     private String name;            // Player name
-    private Integer health;         // Player health
-    private Integer attackDamage;   // Player attack damage
+    private int health;         // Player health
+    private int attackDamage;   // Player attack damage
     private List<Item> inventory;   // Player inventory
 
     /* Getters and setters */
@@ -28,7 +28,7 @@ public class Player {
         this.name = name;
     }
 
-    public Integer getHealth() {
+    public int getHealth() {
         return health;
     }
 
@@ -36,7 +36,7 @@ public class Player {
         this.health = health;
     }
 
-    public Integer getAttackDamage() {
+    public int getAttackDamage() {
         return attackDamage;
     }
 

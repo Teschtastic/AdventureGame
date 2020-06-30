@@ -4,6 +4,8 @@ import dev.tesch.Actions.Actions;
 import dev.tesch.Actions.ActionsParser;
 import dev.tesch.Items.Item;
 import dev.tesch.Items.Items;
+import dev.tesch.NPCs.NPC;
+import dev.tesch.NPCs.NPCs;
 import dev.tesch.Player.Player;
 import dev.tesch.Rooms.Room;
 import dev.tesch.Rooms.Rooms;
@@ -23,6 +25,10 @@ public class Application {
         Actions actions = new Actions();
         Map<Integer, List<String>> userActions = actions.actionsMap;
 
+        // NPCs object
+        NPCs npcs = new NPCs();
+        Map<Integer, NPC> userNpcs = npcs.npcMap;
+
         // Rooms object and HashMap
         Rooms rooms = new Rooms();
         Map<Integer, Room> userRooms = rooms.roomsMap;
@@ -32,6 +38,6 @@ public class Application {
         Map<Integer, Item> userItems = items.itemsMap;
 
         // Running the main game loop
-        ActionsParser.gameLoop(userActions, userRooms, userItems, player);
+        ActionsParser.gameLoop(userActions, userNpcs, userRooms, userItems, player);
     }
 }
