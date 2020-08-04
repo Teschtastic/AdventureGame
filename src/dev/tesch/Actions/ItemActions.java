@@ -5,15 +5,14 @@ import dev.tesch.NPCs.NPC;
 import dev.tesch.Player.Player;
 import dev.tesch.Rooms.Room;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
 public class ItemActions {
 
     /* Method used for attempting to pickup an item */
-    public static void pickupItem(Map<Integer, Room> userRooms, Integer roomIndex, Map<Integer, Item> userItems, Player player) {
-        Room room = userRooms.get(roomIndex);
+    public static void pickupItem(Player player, Map<Integer, Room> userRooms, Map<Integer, Item> userItems) {
+        Room room = userRooms.get(player.getRoomIsIn());
 
         // If there isn't an item in the room, nothing to pickup
         if (!room.isHasItem())
@@ -39,37 +38,37 @@ public class ItemActions {
     /* Method used to describe an item in your inventory */
     // TODO: Add functionality to describe items that you can't pickup and
     //  therefore aren't in the player's inventory
-    public static void describeItem(List<Item> inventory) {
-        if (inventory.size() == 0)
+    public static void describeItem(Player player) {
+        if (player.getInventory().size() == 0)
             System.out.println("\nThere is nothing in your inventory to describe.");
-        else if (inventory.size() == 1)
-            System.out.println("\nYou inspect your " + inventory.get(0).getName() +
-                    "\nYou describe it as:\n" + inventory.get(0).getDescription());
+        else if (player.getInventory().size() == 1)
+            System.out.println("\nYou inspect your " + player.getInventory().get(0).getName() +
+                    "\nYou describe it as:\n" + player.getInventory().get(0).getDescription());
         else {
             int i = 0;
-            int size = inventory.size() - 1;
+            int size = player.getInventory().size() - 1;
             Scanner itemDesc = new Scanner(System.in);
             int itemChoice;
 
             System.out.println("\nYour inventory contains:");
-            for (Item it : inventory)
+            for (Item it : player.getInventory())
                 System.out.println(i++ + " " + it.getName());
 
             System.out.print("\nWhich item would you like to inspect?\n(0 - " + size + ")\n>");
             itemChoice = itemDesc.nextInt();
 
             if (itemChoice >= 0 && itemChoice <= size)
-                System.out.println("\nYou inspect your " + inventory.get(itemChoice).getName() +
-                        "\nYou describe it as:\n" + inventory.get(itemChoice).getDescription());
+                System.out.println("\nYou inspect your " + player.getInventory().get(itemChoice).getName() +
+                        "\nYou describe it as:\n" + player.getInventory().get(itemChoice).getDescription());
             else
                 System.out.println("\nInvalid item, try again.");
         }
     }
 
     /* Method used to drop and item in your inventory */
-    public static void dropItem(Map<Integer, Room> userRooms, Integer roomIndex, Player player) {
+    public static void dropItem(Player player, Map<Integer, Room> userRooms) {
 
-        Room room = userRooms.get(roomIndex);
+        Room room = userRooms.get(player.getRoomIsIn());
         Item item;
 
         // Nothing in inventory to drop
@@ -84,7 +83,7 @@ public class ItemActions {
             System.out.println("\nYou drop your " + item.getName());
 
             room.setHasItem(true);
-            item.setRoomLocation(roomIndex);
+            item.setRoomLocation(player.getRoomIsIn());
             room.setItemInRoom(item.getItemIndex());
             player.getInventory().remove(0);
         }
@@ -106,7 +105,7 @@ public class ItemActions {
                 item = player.getInventory().get(itemChoice);
                 System.out.println("\nYou drop your " + item.getName());
                 room.setHasItem(true);
-                item.setRoomLocation(roomIndex);
+                item.setRoomLocation(player.getRoomIsIn());
                 room.setItemInRoom(item.getItemIndex());
                 player.getInventory().remove(itemChoice);
             }
@@ -115,8 +114,8 @@ public class ItemActions {
         }
     }
 
-    public static void useItem(Map<Integer, Room> userRooms, Integer roomIndex, Player player) {
-        Room room = userRooms.get(roomIndex);
+    public static void useItem(Player player, Map<Integer, Room> userRooms) {
+        Room room = userRooms.get(player.getRoomIsIn());
         Item item;
 
         // Nothing in inventory to use
@@ -169,8 +168,8 @@ public class ItemActions {
         }
     }
 
-    public static void giveItem(Map<Integer, Room> userRooms, Map<Integer, NPC> userNPCs, Integer roomIndex, Player player) {
-        Room room = userRooms.get(roomIndex);
+    public static void giveItem(Player player, Map<Integer, Room> userRooms, Map<Integer, NPC> userNPCs) {
+        Room room = userRooms.get(player.getRoomIsIn());
         NPC npc = userNPCs.get(room.getNpcInRoom());
         Item item;
 
@@ -226,8 +225,8 @@ public class ItemActions {
         }
     }
 
-    public static void takeItem(Map<Integer, Room> userRooms, Map<Integer, NPC> userNPCs, Map<Integer, Item> userItems,Integer roomIndex, Player player) {
-        Room room = userRooms.get(roomIndex);
+    public static void takeItem(Player player, Map<Integer, Room> userRooms, Map<Integer, NPC> userNPCs, Map<Integer, Item> userItems) {
+        Room room = userRooms.get(player.getRoomIsIn());
         NPC npc = userNPCs.get(room.getNpcInRoom());
         Item item;
 

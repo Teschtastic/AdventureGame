@@ -15,21 +15,19 @@ public class ActionsParser {
 
     public static void gameLoop(Map<Integer, List<String>> userActions, Map<Integer, NPC> userNpcs, Map<Integer, Room> userRooms, Map<Integer, Item> userItems, Player player) {
 
-        Scanner playerAction = new Scanner(System.in);  // Scanners for player choices
-        String choice;                                  // Var used in player choice
-        int roomIndex = 1;                              // Var used to keep track of the room index
-        Actions.welcome();                              // Welcome message
-        userRooms.get(roomIndex).getStartMessage();     // Tells you which room you're in
+        Scanner playerAction = new Scanner(System.in);              // Scanners for player choices
+        Actions.welcome();                                          // Welcome message
+        userRooms.get(player.getRoomIsIn()).getStartMessage();      // Tells you which room you're in
 
         // TODO: Make output look prettier
-        while(true) {                                   // Main game loop
+        while(true) {                                               // Main game loop
             Integer choiceIndex = null;
             Actions.typeChoice();
-            choice = playerAction.nextLine();           // Scans the System.in for the next user choice
+            player.setChoice(playerAction.nextLine());              // Scans the System.in for the next user choice
 
             // Checks to see if the user choice is defined in the actions scope, then assigns it to an Integer
             for (Map.Entry<Integer, List<String>> entry: userActions.entrySet()) {
-                if (entry.getValue().contains(choice.toLowerCase())) {
+                if (entry.getValue().contains(player.getChoice().toLowerCase())) {
                     choiceIndex = entry.getKey();
                 }
             }
@@ -38,53 +36,53 @@ public class ActionsParser {
             if (choiceIndex == null)
                 choiceIndex = -1;
 
-            switch (choiceIndex) {                                                              // Switch case to parse the user's choice
+            switch (choiceIndex) {                                                      // Switch case to parse the user's choice
                 case 1:
-                    PlayerActions.inventory(player);                                            // Accesses the inventory
+                    PlayerActions.inventory(player);                                    // Accesses the inventory
                     break;
 
                 case 2:
-                    PlayerActions.help(userActions);                                            // Accesses the help menu
+                    PlayerActions.help(userActions);                                    // Accesses the help menu
                     break;
 
                 case 3:
-                    RoomActions.printLocation(roomIndex, userRooms);                            // Prints your location
+                    RoomActions.printLocation(player, userRooms);                       // Prints your location
                     break;
 
                 case 4:
-                    roomIndex = RoomActions.move(userRooms, roomIndex, choice);             // Moves into a new room
+                    RoomActions.move(player, userRooms);                                // Moves into a new room
                     break;
 
                 case 5:
-                    RoomActions.lookAround(userNpcs, userRooms, roomIndex, userItems);          // Looks around the room
+                    RoomActions.lookAround(player, userNpcs, userRooms, userItems);     // Looks around the room
                     break;
 
                 case 6:
-                    ItemActions.pickupItem(userRooms, roomIndex, userItems, player);            // Attempts to pickup an item
+                    ItemActions.pickupItem(player, userRooms, userItems);            // Attempts to pickup an item
                     break;
 
                 case 7:
-                    ItemActions.describeItem(player.getInventory());                            // Describes an item in your inventory
+                    ItemActions.describeItem(player);                            // Describes an item in your inventory
                     break;
 
                 case 8:
-                    ItemActions.dropItem(userRooms, roomIndex, player);                         // Drops an item into the current room
+                    ItemActions.dropItem(player, userRooms);                         // Drops an item into the current room
                     break;
 
                 case 9:
-                    ItemActions.useItem(userRooms, roomIndex, player);                          // Uses an item in your inventory
+                    ItemActions.useItem(player, userRooms);                          // Uses an item in your inventory
                     break;
 
                 case 10:
-                    NPCActions.talkToNPC(userNpcs, userRooms, roomIndex);                       // Talks to the NPC in the room
+                    NPCActions.talkToNPC(player, userNpcs, userRooms);                       // Talks to the NPC in the room
                     break;
 
                 case 11:
-                    ItemActions.giveItem(userRooms, userNpcs, roomIndex, player);               // Gives item to the NPC in the room
+                    ItemActions.giveItem(player, userRooms, userNpcs);               // Gives item to the NPC in the room
                     break;
 
                 case 12:
-                    ItemActions.takeItem(userRooms, userNpcs, userItems, roomIndex, player);    // Gives item to the NPC in the room
+                    ItemActions.takeItem(player, userRooms, userNpcs, userItems);    // Gives item to the NPC in the room
                     break;
 
                 case 0:

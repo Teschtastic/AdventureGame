@@ -30,10 +30,10 @@ public class Room {
     private int roomIndex;          // Int value for which room you're in
     private int[] moves;            // Directions [N, E, S, W] that are essentially exits
     private int[] connectedRooms;   // Stores either the rooms Key index if it's connected, or else -1
-    private boolean hasItem;        // Tells if there is an item in the room
+    private boolean hasItem;        // Flag for if there is an item in the room
     private int itemInRoom;         // Int used to show which item is in the room
-    private boolean hasNPC;
-    private int npcInRoom;
+    private boolean hasNPC;         // Flag for if there is an NPC in the room
+    private int npcInRoom;          // Int to tell which NPC is in the room
 
     // Getters and Setters
     public String getName() {
@@ -49,17 +49,8 @@ public class Room {
     }
 
     public void setStartMessage(String name, int[] moves) {
-        String[] directions = {"N", "E", "S", "W"};
-        String move = new String();
-
-
-        for (int i = 0; i < directions.length; i++) {
-            if (moves[i] == 1) {
-                move = move.concat(" " + directions[i]);
-            }
-        }
         this.startMessage = "You start in " + name +
-                            "\nYou can move" + move;
+                            "\nYou can move" + getMoves(moves);
 
     }
 
@@ -68,18 +59,8 @@ public class Room {
     }
 
     public void setEnterMessage(String name, int[] moves) {
-        String[] directions = {"N", "E", "S", "W"};
-        String move = new String();
-
-
-        for (int i = 0; i < directions.length; i++) {
-            if (moves[i] == 1) {
-                move = move.concat(" " + directions[i]);
-            }
-        }
-
         this.enterMessage = "You've entered " + name +
-                            "\nYou can move" + move;
+                            "\nYou can move" + getMoves(moves);
     }
 
     public void getLeaveMessage() {
@@ -106,8 +87,21 @@ public class Room {
         this.roomIndex = roomIndex;
     }
 
-    public int[] getMoves() {
+    public int[] getMoveIndices() {
         return moves;
+    }
+
+    public String getMoves(int[] moves) {
+        String[] directions = {"N", "E", "S", "W"};
+        String move = new String();
+        int[] mvs = moves;
+
+        for (int i = 0; i < directions.length; i++) {
+            if (mvs[i] == 1) {
+                move = move.concat(" " + directions[i]);
+            }
+        }
+        return move;
     }
 
     public void setMoves(int[] moves) {
