@@ -40,43 +40,43 @@ public class ActionsParser {
 
             switch (choiceIndex) {                                          // Switch case to parse the user's choice
                 case 1:
-                    inventory(player);                                      // Accesses the inventory
+                    PlayerActions.inventory(player);                                      // Accesses the inventory
                     break;
 
                 case 2:
-                    help(userActions);                                      // Accesses the help menu
+                    PlayerActions.help(userActions);                                      // Accesses the help menu
                     break;
 
                 case 3:
-                    printLocation(roomIndex, userRooms);                    // Prints your location
+                    RoomActions.printLocation(roomIndex, userRooms);                    // Prints your location
                     break;
 
                 case 4:
-                    roomIndex = move(userRooms, roomIndex);                 // Moves into a new room
+                    roomIndex = RoomActions.move(userRooms, roomIndex);                 // Moves into a new room
                     break;
 
                 case 5:
-                    lookAround(userNpcs, userRooms, roomIndex, userItems);            // Looks around the room
+                    RoomActions.lookAround(userNpcs, userRooms, roomIndex, userItems);            // Looks around the room
                     break;
 
                 case 6:
-                    pickupItem(userRooms, roomIndex, userItems, player);    // Attempts to pickup an item
+                    ItemActions.pickupItem(userRooms, roomIndex, userItems, player);    // Attempts to pickup an item
                     break;
 
                 case 7:
-                    describeItem(player.getInventory());                    // Describes an item in your inventory
+                    ItemActions.describeItem(player.getInventory());                    // Describes an item in your inventory
                     break;
 
                 case 8:
-                    dropItem(userRooms, roomIndex, player);                 // Drops an item into the current room
+                    ItemActions.dropItem(userRooms, roomIndex, player);                 // Drops an item into the current room
                     break;
 
                 case 9:
-                    useItem(userRooms, roomIndex, player);                  // Uses an item in your inventory
+                    ItemActions.useItem(userRooms, roomIndex, player);                  // Uses an item in your inventory
                     break;
 
                 case 10:
-                    talkToNPC(userNpcs, userRooms, roomIndex);
+                    NPCActions.talkToNPC(userNpcs, userRooms, roomIndex);
                     break;
 
                 case 0:
