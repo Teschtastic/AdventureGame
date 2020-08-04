@@ -5,7 +5,6 @@ import dev.tesch.NPCs.NPC;
 import dev.tesch.Rooms.Room;
 
 import java.util.Map;
-import java.util.Scanner;
 
 public class RoomActions {
 
@@ -15,17 +14,12 @@ public class RoomActions {
     }
 
     /* Method used to change rooms */
-    public static int move(Map<Integer, Room> userRooms, Integer roomIndex) {
+    public static int move(Map<Integer, Room> userRooms, Integer roomIndex, String choice) {
         String[] directions = {"N", "E", "S", "W"};
-        String moveDirection;
+        String moveDirection = choice.toUpperCase();
         Room currentRoom = userRooms.get(roomIndex);
         int[] currentRoomMoves = currentRoom.getMoves();
         int[] connectedRooms = currentRoom.getConnectedRooms();
-
-        // Gets user choice
-        System.out.print("\nWhich direction would you like to go?\n[N, S, E, W]:\n> ");
-        Scanner moveAction = new Scanner(System.in);
-        moveDirection = moveAction.nextLine().toUpperCase();
 
         // Checks which direction you want to move and if you can move there
         for (int i = 0; i < directions.length; i++) {

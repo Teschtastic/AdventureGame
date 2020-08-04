@@ -1,6 +1,7 @@
 package dev.tesch.Actions;
 
 import dev.tesch.Items.Item;
+import dev.tesch.NPCs.NPC;
 import dev.tesch.Player.Player;
 import dev.tesch.Rooms.Room;
 
@@ -23,7 +24,7 @@ public class ItemActions {
             // The item is able to be picked up, so remove it from the room and remove the room tag for the item
             // then add the item to the players inventory
             if (item.getCanPickup()) {
-                System.out.println("\nYou pickup a " + item.getName());
+                System.out.println("\nYou pickup the " + item.getName());
                 room.setItemInRoom(-1);
                 room.setHasItem(false);
                 item.setRoomLocation(-1);
@@ -165,6 +166,83 @@ public class ItemActions {
             }
             else
                 System.out.println("\nInvalid item, try again.");
+        }
+    }
+
+    public static void giveItem(Map<Integer, Room> userRooms, Map<Integer, NPC> userNPCs, Integer roomIndex, Player player) {
+        Room room = userRooms.get(roomIndex);
+        NPC npc = userNPCs.get(room.getNpcInRoom());
+        Item item;
+
+        // Nothing in inventory to give
+        if (player.getInventory().size() == 0)
+            System.out.println("\nThere is nothing in your inventory to give.");
+            // Only one item in your inventory to give
+        else if (player.getInventory().size() == 1) {
+            item = player.getInventory().get(0);
+
+            if (npc.isHasItem()) {
+                System.out.println("\n" + npc.getName() + " already has an item." +
+                        "\nCannot give them the " +item.getName());
+            } else {
+                // Removes item from your inventory and adds to the NPCs
+                player.getInventory().remove(0);
+                npc.setHasItem(true);
+                npc.setItemInInventory(item.getItemIndex());
+                System.out.println("\nYou gave " + npc.getName() + " your " + item.getName());
+            }
+        }
+        // Multiple items in inventory, choose which one to use
+        else {
+            int i = 0;
+            int size = player.getInventory().size() - 1;
+            Scanner itemDesc = new Scanner(System.in);
+            int itemChoice;
+
+            // Prints the inventory for the user
+            System.out.println("\nYour inventory contains:");
+            for (Item it : player.getInventory())
+                System.out.println(i++ + " " + it.getName());
+
+            // Choice as to which item to use
+            System.out.print("\nWhich item would you like to give?\n(0 - " + size + ")\n>");
+            itemChoice = itemDesc.nextInt();
+
+            if (itemChoice >= 0 && itemChoice <= size) {
+                item = player.getInventory().get(itemChoice);
+
+                if (npc.isHasItem())
+                    System.out.println("\n" + npc.getName() + " already has an item." +
+                                        "\nCannot give them the " +item.getName());
+                else {
+                    player.getInventory().remove(itemChoice);
+                    npc.setHasItem(true);
+                    npc.setItemInInventory(item.getItemIndex());
+                    System.out.println("\nYou gave " + npc.getName() + " your " + item.getName());
+                }
+            }
+            else
+                System.out.println("\nInvalid item, try again.");
+        }
+    }
+
+    public static void takeItem(Map<Integer, Room> userRooms, Map<Integer, NPC> userNPCs, Map<Integer, Item> userItems,Integer roomIndex, Player player) {
+        Room room = userRooms.get(roomIndex);
+        NPC npc = userNPCs.get(room.getNpcInRoom());
+        Item item;
+
+        // If there isn't an item in the NPCs inventory, nothing to take
+        if (!npc.isHasItem())
+            System.out.println("\n" + npc.getName() + " doesn't have an item.");
+        else {
+            item = userItems.get(npc.getItemInInventory());
+            // The item is able to be taken, so remove it from the NPCs inventory and add it tyo yours
+
+            npc.setHasItem(false);
+            npc.setItemInInventory(-1);
+            player.addToInventory(item);
+            System.out.println("\nYou take the " + item.getName() +
+                                "\nfrom " + npc.getName());
         }
     }
 }

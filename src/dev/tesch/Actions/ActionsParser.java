@@ -38,57 +38,65 @@ public class ActionsParser {
             if (choiceIndex == null)
                 choiceIndex = -1;
 
-            switch (choiceIndex) {                                          // Switch case to parse the user's choice
+            switch (choiceIndex) {                                                              // Switch case to parse the user's choice
                 case 1:
-                    PlayerActions.inventory(player);                                      // Accesses the inventory
+                    PlayerActions.inventory(player);                                            // Accesses the inventory
                     break;
 
                 case 2:
-                    PlayerActions.help(userActions);                                      // Accesses the help menu
+                    PlayerActions.help(userActions);                                            // Accesses the help menu
                     break;
 
                 case 3:
-                    RoomActions.printLocation(roomIndex, userRooms);                    // Prints your location
+                    RoomActions.printLocation(roomIndex, userRooms);                            // Prints your location
                     break;
 
                 case 4:
-                    roomIndex = RoomActions.move(userRooms, roomIndex);                 // Moves into a new room
+                    roomIndex = RoomActions.move(userRooms, roomIndex, choice);             // Moves into a new room
                     break;
 
                 case 5:
-                    RoomActions.lookAround(userNpcs, userRooms, roomIndex, userItems);            // Looks around the room
+                    RoomActions.lookAround(userNpcs, userRooms, roomIndex, userItems);          // Looks around the room
                     break;
 
                 case 6:
-                    ItemActions.pickupItem(userRooms, roomIndex, userItems, player);    // Attempts to pickup an item
+                    ItemActions.pickupItem(userRooms, roomIndex, userItems, player);            // Attempts to pickup an item
                     break;
 
                 case 7:
-                    ItemActions.describeItem(player.getInventory());                    // Describes an item in your inventory
+                    ItemActions.describeItem(player.getInventory());                            // Describes an item in your inventory
                     break;
 
                 case 8:
-                    ItemActions.dropItem(userRooms, roomIndex, player);                 // Drops an item into the current room
+                    ItemActions.dropItem(userRooms, roomIndex, player);                         // Drops an item into the current room
                     break;
 
                 case 9:
-                    ItemActions.useItem(userRooms, roomIndex, player);                  // Uses an item in your inventory
+                    ItemActions.useItem(userRooms, roomIndex, player);                          // Uses an item in your inventory
                     break;
 
                 case 10:
-                    NPCActions.talkToNPC(userNpcs, userRooms, roomIndex);
+                    NPCActions.talkToNPC(userNpcs, userRooms, roomIndex);                       // Talks to the NPC in the room
+                    break;
+
+                case 11:
+                    ItemActions.giveItem(userRooms, userNpcs, roomIndex, player);               // Gives item to the NPC in the room
+                    break;
+
+                case 12:
+                    ItemActions.takeItem(userRooms, userNpcs, userItems, roomIndex, player);    // Gives item to the NPC in the room
                     break;
 
                 case 0:
-                    exitMessage();                                          // Quits the game
+                    exitMessage();                                                              // Quits the game
                     break;
 
                 case -1:
-                    inputError();                                           // Input error
+                    inputError();                                                               // Input error
                     break;
 
                 default:
-                    genericError();                                         // Outputs a generic error to the user
+                    genericError();                                                             // Outputs a generic error to the user
                     break;
             }
         }

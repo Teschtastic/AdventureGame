@@ -8,9 +8,9 @@ public class Room {
     // Constructing the room object
     public Room(int index, int[] moves, int[] connections, String name, boolean hasItem, int iIR, boolean hNPC, int npcInR) {
         setName(name);
-        setStartMessage(name);
+        setStartMessage(name, moves);
         setInMessage(name);
-        setEnterMessage(name);
+        setEnterMessage(name, moves);
         setLeaveMessage(name);
         setRoomIndex(index);
         setMoves(moves);
@@ -27,7 +27,7 @@ public class Room {
     private String enterMessage;    // Message for when you enter a room
     private String leaveMessage;    // Message for when you leave a room
     private String inMessage;       // Message for when you're already in a room
-    private int roomIndex;           // Int value for which room you're in
+    private int roomIndex;          // Int value for which room you're in
     private int[] moves;            // Directions [N, E, S, W] that are essentially exits
     private int[] connectedRooms;   // Stores either the rooms Key index if it's connected, or else -1
     private boolean hasItem;        // Tells if there is an item in the room
@@ -48,16 +48,38 @@ public class Room {
         System.out.println(startMessage);
     }
 
-    public void setStartMessage(String name) {
-        this.startMessage = "You start in " + name;;
+    public void setStartMessage(String name, int[] moves) {
+        String[] directions = {"N", "E", "S", "W"};
+        String move = new String();
+
+
+        for (int i = 0; i < directions.length; i++) {
+            if (moves[i] == 1) {
+                move = move.concat(" " + directions[i]);
+            }
+        }
+        this.startMessage = "You start in " + name +
+                            "\nYou can move" + move;
+
     }
 
     public void getEnterMessage() {
         System.out.println(enterMessage);
     }
 
-    public void setEnterMessage(String name) {
-        this.enterMessage = "You've entered " + name;
+    public void setEnterMessage(String name, int[] moves) {
+        String[] directions = {"N", "E", "S", "W"};
+        String move = new String();
+
+
+        for (int i = 0; i < directions.length; i++) {
+            if (moves[i] == 1) {
+                move = move.concat(" " + directions[i]);
+            }
+        }
+
+        this.enterMessage = "You've entered " + name +
+                            "\nYou can move" + move;
     }
 
     public void getLeaveMessage() {

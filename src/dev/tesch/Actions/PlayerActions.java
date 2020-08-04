@@ -22,7 +22,7 @@ public class PlayerActions {
 
     /* Method to print the help menu */
     public static void help(Map<Integer, List<String>> userActions) {
-        System.out.println("\n/* ~ This is the help screen ~ */\nActions the you have access to:");
+        System.out.println("\n/* ~ This is the help screen ~ */\nActions that you have access to:");
         for (Map.Entry<Integer, List<String>> entry: userActions.entrySet()) {
             System.out.println(" " + entry.getValue());
         }

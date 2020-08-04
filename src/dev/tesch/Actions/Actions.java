@@ -16,15 +16,17 @@ public class Actions {
     public Actions() {
         actionsMap.put(1, Arrays.asList("i", "inventory"));
         actionsMap.put(2, Arrays.asList("h", "help"));
-        actionsMap.put(3, Arrays.asList("w", "where"));
-        actionsMap.put(4, Arrays.asList("m", "move", "g", "go"));
+        actionsMap.put(3, Arrays.asList("wh", "where"));
+        actionsMap.put(4, Arrays.asList("n", "e", "s", "w", "N", "E", "S", "W"));
         actionsMap.put(5, Arrays.asList("v", "view", "l", "look"));
         actionsMap.put(6, Arrays.asList("p", "pickup", "g", "grab"));
         actionsMap.put(7, Arrays.asList("de", "describe"));
-        actionsMap.put(8, Arrays.asList("dr", "drop", "t", "toss"));
+        actionsMap.put(8, Arrays.asList("dr", "drop", "to", "toss"));
         actionsMap.put(9, Arrays.asList("u", "use"));
-        actionsMap.put(10, Arrays.asList("t", "talk", "s", "speak"));
-        actionsMap.put(0, Arrays.asList("q", "quit", "e", "exit"));
+        actionsMap.put(10, Arrays.asList("t", "talk"));
+        actionsMap.put(11, Arrays.asList("g", "give"));
+        actionsMap.put(12, Arrays.asList("ta", "take"));
+        actionsMap.put(0, Arrays.asList("q", "quit"));
     }
 
     /* Various messages that will print to the user based oin their choices */
@@ -33,6 +35,7 @@ public class Actions {
         System.out.println("+------------------------------------+" +
                          "\n| Welcome to my Adventure Game!      |" +
                          "\n| This is still a WIP.               |" +
+                         "\n| You can move N, E, S, or W         |" +
                          "\n| (Type 'h' or 'help' for help menu) |" +
                          "\n+------------------------------------+\n");
     }
