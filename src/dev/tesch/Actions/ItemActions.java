@@ -3,6 +3,7 @@ package dev.tesch.Actions;
 import dev.tesch.Items.Item;
 import dev.tesch.NPCs.NPC;
 import dev.tesch.Player.Player;
+import dev.tesch.Player.UsedItemsOnPlayer;
 import dev.tesch.Rooms.Room;
 
 import java.util.ArrayList;
@@ -138,6 +139,7 @@ public class ItemActions {
         Scanner itemDesc = new Scanner(System.in);
         int itemChoice;
         int i;
+        boolean didUseItem = false;
 
         if (usableItems.size() == 1) {
             usedItem = usableItems.get(0);
@@ -146,12 +148,18 @@ public class ItemActions {
             if (usedItem.getCanPickup() && usedItem.isCanUse()) {
                 System.out.println(usedItem.getUseMessage());
                 player.getInventory().remove(0);
+                didUseItem = true;
             }
             // If not, there is no removing
-            else if (!usedItem.getCanPickup() && usedItem.isCanUse())
+            else if (!usedItem.getCanPickup() && usedItem.isCanUse()) {
                 System.out.println(usedItem.getUseMessage());
+                didUseItem = true;
+            }
             else
                 System.out.println("\nYou can't use " + usedItem.getName());
+
+            if (didUseItem)
+                UsedItemsOnPlayer.useItem(player, usedItem);
         }
         else if (usableItems.size() > 1) {
             i = 0;
@@ -170,16 +178,23 @@ public class ItemActions {
 
                 if (!usedItem.getCanPickup() && usedItem.isCanUse()) {
                     System.out.println(usedItem.getUseMessage());
+                    didUseItem = true;
                 }
                 else if (usedItem.getCanPickup() && usedItem.isCanUse()) {
                     System.out.println(usedItem.getUseMessage());
                     player.getInventory().remove(itemChoice);
+                    didUseItem = true;
                 }
                 else
                     System.out.println("\nYou can't use " + usedItem.getName());
+
+
+                if (didUseItem)
+                    UsedItemsOnPlayer.useItem(player, usedItem);
             }
             else
                 System.out.println("\nInvalid item, try again.");
+
         }
     }
 

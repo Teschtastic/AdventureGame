@@ -20,6 +20,6 @@ public class Rooms {
         roomsMap.put(7, new Room(7, new int[]{0, 0, 0, 1}, new int[] {-1, -1, -1, 6}, "Dining room", true, 4, false, -1));
         roomsMap.put(8, new Room(8, new int[]{0, 0, 1, 0}, new int[] {-1, -1, 6, -1}, "Kitchen", true, 1, false, -1));
         roomsMap.put(9, new Room(9, new int[]{0, 1, 0, 1}, new int[] {-1, 6, -1, 10}, "Living room", true, 3, false, -1));
-        roomsMap.put(10, new Room(10, new int[]{0, 0, 1, 0}, new int[] {-1, -1, 9, -1}, "Porch", false, -1, true, 3));
+        roomsMap.put(10, new Room(10, new int[]{0, 1, 0, 0}, new int[] {-1, 9, -1, -1}, "Porch", false, -1, true, 3));
     }
 }

@@ -7,9 +7,10 @@ import java.util.List;
 public class Player {
 
     // Constructing the player object
-    public Player(String n, int h, int aC, int aDamage, List<Item> inv, int rIsIn) {
+    public Player(String n, int cH, int mH, int aC, int aDamage, List<Item> inv, int rIsIn) {
         setName(n);
-        setHealth(h);
+        setCurrentHealth(cH);
+        setMaximumHealth(mH);
         setArmorClass(aC);
         setAttackDamage(aDamage);
         setInventory(inv);
@@ -17,7 +18,8 @@ public class Player {
     }
 
     private String name;            // Player name
-    private int health;             // Player health
+    private int currentHealth;      // Player current health
+    private int maximumHealth;      // PLayer max health
     private int armorClass;         // Player armor
     private int attackDamage;       // Player attack damage
     private List<Item> inventory;   // Player inventory
@@ -33,12 +35,20 @@ public class Player {
         this.name = name;
     }
 
-    public int getHealth() {
-        return health;
+    public int getCurrentHealth() {
+        return currentHealth;
     }
 
-    public void setHealth(Integer health) {
-        this.health = health;
+    public void setCurrentHealth(int currentHealth) {
+        this.currentHealth = currentHealth;
+    }
+
+    public int getMaximumHealth() {
+        return maximumHealth;
+    }
+
+    public void setMaximumHealth(int maximumHealth) {
+        this.maximumHealth = maximumHealth;
     }
 
     public int getArmorClass() {
@@ -87,10 +97,11 @@ public class Player {
 
     @Override
     public String toString() {
-        return "\nPlayer Description:\n\n" +
-                "name=" + name + "\n" +
-                "health=" + health + "\n" +
-                "armorClass=" + armorClass + "\n" +
-                "attackDamage=" + attackDamage;
+        return  "\nPlayer Description:\n\n" +
+                "name="                     + name          + "\n" +
+                "currentHealth="            + currentHealth + "\n" +
+                "maximumHealth="            + maximumHealth + "\n" +
+                "armorClass="               + armorClass    + "\n" +
+                "attackDamage="             + attackDamage;
     }
 }

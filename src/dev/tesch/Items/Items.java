@@ -31,11 +31,11 @@ public class Items {
         itemsMap.put(3, new Item(
                 "Camping chair",
                 "The only furniture in the living room",
-                null,
+                "\nThe chair's magical properties seem\nto have healed you to full health",
                 3,
                 9,
                 false,
-                false));
+                true));
 
         itemsMap.put(4, new Item(
                 "Cardboard boxes",
@@ -45,6 +45,5 @@ public class Items {
                 7,
                 true,
                 true));
-
     }
 }
