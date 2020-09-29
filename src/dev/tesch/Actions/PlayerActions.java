@@ -28,5 +28,9 @@ public class PlayerActions {
         }
     }
 
+    /* Method used to describe the player character */
+    public static void describePlayer(Player player) {
+        System.out.println(player.toString());
+    }
 
 }

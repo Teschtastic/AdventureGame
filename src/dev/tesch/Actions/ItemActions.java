@@ -5,6 +5,8 @@ import dev.tesch.NPCs.NPC;
 import dev.tesch.Player.Player;
 import dev.tesch.Rooms.Room;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -74,9 +76,10 @@ public class ItemActions {
         // Nothing in inventory to drop
         if (player.getInventory().size() == 0)
             System.out.println("\nThere is nothing in your inventory to drop.");
-            // Only one item in your inventory to drop
+        // If there is an item in the room already
         else if (room.isHasItem() && player.getInventory().size() > 0)
             System.out.println("\nYou cannot drop the item.\nThe room already has an item in it.");
+        // Only one item in your inventory to drop
         else if (player.getInventory().size() == 1) {
             item = player.getInventory().get(0);
 
@@ -114,60 +117,73 @@ public class ItemActions {
         }
     }
 
-    public static void useItem(Player player, Map<Integer, Room> userRooms) {
+    /* Method used to use an item in either your inventory or in the world */
+    // TODO: Make the use of an item actually do something in game
+    public static void useItem(Player player, Map<Integer, Room> userRooms, Map<Integer, Item> userItems) {
         Room room = userRooms.get(player.getRoomIsIn());
-        Item item;
 
-        // Nothing in inventory to use
-        if (player.getInventory().size() == 0)
-            System.out.println("\nThere is nothing in your inventory to use.");
-            // Only one item in your inventory to use
-        else if (player.getInventory().size() == 1) {
-            item = player.getInventory().get(0);
+        Item usedItem;
+        Item roomItem;
 
-            // If the item has the can use flag, use it and remove
-            // it from the player's inventory
-            if (player.getInventory().get(0).isCanUse()) {
-                System.out.println(item.getUseMessage());
+        // Adds the player's inventory top a list of items that can be used
+        List<Item> usableItems = new ArrayList<>(player.getInventory());
+        // Adds the usable item in the room to the usable items
+        if (room.isHasItem()) {
+            roomItem = userItems.get(room.getItemInRoom());
+            if (roomItem.isCanUse())
+                usableItems.add(roomItem);
+        }
+
+        int size = usableItems.size() - 1;
+        Scanner itemDesc = new Scanner(System.in);
+        int itemChoice;
+        int i;
+
+        if (usableItems.size() == 1) {
+            usedItem = usableItems.get(0);
+
+            //If the item can be picked up, remove it after use
+            if (usedItem.getCanPickup() && usedItem.isCanUse()) {
+                System.out.println(usedItem.getUseMessage());
                 player.getInventory().remove(0);
             }
+            // If not, there is no removing
+            else if (!usedItem.getCanPickup() && usedItem.isCanUse())
+                System.out.println(usedItem.getUseMessage());
             else
-                System.out.println("\nYou can't use " + item.getName());
+                System.out.println("\nYou can't use " + usedItem.getName());
         }
-        // Multiple items in inventory, choose which one to use
-        else {
-            int i = 0;
-            int size = player.getInventory().size() - 1;
-            Scanner itemDesc = new Scanner(System.in);
-            int itemChoice;
+        else if (usableItems.size() > 1) {
+            i = 0;
 
             // Prints the inventory for the user
-            System.out.println("\nYour inventory contains:");
-            for (Item it : player.getInventory())
+            System.out.println("\nYou can use:");
+            for (Item it : usableItems)
                 System.out.println(i++ + " " + it.getName());
 
             // Choice as to which item to use
             System.out.print("\nWhich item would you like to use?\n(0 - " + size + ")\n>");
             itemChoice = itemDesc.nextInt();
 
-
             if (itemChoice >= 0 && itemChoice <= size) {
-                item = player.getInventory().get(itemChoice);
+                usedItem = usableItems.get(itemChoice);
 
-                if (player.getInventory().get(itemChoice).isCanUse()) {
-
-                    System.out.println(item.getUseMessage());
-
+                if (!usedItem.getCanPickup() && usedItem.isCanUse()) {
+                    System.out.println(usedItem.getUseMessage());
+                }
+                else if (usedItem.getCanPickup() && usedItem.isCanUse()) {
+                    System.out.println(usedItem.getUseMessage());
                     player.getInventory().remove(itemChoice);
                 }
                 else
-                    System.out.println("\nYou can't use " + item.getName());
+                    System.out.println("\nYou can't use " + usedItem.getName());
             }
             else
                 System.out.println("\nInvalid item, try again.");
         }
     }
 
+    /* Method used to give an item in your inventory to an NPC */
     public static void giveItem(Player player, Map<Integer, Room> userRooms, Map<Integer, NPC> userNPCs) {
         Room room = userRooms.get(player.getRoomIsIn());
         NPC npc = userNPCs.get(room.getNpcInRoom());
@@ -225,6 +241,7 @@ public class ItemActions {
         }
     }
 
+    /* Method use to take an item from an NPC */
     public static void takeItem(Player player, Map<Integer, Room> userRooms, Map<Integer, NPC> userNPCs, Map<Integer, Item> userItems) {
         Room room = userRooms.get(player.getRoomIsIn());
         NPC npc = userNPCs.get(room.getNpcInRoom());

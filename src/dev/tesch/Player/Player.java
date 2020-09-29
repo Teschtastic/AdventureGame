@@ -7,9 +7,10 @@ import java.util.List;
 public class Player {
 
     // Constructing the player object
-    public Player(String n, int h, int aDamage, List<Item> inv, int rIsIn) {
+    public Player(String n, int h, int aC, int aDamage, List<Item> inv, int rIsIn) {
         setName(n);
         setHealth(h);
+        setArmorClass(aC);
         setAttackDamage(aDamage);
         setInventory(inv);
         setRoomIsIn(rIsIn);
@@ -17,6 +18,7 @@ public class Player {
 
     private String name;            // Player name
     private int health;             // Player health
+    private int armorClass;         // Player armor
     private int attackDamage;       // Player attack damage
     private List<Item> inventory;   // Player inventory
     private int roomIsIn;
@@ -37,6 +39,14 @@ public class Player {
 
     public void setHealth(Integer health) {
         this.health = health;
+    }
+
+    public int getArmorClass() {
+        return armorClass;
+    }
+
+    public void setArmorClass(int armorClass) {
+        this.armorClass = armorClass;
     }
 
     public int getAttackDamage() {
@@ -73,5 +83,14 @@ public class Player {
 
     public void setChoice(String choice) {
         this.choice = choice;
+    }
+
+    @Override
+    public String toString() {
+        return "\nPlayer Description:\n\n" +
+                "name=" + name + "\n" +
+                "health=" + health + "\n" +
+                "armorClass=" + armorClass + "\n" +
+                "attackDamage=" + attackDamage;
     }
 }

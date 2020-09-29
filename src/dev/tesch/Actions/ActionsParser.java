@@ -70,7 +70,7 @@ public class ActionsParser {
                     break;
 
                 case 9:
-                    ItemActions.useItem(player, userRooms);                          // Uses an item in your inventory
+                    ItemActions.useItem(player, userRooms, userItems);                          // Uses an item in your inventory
                     break;
 
                 case 10:
@@ -83,6 +83,10 @@ public class ActionsParser {
 
                 case 12:
                     ItemActions.takeItem(player, userRooms, userNpcs, userItems);    // Gives item to the NPC in the room
+                    break;
+
+                case 13:
+                    PlayerActions.describePlayer(player);                                       // Describes the player character
                     break;
 
                 case 0:

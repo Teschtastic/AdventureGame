@@ -19,7 +19,7 @@ public class Application {
     public static void main(String[] args) {
 
         // Player object
-        Player player = new Player("Sean", 100, 10, new ArrayList<>(), 1);
+        Player player = new Player("Sean", 100, 0, 10, new ArrayList<>(), 1);
 
         // Actions object and HashMap
         Actions actions = new Actions();

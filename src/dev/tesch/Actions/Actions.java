@@ -26,6 +26,7 @@ public class Actions {
         actionsMap.put(10, Arrays.asList("t", "talk"));
         actionsMap.put(11, Arrays.asList("g", "give"));
         actionsMap.put(12, Arrays.asList("ta", "take"));
+        actionsMap.put(13, Arrays.asList("ch", "character"));
         actionsMap.put(0, Arrays.asList("q", "quit"));
     }
 
