@@ -1,5 +1,6 @@
 package dev.tesch.Actions;
 
+import dev.tesch.Furniture.Furniture;
 import dev.tesch.Items.Item;
 import dev.tesch.NPCs.NPC;
 import dev.tesch.Player.Player;
@@ -13,7 +14,7 @@ import static dev.tesch.Actions.Actions.*;
 
 public class ActionsParser {
 
-    public static void gameLoop(Map<Integer, List<String>> userActions, Map<Integer, NPC> userNpcs, Map<Integer, Room> userRooms, Map<Integer, Item> userItems, Player player) {
+    public static void gameLoop(Map<Integer, List<String>> userActions, Map<Integer, NPC> userNpcs, Map<Integer, Room> userRooms, Map<Integer, Item> userItems, Map<Integer, Furniture> userFurnitures, Player player) {
 
         Scanner playerAction = new Scanner(System.in);              // Scanners for player choices
         Actions.welcome();                                          // Welcome message
@@ -36,61 +37,61 @@ public class ActionsParser {
             if (choiceIndex == null)
                 choiceIndex = -1;
 
-            switch (choiceIndex) {                                                      // Switch case to parse the user's choice
+            switch (choiceIndex) {                                                                      // Switch case to parse the user's choice
                 case 1:
-                    PlayerActions.inventory(player);                                    // Accesses the inventory
+                    PlayerActions.inventory(player);                                                    // Accesses the inventory
                     break;
 
                 case 2:
-                    PlayerActions.help(userActions);                                    // Accesses the help menu
+                    PlayerActions.help(userActions);                                                    // Accesses the help menu
                     break;
 
                 case 3:
-                    RoomActions.printLocation(player, userRooms);                       // Prints your location
+                    RoomActions.printLocation(player, userRooms);                                       // Prints your location
                     break;
 
                 case 4:
-                    RoomActions.move(player, userRooms);                                // Moves into a new room
+                    RoomActions.move(player, userRooms);                                                // Moves into a new room
                     break;
 
                 case 5:
-                    RoomActions.lookAround(player, userNpcs, userRooms, userItems);     // Looks around the room
+                    RoomActions.lookAround(player, userNpcs, userRooms, userItems, userFurnitures);     // Looks around the room
                     break;
 
                 case 6:
-                    ItemActions.pickupItem(player, userRooms, userItems);            // Attempts to pickup an item
+                    ItemActions.pickupItem(player, userRooms, userItems);                               // Attempts to pickup an item
                     break;
 
                 case 7:
-                    ItemActions.describeItem(player);                            // Describes an item in your inventory
+                    ItemActions.describeItem(player);                                                   // Describes an item in your inventory
                     break;
 
                 case 8:
-                    ItemActions.dropItem(player, userRooms);                         // Drops an item into the current room
+                    ItemActions.dropItem(player, userRooms);                                            // Drops an item into the current room
                     break;
 
                 case 9:
-                    ItemActions.useItem(player, userRooms, userItems);                          // Uses an item in your inventory
+                    PlayerActions.useSomething(player, userRooms, userItems, userFurnitures);           // Uses an item in your inventory
                     break;
 
                 case 10:
-                    NPCActions.talkToNPC(player, userNpcs, userRooms);                       // Talks to the NPC in the room
+                    NPCActions.talkToNPC(player, userNpcs, userRooms);                                  // Talks to the NPC in the room
                     break;
 
                 case 11:
-                    ItemActions.giveItem(player, userRooms, userNpcs);               // Gives item to the NPC in the room
+                    ItemActions.giveItem(player, userRooms, userNpcs);                                  // Gives item to the NPC in the room
                     break;
 
                 case 12:
-                    ItemActions.takeItem(player, userRooms, userNpcs, userItems);    // Gives item to the NPC in the room
+                    ItemActions.takeItem(player, userRooms, userNpcs, userItems);                       // Gives item to the NPC in the room
                     break;
 
                 case 13:
-                    PlayerActions.describePlayer(player);                                       // Describes the player character
+                    PlayerActions.describePlayer(player);                                               // Describes the player character
                     break;
 
                 case 0:
-                    exitMessage();                                                              // Quits the game
+                    exitMessage();                                                                      // Quits the game
                     break;
 
                 case -1:

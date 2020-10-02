@@ -2,6 +2,8 @@ package dev.tesch;
 
 import dev.tesch.Actions.Actions;
 import dev.tesch.Actions.ActionsParser;
+import dev.tesch.Furniture.Furniture;
+import dev.tesch.Furniture.Furnitures;
 import dev.tesch.Items.Item;
 import dev.tesch.Items.Items;
 import dev.tesch.NPCs.NPC;
@@ -37,7 +39,11 @@ public class Application {
         Items items = new Items();
         Map<Integer, Item> userItems = items.itemsMap;
 
+        // Furnitures object and HashMap
+        Furnitures furnitures = new Furnitures();
+        Map<Integer, Furniture> userFurnitures = furnitures.furnituresMap;
+
         // Running the main game loop
-        ActionsParser.gameLoop(userActions, userNpcs, userRooms, userItems, player);
+        ActionsParser.gameLoop(userActions, userNpcs, userRooms, userItems, userFurnitures, player);
     }
 }

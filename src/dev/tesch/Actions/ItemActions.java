@@ -3,11 +3,9 @@ package dev.tesch.Actions;
 import dev.tesch.Items.Item;
 import dev.tesch.NPCs.NPC;
 import dev.tesch.Player.Player;
-import dev.tesch.Player.UsedItemsOnPlayer;
+import dev.tesch.Player.UsedItemOnPlayer;
 import dev.tesch.Rooms.Room;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -119,82 +117,53 @@ public class ItemActions {
     }
 
     /* Method used to use an item in either your inventory or in the world */
-    // TODO: Make the use of an item actually do something in game
-    public static void useItem(Player player, Map<Integer, Room> userRooms, Map<Integer, Item> userItems) {
-        Room room = userRooms.get(player.getRoomIsIn());
+    public static void useItem(Player player) {
+        Item item;
 
-        Item usedItem;
-        Item roomItem;
+        // Only one item in your inventory to use
+        if (player.getInventory().size() == 1) {
+            item = player.getInventory().get(0);
 
-        // Adds the player's inventory top a list of items that can be used
-        List<Item> usableItems = new ArrayList<>(player.getInventory());
-        // Adds the usable item in the room to the usable items
-        if (room.isHasItem()) {
-            roomItem = userItems.get(room.getItemInRoom());
-            if (roomItem.isCanUse())
-                usableItems.add(roomItem);
-        }
-
-        int size = usableItems.size() - 1;
-        Scanner itemDesc = new Scanner(System.in);
-        int itemChoice;
-        int i;
-        boolean didUseItem = false;
-
-        if (usableItems.size() == 1) {
-            usedItem = usableItems.get(0);
-
-            //If the item can be picked up, remove it after use
-            if (usedItem.getCanPickup() && usedItem.isCanUse()) {
-                System.out.println(usedItem.getUseMessage());
+            // If the item has the can use flag, use it and remove
+            // it from the player's inventory
+            if (player.getInventory().get(0).isCanUse()) {
+                System.out.println(item.getUseMessage());
                 player.getInventory().remove(0);
-                didUseItem = true;
-            }
-            // If not, there is no removing
-            else if (!usedItem.getCanPickup() && usedItem.isCanUse()) {
-                System.out.println(usedItem.getUseMessage());
-                didUseItem = true;
+                UsedItemOnPlayer.useItem(player, item);
             }
             else
-                System.out.println("\nYou can't use " + usedItem.getName());
-
-            if (didUseItem)
-                UsedItemsOnPlayer.useItem(player, usedItem);
+                System.out.println("\nYou can't use " + item.getName());
         }
-        else if (usableItems.size() > 1) {
-            i = 0;
+        // Multiple items in inventory, choose which one to use
+        else {
+            int i = 0;
+            int size = player.getInventory().size() - 1;
+            Scanner itemDesc = new Scanner(System.in);
+            int itemChoice;
 
             // Prints the inventory for the user
-            System.out.println("\nYou can use:");
-            for (Item it : usableItems)
+            System.out.println("\nYour inventory contains:");
+            for (Item it : player.getInventory())
                 System.out.println(i++ + " " + it.getName());
 
             // Choice as to which item to use
             System.out.print("\nWhich item would you like to use?\n(0 - " + size + ")\n>");
             itemChoice = itemDesc.nextInt();
 
-            if (itemChoice >= 0 && itemChoice <= size) {
-                usedItem = usableItems.get(itemChoice);
 
-                if (!usedItem.getCanPickup() && usedItem.isCanUse()) {
-                    System.out.println(usedItem.getUseMessage());
-                    didUseItem = true;
-                }
-                else if (usedItem.getCanPickup() && usedItem.isCanUse()) {
-                    System.out.println(usedItem.getUseMessage());
+            if (itemChoice >= 0 && itemChoice <= size) {
+                item = player.getInventory().get(itemChoice);
+
+                if (player.getInventory().get(itemChoice).isCanUse()) {
+                    System.out.println(item.getUseMessage());
                     player.getInventory().remove(itemChoice);
-                    didUseItem = true;
+                    UsedItemOnPlayer.useItem(player, item);
                 }
                 else
-                    System.out.println("\nYou can't use " + usedItem.getName());
-
-
-                if (didUseItem)
-                    UsedItemsOnPlayer.useItem(player, usedItem);
+                    System.out.println("\nYou can't use " + item.getName());
             }
             else
                 System.out.println("\nInvalid item, try again.");
-
         }
     }
 

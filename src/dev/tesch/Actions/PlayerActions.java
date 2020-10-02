@@ -1,10 +1,13 @@
 package dev.tesch.Actions;
 
+import dev.tesch.Furniture.Furniture;
 import dev.tesch.Items.Item;
 import dev.tesch.Player.Player;
+import dev.tesch.Rooms.Room;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 public class PlayerActions {
 
@@ -31,6 +34,34 @@ public class PlayerActions {
     /* Method used to describe the player character */
     public static void describePlayer(Player player) {
         System.out.println(player.toString());
+    }
+
+    public static void useSomething(Player player, Map<Integer, Room> userRooms, Map<Integer, Item> userItems, Map<Integer, Furniture> userFurnitures) {
+        Scanner useIn = new Scanner(System.in);
+        int useChoice;
+
+        Room room = userRooms.get(player.getRoomIsIn());
+
+        // Choice as to what to use
+        System.out.print("\nWhat would you like to use?\n0 - Item\n1 - Furniture\n>");
+        useChoice = useIn.nextInt();
+
+        if (useChoice == 0 && player.getInventory().size() > 0)
+            ItemActions.useItem(player);
+        else if (useChoice == 0 && player.getInventory().size() == 0){
+            System.out.println("\nPlayer inventory is empty.");
+            return;
+        }
+
+        if (useChoice == 1 && room.isHasFurniture())
+            FurnitureActions.useFurniture(player, userRooms, userFurnitures);
+        else if (useChoice == 1 && !room.isHasFurniture()){
+            System.out.println("\nNo furniture to use.");
+            return;
+        }
+
+        if (useChoice != 0 && useChoice != 1)
+            System.out.println("\nInvalid choice.");
     }
 
 }

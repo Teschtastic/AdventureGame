@@ -20,28 +20,10 @@ public class Items {
                 true));
 
         itemsMap.put(2, new Item(
-                "Desktop PC",
-                "My AMD beast",
-                "\nYou use the PC to play some games.",
-                2,
-                1,
-                false,
-                true));
-
-        itemsMap.put(3, new Item(
-                "Camping chair",
-                "The only furniture in the living room",
-                "\nThe chair's magical properties seem\nto have healed you to full health",
-                3,
-                9,
-                false,
-                true));
-
-        itemsMap.put(4, new Item(
                 "Cardboard boxes",
                 "What can I say?\nI like ordering from Amazon",
                 "\nYou fashion the boxes into\na makeshift set of armor.",
-                4,
+                2,
                 7,
                 true,
                 true));

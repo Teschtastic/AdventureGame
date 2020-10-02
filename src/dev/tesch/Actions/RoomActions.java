@@ -1,5 +1,6 @@
 package dev.tesch.Actions;
 
+import dev.tesch.Furniture.Furniture;
 import dev.tesch.Items.Item;
 import dev.tesch.NPCs.NPC;
 import dev.tesch.Player.Player;
@@ -39,7 +40,7 @@ public class RoomActions {
     }
 
     /* Method used to look in the room you're in */
-    public static void lookAround(Player player, Map<Integer, NPC> userNpcs, Map<Integer, Room> userRooms, Map<Integer, Item> userItems) {
+    public static void lookAround(Player player, Map<Integer, NPC> userNpcs, Map<Integer, Room> userRooms, Map<Integer, Item> userItems, Map<Integer, Furniture> userFurnitures) {
         Room room = userRooms.get(player.getRoomIsIn());
 
         room.getInMessage();
@@ -56,6 +57,13 @@ public class RoomActions {
         else {
             Item item = userItems.get(room.getItemInRoom());
             System.out.println("You see the " + item.getName());
+        }
+
+        if (!room.isHasFurniture())
+            System.out.println("You don't see any furniture.");
+        else {
+            Furniture furniture = userFurnitures.get(room.getFurnitureInRoom());
+            System.out.println("You see the " + furniture.getName());
         }
     }
 }
