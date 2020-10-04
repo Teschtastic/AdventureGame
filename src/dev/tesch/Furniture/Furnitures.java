@@ -19,10 +19,18 @@ public class Furnitures {
                 true));
 
         furnituresMap.put(2, new Furniture(
-                "Desktop PC",
-                "My AMD beast",
-                "\nYou use the PC to play some games.",
+                "Crafting Table",
+                "Used to craft things.\nPresumably.",
+                "\nYou attempt to craft an item.",
                 2,
+                7,
+                true));
+
+        furnituresMap.put(3, new Furniture(
+                "Bed",
+                "Used for sleeping and other things.",
+                "\nYou lay in the bed.",
+                3,
                 1,
                 true));
 

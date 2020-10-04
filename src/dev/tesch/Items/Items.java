@@ -27,5 +27,14 @@ public class Items {
                 7,
                 true,
                 true));
+
+        itemsMap.put(3, new Item(
+                "Desktop PC",
+                "My AMD beast",
+                "\nYou use the PC to play some games.",
+                3,
+                1,
+                false,
+                true));
     }
 }

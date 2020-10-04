@@ -15,12 +15,12 @@ public class Rooms {
                 new int[] {0, 1, 1, 0},
                 new int[] {-1, 3, 2, -1},
                 "Sean's bedroom",
-                false,
-                -1,
+                true,
+                3,
                 true,
                 1,
                 true,
-                2));
+                3));
 
         roomsMap.put(2, new Room(
                 2,
@@ -91,8 +91,8 @@ public class Rooms {
                 2,
                 false,
                 -1,
-                false,
-                -1));
+                true,
+                2));
 
         roomsMap.put(8, new Room(
                 8,

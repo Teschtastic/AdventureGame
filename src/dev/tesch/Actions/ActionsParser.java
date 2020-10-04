@@ -14,7 +14,7 @@ import static dev.tesch.Actions.Actions.*;
 
 public class ActionsParser {
 
-    public static void gameLoop(Map<Integer, List<String>> userActions, Map<Integer, NPC> userNpcs, Map<Integer, Room> userRooms, Map<Integer, Item> userItems, Map<Integer, Furniture> userFurnitures, Player player) {
+    public static void gameLoop(Map<Integer, List<String>> userActions, Map<Integer, NPC> userNPCs, Map<Integer, Room> userRooms, Map<Integer, Item> userItems, Map<Integer, Furniture> userFurnitures, Player player) {
 
         Scanner playerAction = new Scanner(System.in);              // Scanners for player choices
         Actions.welcome();                                          // Welcome message
@@ -55,7 +55,7 @@ public class ActionsParser {
                     break;
 
                 case 5:
-                    RoomActions.lookAround(player, userNpcs, userRooms, userItems, userFurnitures);     // Looks around the room
+                    RoomActions.lookAround(player, userNPCs, userRooms, userItems, userFurnitures);     // Looks around the room
                     break;
 
                 case 6:
@@ -63,7 +63,7 @@ public class ActionsParser {
                     break;
 
                 case 7:
-                    ItemActions.describeItem(player);                                                   // Describes an item in your inventory
+                    ItemActions.describeItem(player, userItems, userRooms);                             // Describes an item in your inventory
                     break;
 
                 case 8:
@@ -71,19 +71,19 @@ public class ActionsParser {
                     break;
 
                 case 9:
-                    PlayerActions.useSomething(player, userRooms, userItems, userFurnitures);           // Uses an item in your inventory
+                    PlayerActions.useSomething(player, userRooms, userItems, userNPCs, userFurnitures); // Uses an item in your inventory
                     break;
 
                 case 10:
-                    NPCActions.talkToNPC(player, userNpcs, userRooms);                                  // Talks to the NPC in the room
+                    NPCActions.talkToNPC(player, userNPCs, userRooms);                                  // Talks to the NPC in the room
                     break;
 
                 case 11:
-                    ItemActions.giveItem(player, userRooms, userNpcs);                                  // Gives item to the NPC in the room
+                    NPCActions.giveItem(player, userRooms, userNPCs);                                   // Gives item to the NPC in the room
                     break;
 
                 case 12:
-                    ItemActions.takeItem(player, userRooms, userNpcs, userItems);                       // Gives item to the NPC in the room
+                    NPCActions.takeItem(player, userRooms, userNPCs, userItems);                        // Gives item to the NPC in the room
                     break;
 
                 case 13:
@@ -95,11 +95,11 @@ public class ActionsParser {
                     break;
 
                 case -1:
-                    inputError();                                                               // Input error
+                    inputError();                                                                       // Input error
                     break;
 
                 default:
-                    genericError();                                                             // Outputs a generic error to the user
+                    genericError();                                                                     // Outputs a generic error to the user
                     break;
             }
         }

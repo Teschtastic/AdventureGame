@@ -2,12 +2,11 @@ package dev.tesch.Actions;
 
 import dev.tesch.Furniture.Furniture;
 import dev.tesch.Items.Item;
+import dev.tesch.NPCs.NPC;
 import dev.tesch.Player.Player;
 import dev.tesch.Rooms.Room;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class PlayerActions {
 
@@ -36,32 +35,27 @@ public class PlayerActions {
         System.out.println(player.toString());
     }
 
-    public static void useSomething(Player player, Map<Integer, Room> userRooms, Map<Integer, Item> userItems, Map<Integer, Furniture> userFurnitures) {
+    /* Method used to use something, whether it's an item or furniture */
+    public static void useSomething(Player player, Map<Integer, Room> userRooms, Map<Integer, Item> userItems, Map<Integer, NPC> userNPCs, Map<Integer, Furniture> userFurnitures) {
         Scanner useIn = new Scanner(System.in);
         int useChoice;
 
-        Room room = userRooms.get(player.getRoomIsIn());
+        System.out.print("\nWhat would you like to use?\n\n0 - Item in inventory\n1 - Item in room\n2 - Furniture in room\n");
+        System.out.print("\n--------------------------------------\nType your choice:\n> ");
 
-        // Choice as to what to use
-        System.out.print("\nWhat would you like to use?\n0 - Item\n1 - Furniture\n>");
-        useChoice = useIn.nextInt();
+        try {
+            useChoice = useIn.nextInt();
 
-        if (useChoice == 0 && player.getInventory().size() > 0)
-            ItemActions.useItem(player);
-        else if (useChoice == 0 && player.getInventory().size() == 0){
-            System.out.println("\nPlayer inventory is empty.");
-            return;
+            if (useChoice == 0)
+                ItemActions.useInventoryItem(player);
+            else if (useChoice == 1)
+                RoomActions.useItemInRoom(player, userRooms, userItems);
+            else if (useChoice == 2)
+                FurnitureActions.useFurniture(player, userRooms, userNPCs, userFurnitures);
+            else
+                System.out.println("\nInvalid choice.");
+        } catch (InputMismatchException e) {
+            System.out.println("\nInvalid input.");
         }
-
-        if (useChoice == 1 && room.isHasFurniture())
-            FurnitureActions.useFurniture(player, userRooms, userFurnitures);
-        else if (useChoice == 1 && !room.isHasFurniture()){
-            System.out.println("\nNo furniture to use.");
-            return;
-        }
-
-        if (useChoice != 0 && useChoice != 1)
-            System.out.println("\nInvalid choice.");
     }
-
 }

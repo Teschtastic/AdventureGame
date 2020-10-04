@@ -4,6 +4,7 @@ import dev.tesch.Furniture.Furniture;
 import dev.tesch.Items.Item;
 import dev.tesch.NPCs.NPC;
 import dev.tesch.Player.Player;
+import dev.tesch.Player.UsedItemOnPlayer;
 import dev.tesch.Rooms.Room;
 
 import java.util.Map;
@@ -65,5 +66,19 @@ public class RoomActions {
             Furniture furniture = userFurnitures.get(room.getFurnitureInRoom());
             System.out.println("You see the " + furniture.getName());
         }
+    }
+
+    public static void useItemInRoom(Player player, Map<Integer, Room> userRooms, Map<Integer, Item> userItems) {
+        Room room = userRooms.get(player.getRoomIsIn());
+        Item item = userItems.get(room.getItemInRoom());
+
+        if (room.isHasItem() && item.isCanUse()) {
+            System.out.println(item.getUseMessage());
+            UsedItemOnPlayer.useItem(player, item);
+        }
+        else if (room.isHasItem() && !item.isCanUse())
+            System.out.println("\nYou can't use the " + item.getName());
+        else
+            System.out.println("\nThere is no item in the room to use.");
     }
 }
