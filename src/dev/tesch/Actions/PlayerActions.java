@@ -51,7 +51,7 @@ public class PlayerActions {
             else if (useChoice == 1)
                 RoomActions.useItemInRoom(player, userRooms, userItems);
             else if (useChoice == 2)
-                FurnitureActions.useFurniture(player, userRooms, userNPCs, userFurnitures);
+                FurnitureActions.useFurniture(player, userRooms, userNPCs, userItems, userFurnitures);
             else
                 System.out.println("\nInvalid choice.");
         } catch (InputMismatchException e) {

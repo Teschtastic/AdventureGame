@@ -54,7 +54,7 @@ public class Room {
 
     public void setStartMessage(String name, int[] moves) {
         this.startMessage = "You start in " + name +
-                            "\nYou can move" + getMoves(moves);
+                            getMoves(moves);
 
     }
 
@@ -64,7 +64,7 @@ public class Room {
 
     public void setEnterMessage(String name, int[] moves) {
         this.enterMessage = "You've entered " + name +
-                            "\nYou can move" + getMoves(moves);
+                            getMoves(moves);
     }
 
     public void getLeaveMessage() {
@@ -80,7 +80,7 @@ public class Room {
     }
 
     public void setInMessage(String name) {
-        this.inMessage = "\nYou're in " + name + "\n";
+        this.inMessage = "\nYou're in " + name;
     }
 
     public int getRoomIndex() {
@@ -105,7 +105,7 @@ public class Room {
                 move = move.concat(" " + directions[i]);
             }
         }
-        return move;
+        return "\nYou can move:" + move;
     }
 
     public void setMoves(int[] moves) {

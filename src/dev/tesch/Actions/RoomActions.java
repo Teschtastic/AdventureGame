@@ -13,7 +13,11 @@ public class RoomActions {
 
     /* Method to display which room you're in */
     public static void printLocation(Player player, Map<Integer, Room> userRooms) {
-        userRooms.get(player.getRoomIsIn()).getInMessage();
+        Room room = userRooms.get(player.getRoomIsIn());
+
+        room.getInMessage();
+        System.out.println(room.getMoves(room.getMoveIndices()));
+
     }
 
     /* Method used to change rooms */
@@ -47,10 +51,10 @@ public class RoomActions {
         room.getInMessage();
 
         if (!room.isHasNPC()) {
-            System.out.println("You don't see any people.");
+            System.out.println("\nYou don't see any people.");
         } else {
             NPC npc = userNpcs.get(room.getNpcInRoom());
-            System.out.println("You see " + npc.getName());
+            System.out.println("\nYou see " + npc.getName());
         }
 
         if (!room.isHasItem())

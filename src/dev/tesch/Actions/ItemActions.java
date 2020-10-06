@@ -149,7 +149,6 @@ public class ItemActions {
             // it from the player's inventory
             if (player.getInventory().get(0).isCanUse()) {
                 System.out.println(item.getUseMessage());
-                player.getInventory().remove(0);
                 UsedItemOnPlayer.useItem(player, item);
             }
             else
@@ -177,7 +176,6 @@ public class ItemActions {
 
                     if (inventory.get(itemChoice).isCanUse()) {
                         System.out.println(item.getUseMessage());
-                        inventory.remove(itemChoice);
                         UsedItemOnPlayer.useItem(player, item);
                     } else
                         System.out.println("\nYou can't use " + item.getName());
