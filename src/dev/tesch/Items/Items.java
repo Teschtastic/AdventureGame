@@ -18,6 +18,7 @@ public class Items {
                 8,
                 true,
                 true,
+                false,
                 false));
 
         itemsMap.put(2, new Item(
@@ -27,6 +28,7 @@ public class Items {
                 2,
                 7,
                 true,
+                false,
                 false,
                 false));
 
@@ -38,6 +40,7 @@ public class Items {
                 1,
                 false,
                 true,
+                false,
                 false));
 
         itemsMap.put(4, new Item(
@@ -47,6 +50,7 @@ public class Items {
                 4,
                 2,
                 true,
+                false,
                 false,
                 false));
 
@@ -58,6 +62,7 @@ public class Items {
                 4,
                 true,
                 false,
+                false,
                 false));
 
         itemsMap.put(6, new Item(
@@ -68,16 +73,7 @@ public class Items {
                 -1,
                 false,
                 false,
-                true));
-
-        itemsMap.put(7, new Item(
-                "Cardboard Armor",
-                "Protects from pointy sharp things.",
-                "\nYou put on the armor.\nYou feel more protected.",
-                7,
-                -1,
-                false,
                 true,
-                true));
+                false));
     }
 }

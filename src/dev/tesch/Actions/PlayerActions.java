@@ -1,12 +1,16 @@
 package dev.tesch.Actions;
 
 import dev.tesch.Furniture.Furniture;
+import dev.tesch.Items.Armor;
 import dev.tesch.Items.Item;
 import dev.tesch.NPCs.NPC;
 import dev.tesch.Player.Player;
 import dev.tesch.Rooms.Room;
 
-import java.util.*;
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 
 public class PlayerActions {
 
@@ -36,12 +40,12 @@ public class PlayerActions {
     }
 
     /* Method used to use something, whether it's an item or furniture */
-    public static void useSomething(Player player, Map<Integer, Room> userRooms, Map<Integer, Item> userItems, Map<Integer, NPC> userNPCs, Map<Integer, Furniture> userFurnitures) {
+    public static void useSomething(Player player, Map<Integer, Room> userRooms, Map<Integer, Item> userItems, Map<Integer, Armor> userArmors, Map<Integer, NPC> userNPCs, Map<Integer, Furniture> userFurnitures) {
         Scanner useIn = new Scanner(System.in);
         int useChoice;
 
         System.out.print("\nWhat would you like to use?\n\n0 - Item in inventory\n1 - Item in room\n2 - Furniture in room\n");
-        System.out.print("\n--------------------------------------\nType your choice:\n> ");
+        Actions.typeChoice();
 
         try {
             useChoice = useIn.nextInt();
@@ -51,7 +55,7 @@ public class PlayerActions {
             else if (useChoice == 1)
                 RoomActions.useItemInRoom(player, userRooms, userItems);
             else if (useChoice == 2)
-                FurnitureActions.useFurniture(player, userRooms, userNPCs, userItems, userFurnitures);
+                FurnitureActions.useFurniture(player, userRooms, userNPCs, userItems, userArmors, userFurnitures);
             else
                 System.out.println("\nInvalid choice.");
         } catch (InputMismatchException e) {
