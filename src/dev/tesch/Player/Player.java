@@ -25,6 +25,7 @@ public class Player {
     private List<Item> inventory;   // Player inventory
     private int roomIsIn;
     private Item equippedArmor;
+    private Item equippedWeapon;
     private String choice;
 
     /* Getters and setters */
@@ -111,6 +112,21 @@ public class Player {
             return getEquippedArmor().getName();
     }
 
+    public Item getEquippedWeapon() {
+        return equippedWeapon;
+    }
+
+    public void setEquippedWeapon(Item equippedWeapon) {
+        this.equippedWeapon = equippedWeapon;
+    }
+
+    public String printWeapon() {
+        if (getEquippedWeapon() == null)
+            return "Fists";
+        else
+            return getEquippedWeapon().getName();
+    }
+
     @Override
     public String toString() {
         return  "\nPlayer Description:\n\n" +
@@ -119,6 +135,7 @@ public class Player {
                 "maximumHealth="            + getMaximumHealth() + "\n" +
                 "armorClass="               + getArmorClass()    + "\n" +
                 "attackDamage="             + getAttackDamage()  + "\n" +
-                "equippedArmor="            + printArmor();
+                "equippedArmor="            + printArmor()       + "\n" +
+                "equippedWeapon="           + printWeapon();
     }
 }

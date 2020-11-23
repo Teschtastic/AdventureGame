@@ -19,6 +19,7 @@ public class Items {
                 true,
                 true,
                 false,
+                false,
                 false));
 
         itemsMap.put(2, new Item(
@@ -28,6 +29,7 @@ public class Items {
                 2,
                 7,
                 true,
+                false,
                 false,
                 false,
                 false));
@@ -41,6 +43,7 @@ public class Items {
                 false,
                 true,
                 false,
+                false,
                 false));
 
         itemsMap.put(4, new Item(
@@ -50,6 +53,7 @@ public class Items {
                 4,
                 2,
                 true,
+                false,
                 false,
                 false,
                 false));
@@ -63,17 +67,7 @@ public class Items {
                 true,
                 false,
                 false,
-                false));
-
-        itemsMap.put(6, new Item(
-                "Stabby Thingies",
-                "Pointy and sharp.",
-                "\nNot a useful  sword, yet.",
-                6,
-                -1,
                 false,
-                false,
-                true,
                 false));
     }
 }

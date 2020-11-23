@@ -3,7 +3,7 @@ package dev.tesch.Items;
 // Placeholder for adding items to the game later
 public class Item {
 
-    public Item(String n, String d, String uMessage, int iIndex, int rL, boolean cPickup, boolean cUse, boolean cC, boolean iA) {
+    public Item(String n, String d, String uMessage, int iIndex, int rL, boolean cPickup, boolean cUse, boolean cC, boolean iA, boolean iW) {
         setName(n);
         setDescription(d);
         setUseMessage(uMessage);
@@ -13,6 +13,7 @@ public class Item {
         setCanUse(cUse);
         setCanCraft(cC);
         setArmor(iA);
+        setWeapon(iW);
     }
 
     private String name;
@@ -24,6 +25,7 @@ public class Item {
     private boolean canUse;
     private boolean canCraft;
     private boolean isArmor;
+    private boolean isWeapon;
 
     public String getName() {
         return name;
@@ -95,5 +97,13 @@ public class Item {
 
     public void setArmor(boolean armor) {
         isArmor = armor;
+    }
+
+    public boolean isWeapon() {
+        return isWeapon;
+    }
+
+    public void setWeapon(boolean weapon) {
+        isWeapon = weapon;
     }
 }

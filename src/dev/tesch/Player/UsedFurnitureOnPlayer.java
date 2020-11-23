@@ -3,6 +3,7 @@ package dev.tesch.Player;
 import dev.tesch.Furniture.Furniture;
 import dev.tesch.Items.Armor;
 import dev.tesch.Items.Item;
+import dev.tesch.Items.Weapon;
 import dev.tesch.NPCs.NPC;
 import dev.tesch.Rooms.Room;
 
@@ -13,7 +14,7 @@ import java.util.Map;
 
 public class UsedFurnitureOnPlayer {
 
-    public static void useFurniture(Player player, Furniture furniture, Map<Integer, Room> userRooms, Map<Integer, Item> userItems, Map<Integer, Armor> userArmors, Map<Integer, NPC> userNPCs) {
+    public static void useFurniture(Player player, Furniture furniture, Map<Integer, Room> userRooms, Map<Integer, Item> userItems, Map<Integer, Armor> userArmors, Map<Integer, Weapon> userWeapons, Map<Integer, NPC> userNPCs) {
         switch (furniture.getName()) {
             case "Camping chair":
                 usedCampingChair(player);
@@ -24,7 +25,7 @@ public class UsedFurnitureOnPlayer {
                 break;
 
             case "Crafting Table":
-                useCraftingTable(player, userItems, userArmors);
+                useCraftingTable(player, userItems, userArmors, userWeapons);
                 break;
 
             default:
@@ -39,7 +40,7 @@ public class UsedFurnitureOnPlayer {
 
     private static void usedBed(Player player, Map<Integer, Room> userRooms, Map<Integer, NPC> userNPCs) {
         Room room = userRooms.get(player.getRoomIsIn());
-        NPC npc = null;
+        NPC npc;
 
         if (room.isHasNPC()) {
             npc = userNPCs.get(room.getNpcInRoom());
@@ -50,13 +51,13 @@ public class UsedFurnitureOnPlayer {
                 player.setCurrentHealth(player.getMaximumHealth());
             }
         }
-        else if (!room.isHasNPC() || npc == null) {
+        else {
             System.out.println("\nYour max health increases by 25");
             player.setMaximumHealth(player.getMaximumHealth() + 25);
         }
     }
 
-    private static void useCraftingTable(Player player, Map<Integer, Item> userItems, Map<Integer, Armor> userArmors) {
+    private static void useCraftingTable(Player player, Map<Integer, Item> userItems, Map<Integer, Armor> userArmors, Map<Integer, Weapon> userWeapons) {
         List<Item> craftingItems = new ArrayList<>();
         Item craftedItem;
         List<Item> inventory = player.getInventory();
@@ -70,10 +71,10 @@ public class UsedFurnitureOnPlayer {
                 inventory.remove(craftingItems.get(0));
                 inventory.add(craftedItem);
             }
-            if (inventory.containsAll(Arrays.asList(new Item[]{userItems.get(4), userItems.get(5)}))) {
+            if (inventory.containsAll(Arrays.asList(userItems.get(4), userItems.get(5)))) {
                 craftingItems.add(0, userItems.get(4));
                 craftingItems.add(1, userItems.get(5));
-                craftedItem = userItems.get(6);
+                craftedItem = userWeapons.get(1);
 
                 System.out.println(craftingItems.get(0).getUseMessage());
                 System.out.println(craftingItems.get(1).getUseMessage());
@@ -81,7 +82,6 @@ public class UsedFurnitureOnPlayer {
                 inventory.remove(craftingItems.get(0));
                 inventory.remove(craftingItems.get(1));
                 inventory.add(craftedItem);
-
             }
         }
         else {

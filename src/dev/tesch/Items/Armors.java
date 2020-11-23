@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Armors {
 
-    // HashMap the items are stored in
+    // HashMap the armors are stored in
     public Map<Integer, Armor> armorMap = new HashMap<>();
 
     public Armors() {
@@ -20,6 +20,7 @@ public class Armors {
                 false,
                 true,
                 true,
+                false,
                 10));
     }
 }

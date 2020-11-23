@@ -2,6 +2,7 @@ package dev.tesch.Actions;
 
 import dev.tesch.Items.Armor;
 import dev.tesch.Items.Item;
+import dev.tesch.Items.Weapon;
 import dev.tesch.Player.EquipItemToPlayer;
 import dev.tesch.Player.Player;
 import dev.tesch.Player.UsedItemOnPlayer;
@@ -92,10 +93,10 @@ public class ItemActions {
         // Nothing in inventory to drop
         if (inventory.isEmpty())
             System.out.println("\nThere is nothing in your inventory to drop.");
-        // If there is an item in the room already
+            // If there is an item in the room already
         else if (room.isHasItem() && inventory.size() > 0)
             System.out.println("\nYou cannot drop the item.\nThe room already has an item in it.");
-        // Only one item in your inventory to drop
+            // Only one item in your inventory to drop
         else if (inventory.size() == 1) {
             item = inventory.get(0);
 
@@ -204,57 +205,58 @@ public class ItemActions {
         try {
             option = choice.nextInt();
 
-            if (option == 0) {
-                // Only one item in your inventory to use
-                if (inventory.size() == 1) {
-                    item = player.getInventory().get(0);
+            // Only one item in your inventory to use
+            if (inventory.size() == 1) {
+                item = player.getInventory().get(0);
 
-                    // If the item has the can use flag, use it and remove
-                    // it from the player's inventory
-                    if (player.getInventory().get(0).isArmor()) {
-                        EquipItemToPlayer.equipArmor(player, (Armor) item);
-                    }
-                    else
-                        System.out.println("\nYou can't equip " + item.getName());
+                // If the item has the can use flag, use it and remove
+                // it from the player's inventory
+                if (player.getInventory().get(0).isArmor() && option == 0) {
+                    EquipItemToPlayer.equipArmor(player, (Armor) item);
                 }
-                // Multiple items in inventory, choose which one to use
-                else if (inventory.size() > 1) {
-                    int i = 0;
-                    int size = inventory.size() - 1;
-                    Scanner itemDesc = new Scanner(System.in);
-                    int itemChoice;
-
-                    // Prints the inventory for the user
-                    System.out.println("\nYou have multiple items\nin your inventory to equip.\n\nYour inventory contains:");
-                    for (Item it : inventory)
-                        System.out.println(i++ + " - " + it.getName());
-
-                    Actions.typeChoice();
-
-                    try {
-                        itemChoice = itemDesc.nextInt();
-
-                        if (itemChoice >= 0 && itemChoice <= size) {
-                            item = inventory.get(itemChoice);
-
-                            if (player.getInventory().get(itemChoice).isArmor()) {
-                                EquipItemToPlayer.equipArmor(player, (Armor) item);
-                            } else
-                                System.out.println("\nYou can't equip " + item.getName());
-                        } else
-                            System.out.println("\nInvalid item.");
-
-                    } catch (InputMismatchException e) {
-                        System.out.println("\nInvalid input.");
-                    }
+                else if (player.getInventory().get(0).isWeapon() && option == 1) {
+                    EquipItemToPlayer.equipWeapon(player, (Weapon) item);
                 }
                 else
-                    System.out.println("\nYour inventory is empty.");
+                    System.out.println("\nYou can't equip " + item.getName());
             }
-            else if (option == 1)
-                System.out.println("Weapons not implemented yet");
+            // Multiple items in inventory, choose which one to use
+            else if (inventory.size() > 1) {
+                int i = 0;
+                int size = inventory.size() - 1;
+                Scanner itemDesc = new Scanner(System.in);
+                int itemChoice;
+
+                // Prints the inventory for the user
+                System.out.println("\nYou have multiple items\nin your inventory to equip.\n\nYour inventory contains:");
+                for (Item it : inventory)
+                    System.out.println(i++ + " - " + it.getName());
+
+                Actions.typeChoice();
+
+                try {
+                    itemChoice = itemDesc.nextInt();
+
+                    if (itemChoice >= 0 && itemChoice <= size) {
+                        item = inventory.get(itemChoice);
+
+                        if (player.getInventory().get(itemChoice).isArmor() && option == 0) {
+                            EquipItemToPlayer.equipArmor(player, (Armor) item);
+                        }
+                        else if (player.getInventory().get(itemChoice).isWeapon() && option == 1) {
+                            EquipItemToPlayer.equipWeapon(player, (Weapon) item);
+                        } else
+                            System.out.println("\nYou can't equip " + item.getName());
+                    } else
+                        System.out.println("\nInvalid item.");
+
+                } catch (InputMismatchException e) {
+                    System.out.println("\nInvalid input.");
+                }
+            }
             else
-                System.out.println("\nInvalid choice.");
+                System.out.println("\nYour inventory is empty.");
+
         } catch (InputMismatchException e) {
             System.out.println("\nInvalid input.");
         }

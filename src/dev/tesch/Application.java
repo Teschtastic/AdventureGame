@@ -4,10 +4,7 @@ import dev.tesch.Actions.Actions;
 import dev.tesch.Actions.ActionsParser;
 import dev.tesch.Furniture.Furniture;
 import dev.tesch.Furniture.Furnitures;
-import dev.tesch.Items.Armor;
-import dev.tesch.Items.Armors;
-import dev.tesch.Items.Item;
-import dev.tesch.Items.Items;
+import dev.tesch.Items.*;
 import dev.tesch.NPCs.NPC;
 import dev.tesch.NPCs.NPCs;
 import dev.tesch.Player.Player;
@@ -49,7 +46,11 @@ public class Application {
         Armors armors = new Armors();
         Map<Integer, Armor> userArmors = armors.armorMap;
 
+        // Weapons object and HashMap
+        Weapons weapons = new Weapons();
+        Map<Integer, Weapon> userWeapons = weapons.weaponMap;
+
         // Running the main game loop
-        ActionsParser.gameLoop(userActions, userNpcs, userRooms, userItems, userFurnitures, userArmors, player);
+        ActionsParser.gameLoop(userActions, userNpcs, userRooms, userItems, userFurnitures, userArmors, userWeapons, player);
     }
 }

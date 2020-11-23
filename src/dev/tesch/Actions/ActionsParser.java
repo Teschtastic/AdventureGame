@@ -3,6 +3,7 @@ package dev.tesch.Actions;
 import dev.tesch.Furniture.Furniture;
 import dev.tesch.Items.Armor;
 import dev.tesch.Items.Item;
+import dev.tesch.Items.Weapon;
 import dev.tesch.NPCs.NPC;
 import dev.tesch.Player.Player;
 import dev.tesch.Rooms.Room;
@@ -15,7 +16,7 @@ import static dev.tesch.Actions.Actions.*;
 
 public class ActionsParser {
 
-    public static void gameLoop(Map<Integer, List<String>> userActions, Map<Integer, NPC> userNPCs, Map<Integer, Room> userRooms, Map<Integer, Item> userItems, Map<Integer, Furniture> userFurnitures, Map<Integer, Armor> userArmors, Player player) {
+    public static void gameLoop(Map<Integer, List<String>> userActions, Map<Integer, NPC> userNPCs, Map<Integer, Room> userRooms, Map<Integer, Item> userItems, Map<Integer, Furniture> userFurnitures, Map<Integer, Armor> userArmors, Map<Integer, Weapon> userWeapons, Player player) {
 
         Scanner playerAction = new Scanner(System.in);              // Scanners for player choices
         Actions.welcome();                                          // Welcome message
@@ -72,7 +73,7 @@ public class ActionsParser {
                     break;
 
                 case 9:
-                    PlayerActions.useSomething(player, userRooms, userItems, userArmors, userNPCs, userFurnitures);     // Uses an item in your inventory
+                    PlayerActions.useSomething(player, userRooms, userItems, userArmors, userWeapons, userNPCs, userFurnitures);     // Uses an item in your inventory
                     break;
 
                 case 10:
