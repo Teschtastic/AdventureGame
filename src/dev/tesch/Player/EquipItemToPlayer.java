@@ -47,7 +47,7 @@ public class EquipItemToPlayer {
         System.out.println(weapon.getUseMessage());
         System.out.println("\nYour attack damage increased by " + weapon.getAttackDamage() + ".");
         player.setEquippedWeapon(weapon);
-        player.setArmorClass(player.getArmorClass() + weapon.getAttackDamage());
+        player.setAttackDamage(player.getAttackDamage() + weapon.getAttackDamage());
         inventory.remove(weapon);
     }
 }

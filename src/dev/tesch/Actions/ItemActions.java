@@ -67,7 +67,7 @@ public class ItemActions {
             for (Item it : itemsToDescribe)
                 System.out.println(i++ + " " + it.getName());
 
-            System.out.print("\n--------------------------------------\nType your choice:\n> ");
+            Actions.typeChoice();
 
             try {
                 itemChoice = itemDesc.nextInt();
@@ -118,7 +118,7 @@ public class ItemActions {
             for (Item it : inventory)
                 System.out.println(i++ + " " + it.getName());
 
-            System.out.print("\n--------------------------------------\nType your choice:\n> ");
+            Actions.typeChoice();
 
             try {
                 itemChoice = itemDesc.nextInt();
@@ -199,7 +199,7 @@ public class ItemActions {
         Item item;
         List<Item> inventory = player.getInventory();
 
-        System.out.println("\nWhat would you like to equip?\n\n0 - Armor\n1 - Weapon(s)\n");
+        System.out.println("\nWhat would you like to equip?\n\n0 - Armor\n1 - Weapon(s)");
         Actions.typeChoice();
 
         try {
