@@ -42,14 +42,17 @@ public class ItemActions {
     //  therefore aren't in the player's inventory
     public static void describeItem(Player player, Map<Integer, Item> userItems, Map<Integer, Room> userRooms) {
         List<Item> itemsToDescribe = new ArrayList<>();
-
         List<Item> inventory = player.getInventory();
+
         Room room = userRooms.get(player.getRoomIsIn());
         Item item = userItems.get(room.getItemInRoom());
 
-        itemsToDescribe.addAll(inventory);
-        itemsToDescribe.add(item);
-
+        if (!inventory.isEmpty()) {
+            itemsToDescribe.addAll(inventory);
+        }
+        if (item != null){
+            itemsToDescribe.add(item);
+        }
 
         if (itemsToDescribe.isEmpty())
             System.out.println("\nThere are no items to describe.");
