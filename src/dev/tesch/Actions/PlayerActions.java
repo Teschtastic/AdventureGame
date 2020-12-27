@@ -16,7 +16,6 @@ import java.util.Scanner;
 public class PlayerActions {
 
     /* Method to display your inventory, so far no implementation */
-    // TODO: When I implement items, work on inventory system
     public static void inventory(Player player) {
         if (player.getInventory().isEmpty())
             System.out.println("\nYour inventory is empty.");
@@ -43,13 +42,16 @@ public class PlayerActions {
     /* Method used to use something, whether it's an item or furniture */
     public static void useSomething(Player player, Map<Integer, Room> userRooms, Map<Integer, Item> userItems, Map<Integer, Armor> userArmors, Map<Integer, Weapon> userWeapons, Map<Integer, NPC> userNPCs, Map<Integer, Furniture> userFurnitures) {
         Scanner useIn = new Scanner(System.in);
-        int useChoice;
+        int useChoice = -1;
 
         System.out.print("\nWhat would you like to use?\n\n0 - Item in inventory\n1 - Item in room\n2 - Furniture in room\n");
         Actions.typeChoice();
 
         try {
-            useChoice = useIn.nextInt();
+            if (useIn.hasNextInt())
+                useChoice = useIn.nextInt();
+            else
+                useIn.close();
 
             if (useChoice == 0)
                 ItemActions.useInventoryItem(player);

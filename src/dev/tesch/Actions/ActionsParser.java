@@ -22,11 +22,14 @@ public class ActionsParser {
         Actions.welcome();                                          // Welcome message
         userRooms.get(player.getRoomIsIn()).getStartMessage();      // Tells you which room you're in
 
-        // TODO: Make output look prettier
         while(true) {                                               // Main game loop
             Integer choiceIndex = null;
             Actions.typeChoice();
-            player.setChoice(playerAction.nextLine());              // Scans the System.in for the next user choice
+            
+            if (playerAction.hasNextLine())
+                player.setChoice(playerAction.nextLine());              // Scans the System.in for the next user choice
+            else
+                playerAction.close();
 
             // Checks to see if the user choice is defined in the actions scope, then assigns it to an Integer
             for (Map.Entry<Integer, List<String>> entry: userActions.entrySet()) {
@@ -36,10 +39,8 @@ public class ActionsParser {
             }
 
             // If there was no action for the choice given, set to error choice
-            if (choiceIndex == null)
-                choiceIndex = -1;
-
-            switch (choiceIndex) {                                                                                      // Switch case to parse the user's choice
+            // else use the choice given index above
+            switch (choiceIndex != null ? choiceIndex : -1) {                                                                                      // Switch case to parse the user's choice
                 case 1:
                     PlayerActions.inventory(player);                                                                    // Accesses the inventory
                     break;

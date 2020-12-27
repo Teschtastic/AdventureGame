@@ -12,7 +12,6 @@ public class Actions {
     public Map<Integer, List<String>> actionsMap = new HashMap<>();
 
     /* Constructing the different actions that will be used */
-    // TODO: add more actions to this HashMap
     public Actions() {
         actionsMap.put(1, Arrays.asList("i", "inventory"));
         actionsMap.put(2, Arrays.asList("h", "help"));
@@ -32,7 +31,6 @@ public class Actions {
     }
 
     /* Various messages that will print to the user based oin their choices */
-    // TODO: add more messages and more functionality
     public static void welcome() {
         System.out.println("+------------------------------------+" +
                          "\n| Welcome to my Adventure Game!      |" +

@@ -1,8 +1,6 @@
 package dev.tesch.Rooms;
 
 // Class for the structure of each room
-// TODO: add more element for the rooms, also,
-//  maybe change to abstract class and have separate class with the actual rooms
 public class Room {
 
     // Constructing the room object

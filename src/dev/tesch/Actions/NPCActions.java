@@ -53,7 +53,7 @@ public class NPCActions {
             int i = 0;
             int size = inventory.size() - 1;
             Scanner itemDesc = new Scanner(System.in);
-            int itemChoice;
+            int itemChoice = -1;
 
             // Prints the inventory for the user
             System.out.println("\nYour inventory contains:");
@@ -63,7 +63,10 @@ public class NPCActions {
             System.out.print("\n--------------------------------------\nType your choice:\n> ");
 
             try {
-                itemChoice = itemDesc.nextInt();
+                if (itemDesc.hasNextInt())
+                    itemChoice = itemDesc.nextInt();
+                else
+                    itemDesc.close();
 
                 if (itemChoice >= 0 && itemChoice <= size) {
                     item = inventory.get(itemChoice);

@@ -38,8 +38,6 @@ public class ItemActions {
     }
 
     /* Method used to describe an item in your inventory */
-    // TODO: Add functionality to describe items that you can't pickup and
-    //  therefore aren't in the player's inventory
     public static void describeItem(Player player, Map<Integer, Item> userItems, Map<Integer, Room> userRooms) {
         List<Item> itemsToDescribe = new ArrayList<>();
         List<Item> inventory = player.getInventory();
@@ -63,7 +61,7 @@ public class ItemActions {
             int i = 0;
             int size = itemsToDescribe.size() - 1;
             Scanner itemDesc = new Scanner(System.in);
-            int itemChoice;
+            int itemChoice = -1;
 
             System.out.println("\nYou have multiple items available to you:");
 
@@ -73,7 +71,10 @@ public class ItemActions {
             Actions.typeChoice();
 
             try {
-                itemChoice = itemDesc.nextInt();
+                if (itemDesc.hasNextInt())
+                    itemChoice = itemDesc.nextInt();
+                else
+                    itemDesc.close();
 
                 if (itemChoice >= 0 && itemChoice <= size)
                     System.out.println("\nYou inspect the " + itemsToDescribe.get(itemChoice).getName() +
@@ -115,7 +116,7 @@ public class ItemActions {
             int i = 0;
             int size = inventory.size() - 1;
             Scanner itemDesc = new Scanner(System.in);
-            int itemChoice;
+            int itemChoice = -1;
 
             System.out.println("\nYour inventory contains:");
             for (Item it : inventory)
@@ -124,7 +125,10 @@ public class ItemActions {
             Actions.typeChoice();
 
             try {
-                itemChoice = itemDesc.nextInt();
+                if (itemDesc.hasNextInt())
+                    itemChoice = itemDesc.nextInt();
+                else
+                    itemDesc.close();
 
                 if (itemChoice >= 0 && itemChoice <= size) {
                     item = inventory.get(itemChoice);
@@ -165,7 +169,7 @@ public class ItemActions {
             int i = 0;
             int size = inventory.size() - 1;
             Scanner itemDesc = new Scanner(System.in);
-            int itemChoice;
+            int itemChoice = -1;
 
             // Prints the inventory for the user
             System.out.println("\nYou have multiple items\nin your inventory to use.\n\nYour inventory contains:");
@@ -175,7 +179,10 @@ public class ItemActions {
             Actions.typeChoice();
 
             try {
-                itemChoice = itemDesc.nextInt();
+                if (itemDesc.hasNextInt())
+                    itemChoice = itemDesc.nextInt();
+                else
+                    itemDesc.close();
 
                 if (itemChoice >= 0 && itemChoice <= size) {
                     item = inventory.get(itemChoice);
@@ -198,7 +205,7 @@ public class ItemActions {
 
     public static void equipItem(Player player) {
         Scanner choice = new Scanner(System.in);
-        int option;
+        int option = -1;
         Item item;
         List<Item> inventory = player.getInventory();
 
@@ -206,7 +213,10 @@ public class ItemActions {
         Actions.typeChoice();
 
         try {
-            option = choice.nextInt();
+            if (choice.hasNextInt())
+                option = choice.nextInt();
+            else
+                choice.close();
 
             // Only one item in your inventory to use
             if (inventory.size() == 1) {
@@ -228,7 +238,7 @@ public class ItemActions {
                 int i = 0;
                 int size = inventory.size() - 1;
                 Scanner itemDesc = new Scanner(System.in);
-                int itemChoice;
+                int itemChoice = -1;
 
                 // Prints the inventory for the user
                 System.out.println("\nYou have multiple items\nin your inventory to equip.\n\nYour inventory contains:");
@@ -238,7 +248,10 @@ public class ItemActions {
                 Actions.typeChoice();
 
                 try {
-                    itemChoice = itemDesc.nextInt();
+                    if (itemDesc.hasNextInt())
+                        itemChoice = itemDesc.nextInt();
+                    else
+                        itemDesc.close();
 
                     if (itemChoice >= 0 && itemChoice <= size) {
                         item = inventory.get(itemChoice);
