@@ -204,30 +204,21 @@ public class ItemActions {
     }
 
     public static void equipItem(Player player) {
-        Scanner choice = new Scanner(System.in);
-        int option = -1;
         Item item;
         List<Item> inventory = player.getInventory();
 
-        System.out.println("\nWhat would you like to equip?\n\n0 - Armor\n1 - Weapon(s)");
-        Actions.typeChoice();
-
         try {
-            if (choice.hasNextInt())
-                option = choice.nextInt();
-            else
-                choice.close();
 
             // Only one item in your inventory to use
             if (inventory.size() == 1) {
                 item = player.getInventory().get(0);
 
-                // If the item has the can use flag, use it and remove
+                // If the item is a weapon or armor class, use it and remove
                 // it from the player's inventory
-                if (player.getInventory().get(0).isArmor() && option == 0) {
+                if (item.getClass() == Armor.class) {
                     EquipItemToPlayer.equipArmor(player, (Armor) item);
                 }
-                else if (player.getInventory().get(0).isWeapon() && option == 1) {
+                else if (item.getClass() == Weapon.class) {
                     EquipItemToPlayer.equipWeapon(player, (Weapon) item);
                 }
                 else
@@ -256,10 +247,9 @@ public class ItemActions {
                     if (itemChoice >= 0 && itemChoice <= size) {
                         item = inventory.get(itemChoice);
 
-                        if (player.getInventory().get(itemChoice).isArmor() && option == 0) {
+                        if (item.getClass() == Armor.class) {
                             EquipItemToPlayer.equipArmor(player, (Armor) item);
-                        }
-                        else if (player.getInventory().get(itemChoice).isWeapon() && option == 1) {
+                        } else if (item.getClass() == Weapon.class) {
                             EquipItemToPlayer.equipWeapon(player, (Weapon) item);
                         } else
                             System.out.println("\nYou can't equip " + item.getName());

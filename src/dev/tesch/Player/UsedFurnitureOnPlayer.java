@@ -20,8 +20,12 @@ public class UsedFurnitureOnPlayer {
                 usedCampingChair(player);
                 break;
 
-            case "Bed":
-                usedBed(player, userRooms, userNPCs);
+            case "Sean's Bed":
+                usedSeansBed(player, userRooms, userNPCs);
+                break;
+
+            case "Jeff's Bed":
+                usedJeffsBed(player, userRooms, userNPCs);
                 break;
 
             case "Crafting Table":
@@ -38,7 +42,7 @@ public class UsedFurnitureOnPlayer {
         player.setCurrentHealth(player.getMaximumHealth());
     }
 
-    private static void usedBed(Player player, Map<Integer, Room> userRooms, Map<Integer, NPC> userNPCs) {
+    private static void usedSeansBed(Player player, Map<Integer, Room> userRooms, Map<Integer, NPC> userNPCs) {
         Room room = userRooms.get(player.getRoomIsIn());
         NPC npc;
 
@@ -52,6 +56,23 @@ public class UsedFurnitureOnPlayer {
             }
         }
         else {
+            System.out.println("\nYour max health increases by 25");
+            player.setMaximumHealth(player.getMaximumHealth() + 25);
+        }
+    }
+
+    private static void usedJeffsBed(Player player, Map<Integer, Room> userRooms, Map<Integer, NPC> userNPCs) {
+        Room room = userRooms.get(player.getRoomIsIn());
+        NPC npc;
+
+        if (room.isHasNPC()) {
+            npc = userNPCs.get(room.getNpcInRoom());
+
+            if (npc.getName().equals("Jeff")) {
+                System.out.println("\nJeff bites you face in your sleep.\nYou lose 25 health.");
+                player.setCurrentHealth(player.getCurrentHealth() - 25);
+            }
+        } else {
             System.out.println("\nYour max health increases by 25");
             player.setMaximumHealth(player.getMaximumHealth() + 25);
         }

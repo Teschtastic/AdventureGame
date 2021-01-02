@@ -27,12 +27,19 @@ public class Furnitures {
                 true));
 
         furnituresMap.put(3, new Furniture(
-                "Bed",
+                "Sean's Bed",
                 "Used for sleeping and other things.",
                 "\nYou lay in the bed.",
                 3,
                 1,
                 true));
 
+        furnituresMap.put(4, new Furniture(
+                "Jeff's Bed", 
+                "Used for sleeping and other things.", 
+                "\nYou lay in the bed.",
+                4, 
+                5, 
+                true));
     }
 }

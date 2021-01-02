@@ -53,6 +53,15 @@ public class Actions {
                              "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         System.exit(0);
     }
+    
+    /* Method used to display exit message */
+    public static void deathMessage() {
+        System.out.println("\n======================================\n" + 
+                             "#      Your character has died       #\n" + 
+                             "#        Now exiting the game        #\n" + 
+                             "======================================");
+        System.exit(0);
+    }
 
     /* Method used to display user input error */
     public static void inputError() {

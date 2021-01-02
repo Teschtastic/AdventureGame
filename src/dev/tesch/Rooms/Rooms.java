@@ -67,8 +67,8 @@ public class Rooms {
                 -1,
                 true,
                 2,
-                false,
-                -1));
+                true,
+                4));
 
         roomsMap.put(6, new Room(
                 6,

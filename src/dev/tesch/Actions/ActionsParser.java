@@ -23,6 +23,10 @@ public class ActionsParser {
         userRooms.get(player.getRoomIsIn()).getStartMessage();      // Tells you which room you're in
 
         while(true) {                                               // Main game loop
+            
+            if(player.getCurrentHealth() <= 0)
+                Actions.deathMessage();
+            
             Integer choiceIndex = null;
             Actions.typeChoice();
             

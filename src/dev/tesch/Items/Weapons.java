@@ -13,7 +13,7 @@ public class Weapons {
         weaponMap.put(1, new Weapon(
                 "Stabby Thingies",
                 "Pointy and sharp.",
-                "\nNot a useful  sword, yet.",
+                "\nOne pointy \'brush\' for each hand",
                 1,
                 -1,
                 false,
