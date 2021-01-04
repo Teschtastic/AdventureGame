@@ -12,7 +12,6 @@ public class Actions {
     public Map<Integer, List<String>> actionsMap = new HashMap<>();
 
     /* Constructing the different actions that will be used */
-    // TODO: add more actions to this HashMap
     public Actions() {
         actionsMap.put(1, Arrays.asList("i", "inventory"));
         actionsMap.put(2, Arrays.asList("h", "help"));
@@ -26,11 +25,12 @@ public class Actions {
         actionsMap.put(10, Arrays.asList("t", "talk"));
         actionsMap.put(11, Arrays.asList("g", "give"));
         actionsMap.put(12, Arrays.asList("ta", "take"));
+        actionsMap.put(13, Arrays.asList("ch", "character"));
+        actionsMap.put(14, Arrays.asList("eq", "equip"));
         actionsMap.put(0, Arrays.asList("q", "quit"));
     }
 
     /* Various messages that will print to the user based oin their choices */
-    // TODO: add more messages and more functionality
     public static void welcome() {
         System.out.println("+------------------------------------+" +
                          "\n| Welcome to my Adventure Game!      |" +
@@ -51,6 +51,15 @@ public class Actions {
                              "@        Thank you for playing       @\n" +
                              "@        Now exiting the game        @\n" +
                              "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        System.exit(0);
+    }
+    
+    /* Method used to display exit message */
+    public static void deathMessage() {
+        System.out.println("\n======================================\n" + 
+                             "#      Your character has died       #\n" + 
+                             "#        Now exiting the game        #\n" + 
+                             "======================================");
         System.exit(0);
     }
 

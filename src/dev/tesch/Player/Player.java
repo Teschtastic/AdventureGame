@@ -7,19 +7,25 @@ import java.util.List;
 public class Player {
 
     // Constructing the player object
-    public Player(String n, int h, int aDamage, List<Item> inv, int rIsIn) {
+    public Player(String n, int cH, int mH, int aC, int aDamage, List<Item> inv, int rIsIn) {
         setName(n);
-        setHealth(h);
+        setCurrentHealth(cH);
+        setMaximumHealth(mH);
+        setArmorClass(aC);
         setAttackDamage(aDamage);
         setInventory(inv);
         setRoomIsIn(rIsIn);
     }
 
     private String name;            // Player name
-    private int health;             // Player health
+    private int currentHealth;      // Player current health
+    private int maximumHealth;      // PLayer max health
+    private int armorClass;         // Player armor
     private int attackDamage;       // Player attack damage
     private List<Item> inventory;   // Player inventory
     private int roomIsIn;
+    private Item equippedArmor;
+    private Item equippedWeapon;
     private String choice;
 
     /* Getters and setters */
@@ -31,12 +37,28 @@ public class Player {
         this.name = name;
     }
 
-    public int getHealth() {
-        return health;
+    public int getCurrentHealth() {
+        return currentHealth;
     }
 
-    public void setHealth(Integer health) {
-        this.health = health;
+    public void setCurrentHealth(int currentHealth) {
+        this.currentHealth = currentHealth;
+    }
+
+    public int getMaximumHealth() {
+        return maximumHealth;
+    }
+
+    public void setMaximumHealth(int maximumHealth) {
+        this.maximumHealth = maximumHealth;
+    }
+
+    public int getArmorClass() {
+        return armorClass;
+    }
+
+    public void setArmorClass(int armorClass) {
+        this.armorClass = armorClass;
     }
 
     public int getAttackDamage() {
@@ -73,5 +95,47 @@ public class Player {
 
     public void setChoice(String choice) {
         this.choice = choice;
+    }
+
+    public Item getEquippedArmor() {
+        return equippedArmor;
+    }
+
+    public void setEquippedArmor(Item equippedArmor) {
+        this.equippedArmor = equippedArmor;
+    }
+
+    public String printArmor() {
+        if (getEquippedArmor() == null)
+            return "None";
+        else
+            return getEquippedArmor().getName();
+    }
+
+    public Item getEquippedWeapon() {
+        return equippedWeapon;
+    }
+
+    public void setEquippedWeapon(Item equippedWeapon) {
+        this.equippedWeapon = equippedWeapon;
+    }
+
+    public String printWeapon() {
+        if (getEquippedWeapon() == null)
+            return "Fists";
+        else
+            return getEquippedWeapon().getName();
+    }
+
+    @Override
+    public String toString() {
+        return  "\nPlayer Description:\n\n" +
+                "name="                     + getName()          + "\n" +
+                "currentHealth="            + getCurrentHealth() + "\n" +
+                "maximumHealth="            + getMaximumHealth() + "\n" +
+                "armorClass="               + getArmorClass()    + "\n" +
+                "attackDamage="             + getAttackDamage()  + "\n" +
+                "equippedArmor="            + printArmor()       + "\n" +
+                "equippedWeapon="           + printWeapon();
     }
 }

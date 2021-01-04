@@ -1,12 +1,14 @@
 package dev.tesch.Actions;
 
+import dev.tesch.Items.Armor;
 import dev.tesch.Items.Item;
-import dev.tesch.NPCs.NPC;
+import dev.tesch.Items.Weapon;
+import dev.tesch.Player.EquipItemToPlayer;
 import dev.tesch.Player.Player;
+import dev.tesch.Player.UsedItemOnPlayer;
 import dev.tesch.Rooms.Room;
 
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class ItemActions {
 
@@ -36,212 +38,233 @@ public class ItemActions {
     }
 
     /* Method used to describe an item in your inventory */
-    // TODO: Add functionality to describe items that you can't pickup and
-    //  therefore aren't in the player's inventory
-    public static void describeItem(Player player) {
-        if (player.getInventory().size() == 0)
-            System.out.println("\nThere is nothing in your inventory to describe.");
-        else if (player.getInventory().size() == 1)
-            System.out.println("\nYou inspect your " + player.getInventory().get(0).getName() +
-                    "\nYou describe it as:\n" + player.getInventory().get(0).getDescription());
+    public static void describeItem(Player player, Map<Integer, Item> userItems, Map<Integer, Room> userRooms) {
+        List<Item> itemsToDescribe = new ArrayList<>();
+        List<Item> inventory = player.getInventory();
+
+        Room room = userRooms.get(player.getRoomIsIn());
+        Item item = userItems.get(room.getItemInRoom());
+
+        if (!inventory.isEmpty()) {
+            itemsToDescribe.addAll(inventory);
+        }
+        if (item != null){
+            itemsToDescribe.add(item);
+        }
+
+        if (itemsToDescribe.isEmpty())
+            System.out.println("\nThere are no items to describe.");
+        else if (itemsToDescribe.size() == 1)
+            System.out.println("\nYou inspect the " + itemsToDescribe.get(0).getName() +
+                    "\n\nYou describe it as:\n" + itemsToDescribe.get(0).getDescription());
         else {
             int i = 0;
-            int size = player.getInventory().size() - 1;
+            int size = itemsToDescribe.size() - 1;
             Scanner itemDesc = new Scanner(System.in);
-            int itemChoice;
+            int itemChoice = -1;
 
-            System.out.println("\nYour inventory contains:");
-            for (Item it : player.getInventory())
+            System.out.println("\nYou have multiple items available to you:");
+
+            for (Item it : itemsToDescribe)
                 System.out.println(i++ + " " + it.getName());
 
-            System.out.print("\nWhich item would you like to inspect?\n(0 - " + size + ")\n>");
-            itemChoice = itemDesc.nextInt();
+            Actions.typeChoice();
 
-            if (itemChoice >= 0 && itemChoice <= size)
-                System.out.println("\nYou inspect your " + player.getInventory().get(itemChoice).getName() +
-                        "\nYou describe it as:\n" + player.getInventory().get(itemChoice).getDescription());
-            else
-                System.out.println("\nInvalid item, try again.");
+            try {
+                if (itemDesc.hasNextInt())
+                    itemChoice = itemDesc.nextInt();
+                else
+                    itemDesc.close();
+
+                if (itemChoice >= 0 && itemChoice <= size)
+                    System.out.println("\nYou inspect the " + itemsToDescribe.get(itemChoice).getName() +
+                            "\n\nYou describe it as:\n" + itemsToDescribe.get(itemChoice).getDescription());
+                else
+                    System.out.println("\nInvalid choice.");
+            }
+            catch (InputMismatchException e) {
+                System.out.println("\nInvalid input.");
+            }
         }
     }
 
     /* Method used to drop and item in your inventory */
     public static void dropItem(Player player, Map<Integer, Room> userRooms) {
-
+        List<Item> inventory = player.getInventory();
         Room room = userRooms.get(player.getRoomIsIn());
         Item item;
 
         // Nothing in inventory to drop
-        if (player.getInventory().size() == 0)
+        if (inventory.isEmpty())
             System.out.println("\nThere is nothing in your inventory to drop.");
-            // Only one item in your inventory to drop
-        else if (room.isHasItem() && player.getInventory().size() > 0)
+            // If there is an item in the room already
+        else if (room.isHasItem() && inventory.size() > 0)
             System.out.println("\nYou cannot drop the item.\nThe room already has an item in it.");
-        else if (player.getInventory().size() == 1) {
-            item = player.getInventory().get(0);
+            // Only one item in your inventory to drop
+        else if (inventory.size() == 1) {
+            item = inventory.get(0);
 
             System.out.println("\nYou drop your " + item.getName());
 
             room.setHasItem(true);
             item.setRoomLocation(player.getRoomIsIn());
             room.setItemInRoom(item.getItemIndex());
-            player.getInventory().remove(0);
+            inventory.remove(0);
         }
         // Multiple items in inventory, choose which one to drop
         else {
             int i = 0;
-            int size = player.getInventory().size() - 1;
+            int size = inventory.size() - 1;
             Scanner itemDesc = new Scanner(System.in);
-            int itemChoice;
+            int itemChoice = -1;
 
             System.out.println("\nYour inventory contains:");
-            for (Item it : player.getInventory())
+            for (Item it : inventory)
                 System.out.println(i++ + " " + it.getName());
 
-            System.out.print("\nWhich item would you like to drop?\n(0 - " + size + ")\n>");
-            itemChoice = itemDesc.nextInt();
+            Actions.typeChoice();
 
-            if (itemChoice >= 0 && itemChoice <= size) {
-                item = player.getInventory().get(itemChoice);
-                System.out.println("\nYou drop your " + item.getName());
-                room.setHasItem(true);
-                item.setRoomLocation(player.getRoomIsIn());
-                room.setItemInRoom(item.getItemIndex());
-                player.getInventory().remove(itemChoice);
+            try {
+                if (itemDesc.hasNextInt())
+                    itemChoice = itemDesc.nextInt();
+                else
+                    itemDesc.close();
+
+                if (itemChoice >= 0 && itemChoice <= size) {
+                    item = inventory.get(itemChoice);
+                    System.out.println("\nYou drop your " + item.getName());
+                    room.setHasItem(true);
+                    item.setRoomLocation(player.getRoomIsIn());
+                    room.setItemInRoom(item.getItemIndex());
+                    inventory.remove(itemChoice);
+                } else
+                    System.out.println("\nInvalid choice.");
             }
-            else
-                System.out.println("\nInvalid item, try again.");
+            catch (InputMismatchException e) {
+                System.out.println("\n Invalid input.");
+            }
         }
     }
 
-    public static void useItem(Player player, Map<Integer, Room> userRooms) {
-        Room room = userRooms.get(player.getRoomIsIn());
+    /* Method used to use an item in either your inventory or in the world */
+    public static void useInventoryItem(Player player) {
         Item item;
+        List<Item> inventory = player.getInventory();
 
-        // Nothing in inventory to use
-        if (player.getInventory().size() == 0)
-            System.out.println("\nThere is nothing in your inventory to use.");
-            // Only one item in your inventory to use
-        else if (player.getInventory().size() == 1) {
+        // Only one item in your inventory to use
+        if (inventory.size() == 1) {
             item = player.getInventory().get(0);
 
             // If the item has the can use flag, use it and remove
             // it from the player's inventory
             if (player.getInventory().get(0).isCanUse()) {
                 System.out.println(item.getUseMessage());
-                player.getInventory().remove(0);
+                UsedItemOnPlayer.useItem(player, item);
             }
             else
                 System.out.println("\nYou can't use " + item.getName());
         }
         // Multiple items in inventory, choose which one to use
-        else {
+        else if (inventory.size() > 1) {
             int i = 0;
-            int size = player.getInventory().size() - 1;
+            int size = inventory.size() - 1;
             Scanner itemDesc = new Scanner(System.in);
-            int itemChoice;
+            int itemChoice = -1;
 
             // Prints the inventory for the user
-            System.out.println("\nYour inventory contains:");
-            for (Item it : player.getInventory())
-                System.out.println(i++ + " " + it.getName());
+            System.out.println("\nYou have multiple items\nin your inventory to use.\n\nYour inventory contains:");
+            for (Item it : inventory)
+                System.out.println(i++ + " - " + it.getName());
 
-            // Choice as to which item to use
-            System.out.print("\nWhich item would you like to use?\n(0 - " + size + ")\n>");
-            itemChoice = itemDesc.nextInt();
+            Actions.typeChoice();
 
+            try {
+                if (itemDesc.hasNextInt())
+                    itemChoice = itemDesc.nextInt();
+                else
+                    itemDesc.close();
 
-            if (itemChoice >= 0 && itemChoice <= size) {
-                item = player.getInventory().get(itemChoice);
+                if (itemChoice >= 0 && itemChoice <= size) {
+                    item = inventory.get(itemChoice);
 
-                if (player.getInventory().get(itemChoice).isCanUse()) {
+                    if (inventory.get(itemChoice).isCanUse()) {
+                        System.out.println(item.getUseMessage());
+                        UsedItemOnPlayer.useItem(player, item);
+                    } else
+                        System.out.println("\nYou can't use " + item.getName());
+                } else
+                    System.out.println("\nInvalid item.");
 
-                    System.out.println(item.getUseMessage());
+            } catch (InputMismatchException e) {
+                System.out.println("\nInvalid input.");
+            }
+        }
+        else
+            System.out.println("\nYour inventory is empty.");
+    }
 
-                    player.getInventory().remove(itemChoice);
+    public static void equipItem(Player player) {
+        Item item;
+        List<Item> inventory = player.getInventory();
+
+        try {
+
+            // Only one item in your inventory to use
+            if (inventory.size() == 1) {
+                item = player.getInventory().get(0);
+
+                // If the item is a weapon or armor class, use it and remove
+                // it from the player's inventory
+                if (item.getClass() == Armor.class) {
+                    EquipItemToPlayer.equipArmor(player, (Armor) item);
+                }
+                else if (item.getClass() == Weapon.class) {
+                    EquipItemToPlayer.equipWeapon(player, (Weapon) item);
                 }
                 else
-                    System.out.println("\nYou can't use " + item.getName());
+                    System.out.println("\nYou can't equip " + item.getName());
             }
-            else
-                System.out.println("\nInvalid item, try again.");
-        }
-    }
+            // Multiple items in inventory, choose which one to use
+            else if (inventory.size() > 1) {
+                int i = 0;
+                int size = inventory.size() - 1;
+                Scanner itemDesc = new Scanner(System.in);
+                int itemChoice = -1;
 
-    public static void giveItem(Player player, Map<Integer, Room> userRooms, Map<Integer, NPC> userNPCs) {
-        Room room = userRooms.get(player.getRoomIsIn());
-        NPC npc = userNPCs.get(room.getNpcInRoom());
-        Item item;
+                // Prints the inventory for the user
+                System.out.println("\nYou have multiple items\nin your inventory to equip.\n\nYour inventory contains:");
+                for (Item it : inventory)
+                    System.out.println(i++ + " - " + it.getName());
 
-        // Nothing in inventory to give
-        if (player.getInventory().size() == 0)
-            System.out.println("\nThere is nothing in your inventory to give.");
-            // Only one item in your inventory to give
-        else if (player.getInventory().size() == 1) {
-            item = player.getInventory().get(0);
+                Actions.typeChoice();
 
-            if (npc.isHasItem()) {
-                System.out.println("\n" + npc.getName() + " already has an item." +
-                        "\nCannot give them the " +item.getName());
-            } else {
-                // Removes item from your inventory and adds to the NPCs
-                player.getInventory().remove(0);
-                npc.setHasItem(true);
-                npc.setItemInInventory(item.getItemIndex());
-                System.out.println("\nYou gave " + npc.getName() + " your " + item.getName());
-            }
-        }
-        // Multiple items in inventory, choose which one to use
-        else {
-            int i = 0;
-            int size = player.getInventory().size() - 1;
-            Scanner itemDesc = new Scanner(System.in);
-            int itemChoice;
+                try {
+                    if (itemDesc.hasNextInt())
+                        itemChoice = itemDesc.nextInt();
+                    else
+                        itemDesc.close();
 
-            // Prints the inventory for the user
-            System.out.println("\nYour inventory contains:");
-            for (Item it : player.getInventory())
-                System.out.println(i++ + " " + it.getName());
+                    if (itemChoice >= 0 && itemChoice <= size) {
+                        item = inventory.get(itemChoice);
 
-            // Choice as to which item to use
-            System.out.print("\nWhich item would you like to give?\n(0 - " + size + ")\n>");
-            itemChoice = itemDesc.nextInt();
+                        if (item.getClass() == Armor.class) {
+                            EquipItemToPlayer.equipArmor(player, (Armor) item);
+                        } else if (item.getClass() == Weapon.class) {
+                            EquipItemToPlayer.equipWeapon(player, (Weapon) item);
+                        } else
+                            System.out.println("\nYou can't equip " + item.getName());
+                    } else
+                        System.out.println("\nInvalid item.");
 
-            if (itemChoice >= 0 && itemChoice <= size) {
-                item = player.getInventory().get(itemChoice);
-
-                if (npc.isHasItem())
-                    System.out.println("\n" + npc.getName() + " already has an item." +
-                                        "\nCannot give them the " +item.getName());
-                else {
-                    player.getInventory().remove(itemChoice);
-                    npc.setHasItem(true);
-                    npc.setItemInInventory(item.getItemIndex());
-                    System.out.println("\nYou gave " + npc.getName() + " your " + item.getName());
+                } catch (InputMismatchException e) {
+                    System.out.println("\nInvalid input.");
                 }
             }
             else
-                System.out.println("\nInvalid item, try again.");
-        }
-    }
+                System.out.println("\nYour inventory is empty.");
 
-    public static void takeItem(Player player, Map<Integer, Room> userRooms, Map<Integer, NPC> userNPCs, Map<Integer, Item> userItems) {
-        Room room = userRooms.get(player.getRoomIsIn());
-        NPC npc = userNPCs.get(room.getNpcInRoom());
-        Item item;
-
-        // If there isn't an item in the NPCs inventory, nothing to take
-        if (!npc.isHasItem())
-            System.out.println("\n" + npc.getName() + " doesn't have an item.");
-        else {
-            item = userItems.get(npc.getItemInInventory());
-            // The item is able to be taken, so remove it from the NPCs inventory and add it tyo yours
-
-            npc.setHasItem(false);
-            npc.setItemInInventory(-1);
-            player.addToInventory(item);
-            System.out.println("\nYou take the " + item.getName() +
-                                "\nfrom " + npc.getName());
+        } catch (InputMismatchException e) {
+            System.out.println("\nInvalid input.");
         }
     }
 }
