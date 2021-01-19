@@ -1,5 +1,6 @@
 package dev.tesch.Player;
 
+import dev.tesch.Furniture.Container;
 import dev.tesch.Furniture.Furniture;
 import dev.tesch.Items.Armor;
 import dev.tesch.Items.Item;
@@ -14,7 +15,7 @@ import java.util.Map;
 
 public class UsedFurnitureOnPlayer {
 
-    public static void useFurniture(Player player, Furniture furniture, Map<Integer, Room> userRooms, Map<Integer, Item> userItems, Map<Integer, Armor> userArmors, Map<Integer, Weapon> userWeapons, Map<Integer, NPC> userNPCs) {
+    public static void useFurniture(Player player, Furniture furniture, Map<Integer, Room> userRooms, Map<Integer, Item> userItems, Map<Integer, Armor> userArmors, Map<Integer, Weapon> userWeapons, Map<Integer, NPC> userNPCs, Map<Integer, Container> userContainers) {
         switch (furniture.getName()) {
             case "Camping chair":
                 usedCampingChair(player);
@@ -30,6 +31,10 @@ public class UsedFurnitureOnPlayer {
 
             case "Crafting Table":
                 useCraftingTable(player, userItems, userArmors, userWeapons);
+                break;
+
+            case "Chest":
+                useChest(player, (Container) furniture, userItems, userArmors, userWeapons);
                 break;
 
             default:
@@ -107,6 +112,12 @@ public class UsedFurnitureOnPlayer {
         }
         else {
             System.out.println("\nYou have nothing to craft with.");
+        }
+    }
+
+    private static void useChest(Player player, Container container, Map<Integer, Item> userItems, Map<Integer, Armor> userArmors, Map<Integer, Weapon> userWeapons) {
+        for (Item i: container.getContainerInventory()) {
+            System.out.println("-> " + i.getName());
         }
     }
 }

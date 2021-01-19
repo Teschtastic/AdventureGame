@@ -2,6 +2,8 @@ package dev.tesch;
 
 import dev.tesch.Actions.Actions;
 import dev.tesch.Actions.ActionsParser;
+import dev.tesch.Furniture.Container;
+import dev.tesch.Furniture.Containers;
 import dev.tesch.Furniture.Furniture;
 import dev.tesch.Furniture.Furnitures;
 import dev.tesch.Items.*;
@@ -23,34 +25,43 @@ public class Application {
         Player player = new Player("Sean", 50, 100, 0, 10, new ArrayList<>(), 1);
 
         // Actions object and HashMap
-        Actions actions = new Actions();
-        Map<Integer, List<String>> userActions = actions.actionsMap;
+        Map<Integer, List<String>> userActions = new Actions().actionsMap;
 
         // NPCs object
-        NPCs npcs = new NPCs();
-        Map<Integer, NPC> userNpcs = npcs.npcMap;
+        Map<Integer, NPC> userNpcs = new NPCs().npcMap;
 
         // Rooms object and HashMap
-        Rooms rooms = new Rooms();
-        Map<Integer, Room> userRooms = rooms.roomsMap;
+        Map<Integer, Room> userRooms = new Rooms().roomsMap;
 
         // Items object and HashMap
-        Items items = new Items();
-        Map<Integer, Item> userItems = items.itemsMap;
+        Map<Integer, Item> userItems = new Items().itemsMap;
 
-        // Furnitures object and HashMap
-        Furnitures furnitures = new Furnitures();
-        Map<Integer, Furniture> userFurnitures = furnitures.furnituresMap;
+        // Consumables object and HashMap
+        Map<Integer, Consumable> userConsumables = new Consumables().consumablesMap;
 
         // Armors object and HashMap
-        Armors armors = new Armors();
-        Map<Integer, Armor> userArmors = armors.armorMap;
+        Map<Integer, Armor> userArmors = new Armors().armorMap;
 
         // Weapons object and HashMap
-        Weapons weapons = new Weapons();
-        Map<Integer, Weapon> userWeapons = weapons.weaponMap;
+        Map<Integer, Weapon> userWeapons = new Weapons().weaponMap;
+
+        // Furnitures object and HashMap
+        Map<Integer, Furniture> userFurnitures = new Furnitures().furnituresMap;
+
+        // Containers object and HashMap
+        Map<Integer, Container> userContainers = new Containers().containersMap;
 
         // Running the main game loop
-        ActionsParser.gameLoop(userActions, userNpcs, userRooms, userItems, userFurnitures, userArmors, userWeapons, player);
+        ActionsParser.gameLoop(
+                player,
+                userActions,
+                userNpcs,
+                userRooms,
+                userItems,
+                userConsumables,
+                userArmors,
+                userWeapons,
+                userFurnitures,
+                userContainers);
     }
 }

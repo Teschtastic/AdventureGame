@@ -1,6 +1,8 @@
 package dev.tesch.Actions;
 
+import dev.tesch.Furniture.Container;
 import dev.tesch.Furniture.Furniture;
+import dev.tesch.Furniture.Furnitures;
 import dev.tesch.Items.Armor;
 import dev.tesch.Items.Item;
 import dev.tesch.Items.Weapon;
@@ -14,14 +16,18 @@ import java.util.Map;
 public class FurnitureActions {
 
     /* Method used to use a furniture */
-    public static void useFurniture(Player player, Map<Integer, Room> userRooms, Map<Integer, NPC> userNPCs, Map<Integer, Item> userItems, Map<Integer, Armor> userArmors, Map<Integer, Weapon> userWeapons, Map<Integer, Furniture> userFurnitures) {
+    public static void useFurniture(Player player, Map<Integer, Room> userRooms, Map<Integer, NPC> userNPCs, Map<Integer, Item> userItems, Map<Integer, Armor> userArmors, Map<Integer, Weapon> userWeapons, Map<Integer, Furniture> userFurnitures, Map<Integer, Container> userContainers) {
         Room room = userRooms.get(player.getRoomIsIn());
-        Furniture furniture = userFurnitures.get(room.getFurnitureInRoom());
+        Furniture furniture = null;
+        if (room.getFurnitureInRoom().getClass() == Container.class)
+            furniture = userContainers.get(room.getFurnitureInRoomIndex());
+        else if (room.getFurnitureInRoom().getClass() == Furniture.class)
+            furniture = userFurnitures.get(room.getFurnitureInRoomIndex());
 
         if (room.isHasFurniture()) {
             if (furniture.isCanUse()) {
                 System.out.println(furniture.getUseMessage());
-                UsedFurnitureOnPlayer.useFurniture(player, furniture, userRooms, userItems, userArmors, userWeapons, userNPCs);
+                UsedFurnitureOnPlayer.useFurniture(player, furniture, userRooms, userItems, userArmors, userWeapons, userNPCs, userContainers);
             } else
                 System.out.println("\nYou can't use this furniture");
         }

@@ -1,5 +1,6 @@
 package dev.tesch.Actions;
 
+import dev.tesch.Furniture.Container;
 import dev.tesch.Furniture.Furniture;
 import dev.tesch.Items.Item;
 import dev.tesch.NPCs.NPC;
@@ -45,7 +46,7 @@ public class RoomActions {
     }
 
     /* Method used to look in the room you're in */
-    public static void lookAround(Player player, Map<Integer, NPC> userNpcs, Map<Integer, Room> userRooms, Map<Integer, Item> userItems, Map<Integer, Furniture> userFurnitures) {
+    public static void lookAround(Player player, Map<Integer, NPC> userNpcs, Map<Integer, Room> userRooms, Map<Integer, Item> userItems, Map<Integer, Furniture> userFurnitures, Map<Integer, Container> userContainers) {
         Room room = userRooms.get(player.getRoomIsIn());
 
         room.getInMessage();
@@ -67,8 +68,14 @@ public class RoomActions {
         if (!room.isHasFurniture())
             System.out.println("You don't see any furniture.");
         else {
-            Furniture furniture = userFurnitures.get(room.getFurnitureInRoom());
-            System.out.println("You see the " + furniture.getName());
+            if (room.getFurnitureInRoom().getClass() == Container.class) {
+                Container container = userContainers.get(room.getFurnitureInRoomIndex());
+                System.out.println("You see the " + container.getName());
+            }
+            else if (room.getFurnitureInRoom().getClass() == Furniture.class) {
+                Furniture furniture = userFurnitures.get(room.getFurnitureInRoomIndex());
+                System.out.println("You see the " + furniture.getName());
+            }
         }
     }
 

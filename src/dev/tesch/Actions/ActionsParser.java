@@ -1,7 +1,9 @@
 package dev.tesch.Actions;
 
+import dev.tesch.Furniture.Container;
 import dev.tesch.Furniture.Furniture;
 import dev.tesch.Items.Armor;
+import dev.tesch.Items.Consumable;
 import dev.tesch.Items.Item;
 import dev.tesch.Items.Weapon;
 import dev.tesch.NPCs.NPC;
@@ -16,7 +18,17 @@ import static dev.tesch.Actions.Actions.*;
 
 public class ActionsParser {
 
-    public static void gameLoop(Map<Integer, List<String>> userActions, Map<Integer, NPC> userNPCs, Map<Integer, Room> userRooms, Map<Integer, Item> userItems, Map<Integer, Furniture> userFurnitures, Map<Integer, Armor> userArmors, Map<Integer, Weapon> userWeapons, Player player) {
+    public static void gameLoop(
+            Player player,
+            Map<Integer, List<String>> userActions,
+            Map<Integer, NPC> userNPCs,
+            Map<Integer, Room> userRooms,
+            Map<Integer, Item> userItems,
+            Map<Integer, Consumable> userConsumables,
+            Map<Integer, Armor> userArmors,
+            Map<Integer, Weapon> userWeapons,
+            Map<Integer, Furniture> userFurnitures,
+            Map<Integer, Container> userContainers) {
 
         Scanner playerAction = new Scanner(System.in);              // Scanners for player choices
         Actions.welcome();                                          // Welcome message
@@ -62,7 +74,7 @@ public class ActionsParser {
                     break;
 
                 case 5:
-                    RoomActions.lookAround(player, userNPCs, userRooms, userItems, userFurnitures);                     // Looks around the room
+                    RoomActions.lookAround(player, userNPCs, userRooms, userItems, userFurnitures, userContainers);                     // Looks around the room
                     break;
 
                 case 6:
@@ -78,7 +90,7 @@ public class ActionsParser {
                     break;
 
                 case 9:
-                    PlayerActions.useSomething(player, userRooms, userItems, userArmors, userWeapons, userNPCs, userFurnitures);     // Uses an item in your inventory
+                    PlayerActions.useSomething(player, userRooms, userItems, userArmors, userWeapons, userNPCs, userFurnitures, userContainers);     // Uses an item in your inventory
                     break;
 
                 case 10:

@@ -1,10 +1,17 @@
 package dev.tesch.Rooms;
 
+import dev.tesch.Furniture.Container;
+import dev.tesch.Furniture.Containers;
+import dev.tesch.Furniture.Furniture;
+import dev.tesch.Furniture.Furnitures;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class Rooms {
 
+    Map<Integer, Furniture> furnitures = new Furnitures().furnituresMap;
+    Map<Integer, Container> containers = new Containers().containersMap;
     // HashMap the rooms are stored in
     public Map<Integer, Room> roomsMap = new HashMap<>();
 
@@ -20,7 +27,8 @@ public class Rooms {
                 true,
                 1,
                 true,
-                3));
+                3,
+                furnitures.get(3)));
 
         roomsMap.put(2, new Room(
                 2,
@@ -31,8 +39,9 @@ public class Rooms {
                 4,
                 false,
                 -1,
-                false,
-                -1));
+                true,
+                1,
+                containers.get(1)));
 
         roomsMap.put(3, new Room(
                 3,
@@ -44,7 +53,8 @@ public class Rooms {
                 false,
                 -1,
                 false,
-                -1));
+                -1,
+                null));
 
         roomsMap.put(4, new Room(
                 4,
@@ -56,7 +66,8 @@ public class Rooms {
                 false,
                 -1,
                 false,
-                -1));
+                -1,
+                null));
 
         roomsMap.put(5, new Room(
                 5,
@@ -68,7 +79,8 @@ public class Rooms {
                 true,
                 2,
                 true,
-                4));
+                4,
+                furnitures.get(4)));
 
         roomsMap.put(6, new Room(
                 6,
@@ -80,7 +92,8 @@ public class Rooms {
                 false,
                 -1,
                 false,
-                -1));
+                -1,
+                null));
 
         roomsMap.put(7, new Room(
                 7,
@@ -92,7 +105,8 @@ public class Rooms {
                 false,
                 -1,
                 true,
-                2));
+                2,
+                furnitures.get(2)));
 
         roomsMap.put(8, new Room(
                 8,
@@ -104,7 +118,8 @@ public class Rooms {
                 false,
                 -1,
                 false,
-                -1));
+                -1,
+                null));
 
         roomsMap.put(9, new Room(
                 9,
@@ -116,7 +131,8 @@ public class Rooms {
                 false,
                 -1,
                 true,
-                1));
+                1,
+                furnitures.get(1)));
 
         roomsMap.put(10, new Room(
                 10,
@@ -128,6 +144,7 @@ public class Rooms {
                 true,
                 3,
                 false,
-                -1));
+                -1,
+                null));
     }
 }

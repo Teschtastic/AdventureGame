@@ -1,10 +1,12 @@
 package dev.tesch.Rooms;
 
+import dev.tesch.Furniture.Furniture;
+
 // Class for the structure of each room
 public class Room {
 
     // Constructing the room object
-    public Room(int index, int[] moves, int[] connections, String name, boolean hasItem, int iIR, boolean hNPC, int npcInR, boolean hF, int fIR) {
+    public Room(int index, int[] moves, int[] connections, String name, boolean hasItem, int iIR, boolean hNPC, int npcInR, boolean hF, int fIRI, Furniture fIR) {
         setName(name);
         setStartMessage(name, moves);
         setInMessage(name);
@@ -18,6 +20,7 @@ public class Room {
         setHasNPC(hNPC);
         setNpcInRoom(npcInR);
         setHasFurniture(hF);
+        setFurnitureInRoomIndex(fIRI);
         setFurnitureInRoom(fIR);
     }
 
@@ -35,7 +38,8 @@ public class Room {
     private boolean hasNPC;         // Flag for if there is an NPC in the room
     private int npcInRoom;          // Int to tell which NPC is in the room
     private boolean hasFurniture;   // Flag for if there is furniture in the room
-    private int furnitureInRoom;    // Int to tell which furniture is in the room
+    private int furnitureInRoomIndex;    // Int to tell which furniture is in the room
+    private Furniture furnitureInRoom;
 
     // Getters and Setters
     public String getName() {
@@ -158,11 +162,19 @@ public class Room {
         this.hasFurniture = hasFurniture;
     }
 
-    public int getFurnitureInRoom() {
+    public int getFurnitureInRoomIndex() {
+        return furnitureInRoomIndex;
+    }
+
+    public void setFurnitureInRoomIndex(int furnitureInRoomIndex) {
+        this.furnitureInRoomIndex = furnitureInRoomIndex;
+    }
+
+    public Furniture getFurnitureInRoom() {
         return furnitureInRoom;
     }
 
-    public void setFurnitureInRoom(int furnitureInRoom) {
+    public void setFurnitureInRoom(Furniture furnitureInRoom) {
         this.furnitureInRoom = furnitureInRoom;
     }
 }
