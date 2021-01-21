@@ -12,9 +12,9 @@ import java.util.Scanner;
 
 public class NPCActions {
 
-    public static void talkToNPC(Player player, Map<Integer, NPC> userNpcs, Map<Integer, Room> userRooms) {
-        Room room = userRooms.get(player.getRoomIsIn());
-        NPC npc = userNpcs.get(room.getNpcInRoom());
+    public static void talkToNPC(Player player) {
+        Room room = player.getRoomIsIn();
+        NPC npc = room.getNpcInRoom();
 
         if (!room.isHasNPC()) {
             System.out.println("\nThere is nobody to talk to.");
@@ -24,10 +24,10 @@ public class NPCActions {
     }
 
     /* Method used to give an item in your inventory to an NPC */
-    public static void giveItem(Player player, Map<Integer, Room> userRooms, Map<Integer, NPC> userNPCs) {
+    public static void giveItem(Player player) {
         List<Item> inventory = player.getInventory();
-        Room room = userRooms.get(player.getRoomIsIn());
-        NPC npc = userNPCs.get(room.getNpcInRoom());
+        Room room = player.getRoomIsIn();
+        NPC npc = room.getNpcInRoom();
         Item item;
 
         // Nothing in inventory to give
@@ -44,7 +44,8 @@ public class NPCActions {
                 // Removes item from your inventory and adds to the NPCs
                 inventory.remove(0);
                 npc.setHasItem(true);
-                npc.setItemInInventory(item.getItemIndex());
+                npc.setItemInInventoryIndex(item.getItemIndex());
+                npc.setItemInInventory(item);
                 System.out.println("\nYou gave " + npc.getName() + " your " + item.getName());
             }
         }
@@ -77,7 +78,8 @@ public class NPCActions {
                     else {
                         inventory.remove(itemChoice);
                         npc.setHasItem(true);
-                        npc.setItemInInventory(item.getItemIndex());
+                        npc.setItemInInventoryIndex(item.getItemIndex());
+                        npc.setItemInInventory(item);
                         System.out.println("\nYou gave " + npc.getName() + " your " + item.getName());
                     }
                 } else
@@ -90,20 +92,21 @@ public class NPCActions {
     }
 
     /* Method use to take an item from an NPC */
-    public static void takeItem(Player player, Map<Integer, Room> userRooms, Map<Integer, NPC> userNPCs, Map<Integer, Item> userItems) {
-        Room room = userRooms.get(player.getRoomIsIn());
-        NPC npc = userNPCs.get(room.getNpcInRoom());
+    public static void takeItem(Player player) {
+        Room room = player.getRoomIsIn();
+        NPC npc = room.getNpcInRoom();
         Item item;
 
         // If there isn't an item in the NPCs inventory, nothing to take
         if (!npc.isHasItem())
             System.out.println("\n" + npc.getName() + " doesn't have an item.");
         else {
-            item = userItems.get(npc.getItemInInventory());
+            item = npc.getItemInInventory();
             // The item is able to be taken, so remove it from the NPCs inventory and add it tyo yours
 
             npc.setHasItem(false);
-            npc.setItemInInventory(-1);
+            npc.setItemInInventoryIndex(-1);
+            npc.setItemInInventory(null);
             player.addToInventory(item);
             System.out.println("\nYou take the " + item.getName() +
                     "\nfrom " + npc.getName());

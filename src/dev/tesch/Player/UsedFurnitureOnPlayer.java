@@ -1,5 +1,6 @@
 package dev.tesch.Player;
 
+import dev.tesch.Actions.Actions;
 import dev.tesch.Furniture.Container;
 import dev.tesch.Furniture.Furniture;
 import dev.tesch.Items.Armor;
@@ -8,25 +9,29 @@ import dev.tesch.Items.Weapon;
 import dev.tesch.NPCs.NPC;
 import dev.tesch.Rooms.Room;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class UsedFurnitureOnPlayer {
 
-    public static void useFurniture(Player player, Furniture furniture, Map<Integer, Room> userRooms, Map<Integer, Item> userItems, Map<Integer, Armor> userArmors, Map<Integer, Weapon> userWeapons, Map<Integer, NPC> userNPCs, Map<Integer, Container> userContainers) {
+    public static void useFurniture(
+            Player player,
+            Furniture furniture,
+            Room room,
+            Map<Integer, Item> userItems,
+            Map<Integer, Armor> userArmors,
+            Map<Integer, Weapon> userWeapons) {
+
         switch (furniture.getName()) {
             case "Camping chair":
                 usedCampingChair(player);
                 break;
 
             case "Sean's Bed":
-                usedSeansBed(player, userRooms, userNPCs);
+                usedSeansBed(player, room);
                 break;
 
             case "Jeff's Bed":
-                usedJeffsBed(player, userRooms, userNPCs);
+                usedJeffsBed(player, room);
                 break;
 
             case "Crafting Table":
@@ -34,7 +39,7 @@ public class UsedFurnitureOnPlayer {
                 break;
 
             case "Chest":
-                useChest(player, (Container) furniture, userItems, userArmors, userWeapons);
+                useChest(player, (Container) furniture);
                 break;
 
             default:
@@ -47,12 +52,11 @@ public class UsedFurnitureOnPlayer {
         player.setCurrentHealth(player.getMaximumHealth());
     }
 
-    private static void usedSeansBed(Player player, Map<Integer, Room> userRooms, Map<Integer, NPC> userNPCs) {
-        Room room = userRooms.get(player.getRoomIsIn());
+    private static void usedSeansBed(Player player, Room room) {
         NPC npc;
 
         if (room.isHasNPC()) {
-            npc = userNPCs.get(room.getNpcInRoom());
+            npc = room.getNpcInRoom();
 
             if (npc.getName().equals("Claudia")) {
                 System.out.println("\nYour max health increases by 50\nand your health has been restored.");
@@ -66,12 +70,11 @@ public class UsedFurnitureOnPlayer {
         }
     }
 
-    private static void usedJeffsBed(Player player, Map<Integer, Room> userRooms, Map<Integer, NPC> userNPCs) {
-        Room room = userRooms.get(player.getRoomIsIn());
+    private static void usedJeffsBed(Player player, Room room) {
         NPC npc;
 
         if (room.isHasNPC()) {
-            npc = userNPCs.get(room.getNpcInRoom());
+            npc = room.getNpcInRoom();
 
             if (npc.getName().equals("Jeff")) {
                 System.out.println("\nJeff bites you face in your sleep.\nYou lose 25 health.");
@@ -83,8 +86,10 @@ public class UsedFurnitureOnPlayer {
         }
     }
 
+    // TODO: Make a recipe object or something to reduce the method signature and limit the use of all the maps throughout the program
+    // FIXME: The crafting system has broken, need to look into this
     private static void useCraftingTable(Player player, Map<Integer, Item> userItems, Map<Integer, Armor> userArmors, Map<Integer, Weapon> userWeapons) {
-        List<Item> craftingItems = new ArrayList<>();
+        List<Item> craftingItems = new LinkedList<>();
         Item craftedItem;
         List<Item> inventory = player.getInventory();
 
@@ -115,9 +120,37 @@ public class UsedFurnitureOnPlayer {
         }
     }
 
-    private static void useChest(Player player, Container container, Map<Integer, Item> userItems, Map<Integer, Armor> userArmors, Map<Integer, Weapon> userWeapons) {
-        for (Item i: container.getContainerInventory()) {
-            System.out.println("-> " + i.getName());
+    private static void useChest(Player player, Container container) {
+        System.out.println("What would you like to take: \n");
+        Scanner take = new Scanner(System.in);
+        List<Item> containerInventory = container.getContainerInventory();
+        int i = 0;
+        int itemIndex = -1;
+        Item item;
+        for (Item it: containerInventory) {
+            System.out.println(i++ + " " + it.getName());
         }
+        Actions.typeChoice();
+
+        try {
+            if (take.hasNext())
+                itemIndex = take.nextInt();
+            else
+                take.close();
+
+            item = containerInventory.get(itemIndex);
+
+            System.out.println("\nYou take the " + item.getName());
+            player.addToInventory(item);
+            container.removeFromInventory(item);
+        }
+        catch (UnsupportedOperationException e) {
+            System.out.println("Didn't work lol");
+        }
+        catch (InputMismatchException e) {
+            System.out.println("\n Invalid input.");
+        }
+
+
     }
 }

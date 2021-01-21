@@ -20,4 +20,12 @@ public class Container extends Furniture {
     public void setContainerInventory(List<Item> containerInventory) {
         this.containerInventory = containerInventory;
     }
+
+    public void addToInventory(Item item) {
+        this.containerInventory.add(item);
+    }
+
+    public void removeFromInventory(Item item) {
+        this.containerInventory.remove(item);
+    }
 }

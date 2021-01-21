@@ -4,14 +4,28 @@ import dev.tesch.Furniture.Container;
 import dev.tesch.Furniture.Containers;
 import dev.tesch.Furniture.Furniture;
 import dev.tesch.Furniture.Furnitures;
+import dev.tesch.Items.*;
+import dev.tesch.NPCs.NPC;
+import dev.tesch.NPCs.NPCs;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Rooms {
 
-    Map<Integer, Furniture> furnitures = new Furnitures().furnituresMap;
-    Map<Integer, Container> containers = new Containers().containersMap;
+    // Different item maps
+    Map<Integer, Item>          items       = new Items().itemsMap;
+    Map<Integer, Armor>         armors      = new Armors().armorMap;
+    Map<Integer, Weapon>        weapons     = new Weapons().weaponMap;
+    Map<Integer, Consumable>    consumables = new Consumables().consumablesMap;
+
+    // Different NPC maps
+    Map<Integer, NPC>           npcs        = new NPCs().npcMap;
+
+    // Different furniture maps
+    Map<Integer, Furniture>     furnitures  = new Furnitures().furnituresMap;
+    Map<Integer, Container>     containers  = new Containers().containersMap;
+
     // HashMap the rooms are stored in
     public Map<Integer, Room> roomsMap = new HashMap<>();
 
@@ -24,8 +38,10 @@ public class Rooms {
                 "Sean's bedroom",
                 true,
                 3,
+                items.get(3),
                 true,
                 1,
+                npcs.get(1),
                 true,
                 3,
                 furnitures.get(3)));
@@ -37,8 +53,10 @@ public class Rooms {
                 "Sean's bathroom",
                 true,
                 4,
+                items.get(4),
                 false,
                 -1,
+                null,
                 true,
                 1,
                 containers.get(1)));
@@ -50,8 +68,10 @@ public class Rooms {
                 "Inner hallway",
                 false,
                 -1,
+                null,
                 false,
                 -1,
+                null,
                 false,
                 -1,
                 null));
@@ -63,8 +83,10 @@ public class Rooms {
                 "Jeff's bathroom",
                 true,
                 5,
+                items.get(5),
                 false,
                 -1,
+                null,
                 false,
                 -1,
                 null));
@@ -76,8 +98,10 @@ public class Rooms {
                 "Jeff's bedroom",
                 false,
                 -1,
+                null,
                 true,
                 2,
+                npcs.get(2),
                 true,
                 4,
                 furnitures.get(4)));
@@ -89,8 +113,10 @@ public class Rooms {
                 "Outer hallway",
                 false,
                 -1,
+                null,
                 false,
                 -1,
+                null,
                 false,
                 -1,
                 null));
@@ -102,8 +128,10 @@ public class Rooms {
                 "Dining room",
                 true,
                 2,
+                items.get(2),
                 false,
                 -1,
+                null,
                 true,
                 2,
                 furnitures.get(2)));
@@ -115,8 +143,10 @@ public class Rooms {
                 "Kitchen",
                 true,
                 1,
+                items.get(1),
                 false,
                 -1,
+                null,
                 false,
                 -1,
                 null));
@@ -128,8 +158,10 @@ public class Rooms {
                 "Living room",
                 false,
                 -1,
+                null,
                 false,
                 -1,
+                null,
                 true,
                 1,
                 furnitures.get(1)));
@@ -141,8 +173,10 @@ public class Rooms {
                 "Porch",
                 false,
                 -1,
+                null,
                 true,
                 3,
+                npcs.get(3),
                 false,
                 -1,
                 null));

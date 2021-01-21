@@ -3,12 +3,11 @@ package dev.tesch.Items;
 // Placeholder for adding items to the game later
 public class Item {
 
-    public Item(String n, String d, String uMessage, int iIndex, int rL, boolean cPickup, boolean cUse, boolean cC, boolean iA, boolean iW) {
+    public Item(String n, String d, String uMessage, int iIndex, boolean cPickup, boolean cUse, boolean cC, boolean iA, boolean iW) {
         setName(n);
         setDescription(d);
         setUseMessage(uMessage);
         setItemIndex(iIndex);
-        setRoomLocation(rL);
         setCanPickup(cPickup);
         setCanUse(cUse);
         setCanCraft(cC);
@@ -20,7 +19,6 @@ public class Item {
     private String description;
     private String useMessage;
     private int itemIndex;
-    private int roomLocation;
     private boolean canPickup;
     private boolean canUse;
     private boolean canCraft;
@@ -57,14 +55,6 @@ public class Item {
 
     public void setItemIndex(int itemIndex) {
         this.itemIndex = itemIndex;
-    }
-
-    public int getRoomLocation() {
-        return roomLocation;
-    }
-
-    public void setRoomLocation(Integer roomLocation) {
-        this.roomLocation = roomLocation;
     }
 
     public boolean getCanPickup() {

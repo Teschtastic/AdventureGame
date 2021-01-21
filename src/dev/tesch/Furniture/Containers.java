@@ -1,10 +1,10 @@
 package dev.tesch.Furniture;
 
-import dev.tesch.Items.Item;
-import dev.tesch.Items.Items;
+import dev.tesch.Items.*;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 public class Containers {
@@ -12,6 +12,9 @@ public class Containers {
 
     public Containers() {
         Map<Integer, Item> items = new Items().itemsMap;
+        //Map<Integer, Consumable> consumables = new Consumables().consumablesMap;
+        Map<Integer, Armor> armors = new Armors().armorMap;
+        Map<Integer, Weapon> weapons = new Weapons().weaponMap;
 
         containersMap.put(1, new Container(
                 "Chest",
@@ -20,7 +23,7 @@ public class Containers {
                 1,
                 2,
                 true,
-                Arrays.asList(new Item[]{items.get(1)})
+                new LinkedList<>(Arrays.asList(items.get(1), items.get(2), armors.get(1), weapons.get(1)))
         ));
     }
 }

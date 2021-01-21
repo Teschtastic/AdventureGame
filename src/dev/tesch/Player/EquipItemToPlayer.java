@@ -11,7 +11,7 @@ public class EquipItemToPlayer {
         switch (armor.getName()) {
 
             case "Cardboard Armor":
-                usedCardboardArmor(player, armor);
+                equipCardboardArmor(player, armor);
                 break;
 
             default:
@@ -23,7 +23,7 @@ public class EquipItemToPlayer {
         switch (weapon.getName()) {
 
             case "Stabby Thingies":
-                useStabbyThingies(player, weapon);
+                equipStabbyThingies(player, weapon);
                 break;
 
             default:
@@ -31,22 +31,24 @@ public class EquipItemToPlayer {
         }
     }
 
-    private static void usedCardboardArmor(Player player, Armor armor) {
+    private static void equipCardboardArmor(Player player, Armor armor) {
         List<Item> inventory = player.getInventory();
 
         System.out.println(armor.getUseMessage());
         System.out.println("\nYour armor class increased by " + armor.getArmorClass() + ".");
         player.setEquippedArmor(armor);
+        player.setHasEquippedArmor(true);
         player.setArmorClass(player.getArmorClass() + armor.getArmorClass());
         inventory.remove(armor);
     }
 
-    private static void useStabbyThingies(Player player, Weapon weapon) {
+    private static void equipStabbyThingies(Player player, Weapon weapon) {
         List<Item> inventory = player.getInventory();
 
         System.out.println(weapon.getUseMessage());
         System.out.println("\nYour attack damage increased by " + weapon.getAttackDamage() + ".");
         player.setEquippedWeapon(weapon);
+        player.setHasEquippedWeapon(true);
         player.setAttackDamage(player.getAttackDamage() + weapon.getAttackDamage());
         inventory.remove(weapon);
     }

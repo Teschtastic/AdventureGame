@@ -57,9 +57,9 @@ public class PlayerActions {
             if (useChoice == 0)
                 ItemActions.useInventoryItem(player);
             else if (useChoice == 1)
-                RoomActions.useItemInRoom(player, userRooms, userItems);
+                RoomActions.useItemInRoom(player);
             else if (useChoice == 2)
-                FurnitureActions.useFurniture(player, userRooms, userNPCs, userItems, userArmors, userWeapons, userFurnitures, userContainers);
+                FurnitureActions.useFurniture(player, userRooms, userItems, userArmors, userWeapons);
             else
                 System.out.println("\nInvalid choice.");
         } catch (InputMismatchException e) {

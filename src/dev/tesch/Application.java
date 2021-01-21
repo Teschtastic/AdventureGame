@@ -13,7 +13,7 @@ import dev.tesch.Player.Player;
 import dev.tesch.Rooms.Room;
 import dev.tesch.Rooms.Rooms;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +22,16 @@ public class Application {
     public static void main(String[] args) {
 
         // Player object
-        Player player = new Player("Sean", 50, 100, 0, 10, new ArrayList<>(), 1);
+        Player player = new Player(
+                "Sean",
+                50,
+                100,
+                0,
+                10,
+                new LinkedList<>(),
+                1,
+                false,
+                false);
 
         // Actions object and HashMap
         Map<Integer, List<String>> userActions = new Actions().actionsMap;

@@ -2,8 +2,8 @@ package dev.tesch.Items;
 
 public class Armor extends Item {
 
-    public Armor(String n, String d, String uMessage, int aIndex, int rL, boolean cPickup, boolean cUse, boolean cC, boolean iA, boolean iW, int aC) {
-        super(n, d, uMessage, aIndex, rL, cPickup, cUse, cC, iA, iW);
+    public Armor(String n, String d, String uMessage, int aIndex, boolean cPickup, boolean cUse, boolean cC, boolean iA, boolean iW, int aC) {
+        super(n, d, uMessage, aIndex, cPickup, cUse, cC, iA, iW);
         setArmorClass(aC);
     }
 

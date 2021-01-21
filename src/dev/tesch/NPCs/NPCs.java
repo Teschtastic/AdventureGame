@@ -1,9 +1,18 @@
 package dev.tesch.NPCs;
 
+import dev.tesch.Items.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class NPCs {
+
+    // Different item maps
+    Map<Integer, Item>          items       = new Items().itemsMap;
+    Map<Integer, Armor>         armors      = new Armors().armorMap;
+    Map<Integer, Weapon>        weapons     = new Weapons().weaponMap;
+    Map<Integer, Consumable>    consumables = new Consumables().consumablesMap;
+
     // HashMap the NPCs are stored in
     public Map<Integer, NPC> npcMap = new HashMap<>();
 
@@ -14,9 +23,9 @@ public class NPCs {
                 1,
                 100,
                 true,
-                1,
                 false,
-                -1));
+                -1,
+                null));
 
         npcMap.put(2, new NPC(
                 "Jeff",
@@ -24,9 +33,9 @@ public class NPCs {
                 2,
                 100,
                 true,
-                5,
                 false,
-                -1));
+                -1,
+                null));
 
         npcMap.put(3, new NPC(
                 "Michaela",
@@ -34,8 +43,8 @@ public class NPCs {
                 3,
                 100,
                 true,
-                10,
                 false,
-                -1));
+                -1,
+                null));
     }
 }
