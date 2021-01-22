@@ -19,6 +19,7 @@ public class RoomActions {
     }
 
     /* Method used to change rooms */
+    // TODO: Redo this stinky method, maybe need to edit the room class
     public static void move(Player player, Map<Integer, Room> userRooms) {
         String[] directions = {"N", "E", "S", "W"};
         String moveDirection = player.getChoice().toUpperCase();

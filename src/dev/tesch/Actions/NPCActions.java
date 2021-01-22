@@ -12,6 +12,8 @@ import java.util.Scanner;
 
 public class NPCActions {
 
+    /* Method used to talk to the NPC in the room */
+    // TODO: Potentially make a dialogue tree for each NPC
     public static void talkToNPC(Player player) {
         Room room = player.getRoomIsIn();
         NPC npc = room.getNpcInRoom();
@@ -93,8 +95,7 @@ public class NPCActions {
 
     /* Method use to take an item from an NPC */
     public static void takeItem(Player player) {
-        Room room = player.getRoomIsIn();
-        NPC npc = room.getNpcInRoom();
+        NPC npc = player.getRoomIsIn().getNpcInRoom();
         Item item;
 
         // If there isn't an item in the NPCs inventory, nothing to take

@@ -15,22 +15,19 @@ import java.util.*;
 
 public class UsedFurnitureOnPlayer {
 
-    public static void useFurniture(
-            Player player,
-            Furniture furniture,
-            Room room) {
-
+    public static void useFurniture(Player player) {
+        Furniture furniture = player.getRoomIsIn().getFurnitureInRoom();
         switch (furniture.getName()) {
             case "Camping chair":
                 usedCampingChair(player);
                 break;
 
             case "Sean's Bed":
-                usedSeansBed(player, room);
+                usedSeansBed(player);
                 break;
 
             case "Jeff's Bed":
-                usedJeffsBed(player, room);
+                usedJeffsBed(player);
                 break;
 
             case "Crafting Table":
@@ -51,8 +48,9 @@ public class UsedFurnitureOnPlayer {
         player.setCurrentHealth(player.getMaximumHealth());
     }
 
-    private static void usedSeansBed(Player player, Room room) {
+    private static void usedSeansBed(Player player) {
         NPC npc;
+        Room room = player.getRoomIsIn();
 
         if (room.isHasNPC()) {
             npc = room.getNpcInRoom();
@@ -72,8 +70,9 @@ public class UsedFurnitureOnPlayer {
         }
     }
 
-    private static void usedJeffsBed(Player player, Room room) {
+    private static void usedJeffsBed(Player player) {
         NPC npc;
+        Room room = player.getRoomIsIn();
 
         if (room.isHasNPC()) {
             npc = room.getNpcInRoom();

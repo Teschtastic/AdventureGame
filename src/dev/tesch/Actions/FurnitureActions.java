@@ -13,17 +13,14 @@ import java.util.Map;
 public class FurnitureActions {
 
     /* Method used to use a furniture */
-    public static void useFurniture(
-            Player player) {
+    public static void useFurniture(Player player) {
 
-        Room room = player.getRoomIsIn();
-
-        if (room.isHasFurniture()) {
-            Furniture furniture = room.getFurnitureInRoom();
+        if (player.getRoomIsIn().isHasFurniture()) {
+            Furniture furniture = player.getRoomIsIn().getFurnitureInRoom();
 
             if (furniture.isCanUse()) {
                 System.out.println(furniture.getUseMessage());
-                UsedFurnitureOnPlayer.useFurniture(player, furniture, room);
+                UsedFurnitureOnPlayer.useFurniture(player);
             } else
                 System.out.println("\nYou can't use this furniture");
         }

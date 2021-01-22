@@ -18,8 +18,7 @@ import static dev.tesch.Actions.Actions.*;
 
 public class ActionsParser {
 
-    public static void gameLoop(
-            Player player, Map<Integer, List<String>> userActions, Map<Integer, Room> userRooms) {
+    public static void gameLoop(Player player, Map<Integer, List<String>> userActions, Map<Integer, Room> userRooms) {
 
         player.setRoomIsIn(userRooms.get(player.getRoomIsInIndex()));   // Sets player room object based on the initial index
         Scanner playerAction = new Scanner(System.in);                  // Scanner for player choices
