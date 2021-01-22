@@ -1,20 +1,37 @@
 package dev.tesch.Player;
 
+import dev.tesch.Crafting.Recipe;
+import dev.tesch.Items.Armor;
 import dev.tesch.Items.Item;
+import dev.tesch.Items.Weapon;
+import dev.tesch.Rooms.Room;
 
 import java.util.List;
 
 public class Player {
 
     // Constructing the player object
-    public Player(String n, int cH, int mH, int aC, int aDamage, List<Item> inv, int rIsIn) {
+    public Player(String n,
+                  int cH,
+                  int mH,
+                  int aC,
+                  int aDamage,
+                  List<Item> inv,
+                  int rIIIndex,
+                  boolean hEA,
+                  boolean hEW,
+                  List<Recipe> r) {
+
         setName(n);
         setCurrentHealth(cH);
         setMaximumHealth(mH);
         setArmorClass(aC);
         setAttackDamage(aDamage);
         setInventory(inv);
-        setRoomIsIn(rIsIn);
+        setRoomIsInIndex(rIIIndex);
+        setHasEquippedArmor(hEA);
+        setHasEquippedWeapon(hEW);
+        setKnownRecipes(r);
     }
 
     private String name;            // Player name
@@ -23,9 +40,13 @@ public class Player {
     private int armorClass;         // Player armor
     private int attackDamage;       // Player attack damage
     private List<Item> inventory;   // Player inventory
-    private int roomIsIn;
-    private Item equippedArmor;
-    private Item equippedWeapon;
+    private int roomIsInIndex;
+    private Room roomIsIn;
+    private Armor equippedArmor;
+    private boolean hasEquippedArmor;
+    private Weapon equippedWeapon;
+    private boolean hasEquippedWeapon;
+    private List<Recipe> knownRecipes;
     private String choice;
 
     /* Getters and setters */
@@ -81,11 +102,19 @@ public class Player {
         this.inventory.add(item);
     }
 
-    public int getRoomIsIn() {
+    public int getRoomIsInIndex() {
+        return roomIsInIndex;
+    }
+
+    public void setRoomIsInIndex(int roomIsInIndex) {
+        this.roomIsInIndex = roomIsInIndex;
+    }
+
+    public Room getRoomIsIn() {
         return roomIsIn;
     }
 
-    public void setRoomIsIn(int roomIsIn) {
+    public void setRoomIsIn(Room roomIsIn) {
         this.roomIsIn = roomIsIn;
     }
 
@@ -97,12 +126,20 @@ public class Player {
         this.choice = choice;
     }
 
-    public Item getEquippedArmor() {
+    public Armor getEquippedArmor() {
         return equippedArmor;
     }
 
-    public void setEquippedArmor(Item equippedArmor) {
+    public void setEquippedArmor(Armor equippedArmor) {
         this.equippedArmor = equippedArmor;
+    }
+
+    public boolean isHasEquippedArmor() {
+        return hasEquippedArmor;
+    }
+
+    public void setHasEquippedArmor(boolean hasEquippedArmor) {
+        this.hasEquippedArmor = hasEquippedArmor;
     }
 
     public String printArmor() {
@@ -112,12 +149,28 @@ public class Player {
             return getEquippedArmor().getName();
     }
 
-    public Item getEquippedWeapon() {
+    public Weapon getEquippedWeapon() {
         return equippedWeapon;
     }
 
-    public void setEquippedWeapon(Item equippedWeapon) {
+    public void setEquippedWeapon(Weapon equippedWeapon) {
         this.equippedWeapon = equippedWeapon;
+    }
+
+    public boolean isHasEquippedWeapon() {
+        return hasEquippedWeapon;
+    }
+
+    public void setHasEquippedWeapon(boolean hasEquippedWeapon) {
+        this.hasEquippedWeapon = hasEquippedWeapon;
+    }
+
+    public List<Recipe> getKnownRecipes() {
+        return knownRecipes;
+    }
+
+    public void setKnownRecipes(List<Recipe> knownRecipes) {
+        this.knownRecipes = knownRecipes;
     }
 
     public String printWeapon() {
@@ -130,12 +183,12 @@ public class Player {
     @Override
     public String toString() {
         return  "\nPlayer Description:\n\n" +
-                "name="                     + getName()          + "\n" +
-                "currentHealth="            + getCurrentHealth() + "\n" +
-                "maximumHealth="            + getMaximumHealth() + "\n" +
-                "armorClass="               + getArmorClass()    + "\n" +
-                "attackDamage="             + getAttackDamage()  + "\n" +
-                "equippedArmor="            + printArmor()       + "\n" +
-                "equippedWeapon="           + printWeapon();
+                "Name:            " + getName()          + "\n" +
+                "Current health:  " + getCurrentHealth() + "\n" +
+                "Maximum health:  " + getMaximumHealth() + "\n" +
+                "Armor class:     " + getArmorClass()    + "\n" +
+                "Attack damage:   " + getAttackDamage()  + "\n" +
+                "Equipped armor:  " + printArmor()       + "\n" +
+                "Equipped weapon: " + printWeapon();
     }
 }

@@ -1,5 +1,9 @@
 package dev.tesch.Player;
 
+import dev.tesch.Actions.Actions;
+import dev.tesch.Crafting.Recipe;
+import dev.tesch.Crafting.Recipes;
+import dev.tesch.Furniture.Container;
 import dev.tesch.Furniture.Furniture;
 import dev.tesch.Items.Armor;
 import dev.tesch.Items.Item;
@@ -7,29 +11,31 @@ import dev.tesch.Items.Weapon;
 import dev.tesch.NPCs.NPC;
 import dev.tesch.Rooms.Room;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class UsedFurnitureOnPlayer {
 
-    public static void useFurniture(Player player, Furniture furniture, Map<Integer, Room> userRooms, Map<Integer, Item> userItems, Map<Integer, Armor> userArmors, Map<Integer, Weapon> userWeapons, Map<Integer, NPC> userNPCs) {
+    public static void useFurniture(Player player) {
+        Furniture furniture = player.getRoomIsIn().getFurnitureInRoom();
         switch (furniture.getName()) {
             case "Camping chair":
                 usedCampingChair(player);
                 break;
 
             case "Sean's Bed":
-                usedSeansBed(player, userRooms, userNPCs);
+                usedSeansBed(player);
                 break;
 
             case "Jeff's Bed":
-                usedJeffsBed(player, userRooms, userNPCs);
+                usedJeffsBed(player);
                 break;
 
             case "Crafting Table":
-                useCraftingTable(player, userItems, userArmors, userWeapons);
+                useCraftingTable(player);
+                break;
+
+            case "Chest":
+                useChest(player, (Container) furniture);
                 break;
 
             default:
@@ -42,15 +48,18 @@ public class UsedFurnitureOnPlayer {
         player.setCurrentHealth(player.getMaximumHealth());
     }
 
-    private static void usedSeansBed(Player player, Map<Integer, Room> userRooms, Map<Integer, NPC> userNPCs) {
-        Room room = userRooms.get(player.getRoomIsIn());
+    private static void usedSeansBed(Player player) {
         NPC npc;
+        Room room = player.getRoomIsIn();
 
         if (room.isHasNPC()) {
-            npc = userNPCs.get(room.getNpcInRoom());
+            npc = room.getNpcInRoom();
 
             if (npc.getName().equals("Claudia")) {
-                System.out.println("\nYour max health increases by 50\nand your health has been restored.");
+                System.out.println(
+                                "\nYou and Claudia snuggle <3" +
+                                "\nYour max health increases by 50" +
+                                "\nand your health has been restored.");
                 player.setMaximumHealth(player.getMaximumHealth() + 50);
                 player.setCurrentHealth(player.getMaximumHealth());
             }
@@ -61,15 +70,17 @@ public class UsedFurnitureOnPlayer {
         }
     }
 
-    private static void usedJeffsBed(Player player, Map<Integer, Room> userRooms, Map<Integer, NPC> userNPCs) {
-        Room room = userRooms.get(player.getRoomIsIn());
+    private static void usedJeffsBed(Player player) {
         NPC npc;
+        Room room = player.getRoomIsIn();
 
         if (room.isHasNPC()) {
-            npc = userNPCs.get(room.getNpcInRoom());
+            npc = room.getNpcInRoom();
 
             if (npc.getName().equals("Jeff")) {
-                System.out.println("\nJeff bites you face in your sleep.\nYou lose 25 health.");
+                System.out.println(
+                                "\nJeff bites you face in your sleep." +
+                                "\nYou lose 25 health.");
                 player.setCurrentHealth(player.getCurrentHealth() - 25);
             }
         } else {
@@ -78,35 +89,74 @@ public class UsedFurnitureOnPlayer {
         }
     }
 
-    private static void useCraftingTable(Player player, Map<Integer, Item> userItems, Map<Integer, Armor> userArmors, Map<Integer, Weapon> userWeapons) {
-        List<Item> craftingItems = new ArrayList<>();
+    private static void useCraftingTable(Player player) {
+        List<Item> craftingItems = new LinkedList<>();
         Item craftedItem;
         List<Item> inventory = player.getInventory();
+        List<Recipe> recipes = player.getKnownRecipes();
 
         if (!inventory.isEmpty()) {
-            if (inventory.contains(userItems.get(2))) {
-                craftingItems.add(0, userItems.get(2));
-                craftedItem = userArmors.get(1);
+            if (recipes.get(0).canCraft(inventory)) {
+                Recipe recipe = recipes.get(0);
 
-                System.out.println(craftingItems.get(0).getUseMessage());
-                inventory.remove(craftingItems.get(0));
+                craftingItems.addAll(recipe.getInputItems());
+                craftedItem = recipe.getOutputItem();
+
+                for (Item it: craftingItems) {
+                    System.out.println(it.getUseMessage());
+                }
+
+                inventory.removeAll(craftingItems);
                 inventory.add(craftedItem);
+                craftingItems.removeAll(recipe.getInputItems());
             }
-            if (inventory.containsAll(Arrays.asList(userItems.get(4), userItems.get(5)))) {
-                craftingItems.add(0, userItems.get(4));
-                craftingItems.add(1, userItems.get(5));
-                craftedItem = userWeapons.get(1);
+            if (recipes.get(1).canCraft(inventory)) {
+                Recipe recipe = recipes.get(1);
+                craftingItems.addAll(recipe.getInputItems());
+                craftedItem = recipe.getOutputItem();
 
-                System.out.println(craftingItems.get(0).getUseMessage());
-                System.out.println(craftingItems.get(1).getUseMessage());
+                for (Item it: craftingItems) {
+                    System.out.println(it.getUseMessage());
+                }
 
-                inventory.remove(craftingItems.get(0));
-                inventory.remove(craftingItems.get(1));
+                inventory.removeAll(craftingItems);
                 inventory.add(craftedItem);
+                craftingItems.removeAll(recipe.getInputItems());
             }
         }
         else {
             System.out.println("\nYou have nothing to craft with.");
         }
+    }
+
+    private static void useChest(Player player, Container container) {
+        System.out.println("What would you like to take: \n");
+        Scanner take = new Scanner(System.in);
+        List<Item> containerInventory = container.getContainerInventory();
+        int i = 0;
+        int itemIndex = -1;
+        Item item;
+        for (Item it: containerInventory) {
+            System.out.println(i++ + " " + it.getName());
+        }
+        Actions.typeChoice();
+
+        try {
+            if (take.hasNext())
+                itemIndex = take.nextInt();
+            else
+                take.close();
+
+            item = containerInventory.get(itemIndex);
+
+            System.out.println("\nYou take the " + item.getName());
+            player.addToInventory(item);
+            container.removeFromInventory(item);
+        }
+        catch (InputMismatchException e) {
+            System.out.println("\nInvalid input.");
+        }
+
+
     }
 }

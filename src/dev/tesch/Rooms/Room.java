@@ -1,10 +1,28 @@
 package dev.tesch.Rooms;
 
+import dev.tesch.Furniture.Furniture;
+import dev.tesch.Items.Item;
+import dev.tesch.NPCs.NPC;
+
 // Class for the structure of each room
 public class Room {
 
     // Constructing the room object
-    public Room(int index, int[] moves, int[] connections, String name, boolean hasItem, int iIR, boolean hNPC, int npcInR, boolean hF, int fIR) {
+    public Room(
+            int index,
+            int[] moves,
+            int[] connections,
+            String name,
+            boolean hasItem,
+            int iIRI,
+            Item iIR,
+            boolean hNPC,
+            int npcIRI,
+            NPC npcIR,
+            boolean hF,
+            int fIRI,
+            Furniture fIR) {
+
         setName(name);
         setStartMessage(name, moves);
         setInMessage(name);
@@ -14,28 +32,34 @@ public class Room {
         setMoves(moves);
         setConnectedRooms(connections);
         setHasItem(hasItem);
+        setItemInRoomIndex(iIRI);
         setItemInRoom(iIR);
         setHasNPC(hNPC);
-        setNpcInRoom(npcInR);
+        setNpcInRoomIndex(npcIRI);
+        setNpcInRoom(npcIR);
         setHasFurniture(hF);
+        setFurnitureInRoomIndex(fIRI);
         setFurnitureInRoom(fIR);
     }
 
     // Vars for room data
-    private String name;            // Room name
-    private String startMessage;    // Message used for if you start in that room
-    private String enterMessage;    // Message for when you enter a room
-    private String leaveMessage;    // Message for when you leave a room
-    private String inMessage;       // Message for when you're already in a room
-    private int roomIndex;          // Int value for which room you're in
-    private int[] moves;            // Directions [N, E, S, W] that are essentially exits
-    private int[] connectedRooms;   // Stores either the rooms Key index if it's connected, or else -1
-    private boolean hasItem;        // Flag for if there is an item in the room
-    private int itemInRoom;         // Int used to show which item is in the room
-    private boolean hasNPC;         // Flag for if there is an NPC in the room
-    private int npcInRoom;          // Int to tell which NPC is in the room
-    private boolean hasFurniture;   // Flag for if there is furniture in the room
-    private int furnitureInRoom;    // Int to tell which furniture is in the room
+    private String name;                // Room name
+    private String startMessage;        // Message used for if you start in that room
+    private String enterMessage;        // Message for when you enter a room
+    private String leaveMessage;        // Message for when you leave a room
+    private String inMessage;           // Message for when you're already in a room
+    private int roomIndex;              // Int value for which room you're in
+    private int[] moves;                // Directions [N, E, S, W] that are essentially exits
+    private int[] connectedRooms;       // Stores either the rooms Key index if it's connected, or else -1
+    private boolean hasItem;            // Flag for if there is an item in the room
+    private int itemInRoomIndex;        // Int used to show which item is in the room
+    private Item itemInRoom;
+    private boolean hasNPC;             // Flag for if there is an NPC in the room
+    private int npcInRoomIndex;         // Int to tell which NPC is in the room
+    private NPC npcInRoom;              // NPC object in room
+    private boolean hasFurniture;       // Flag for if there is furniture in the room
+    private int furnitureInRoomIndex;   // Int to tell which furniture is in the room
+    private Furniture furnitureInRoom;  // Furniture object in room
 
     // Getters and Setters
     public String getName() {
@@ -126,11 +150,19 @@ public class Room {
         this.hasItem = hasItem;
     }
 
-    public int getItemInRoom() {
+    public int getItemInRoomIndex() {
+        return itemInRoomIndex;
+    }
+
+    public void setItemInRoomIndex(int itemInRoomIndex) {
+        this.itemInRoomIndex = itemInRoomIndex;
+    }
+
+    public Item getItemInRoom() {
         return itemInRoom;
     }
 
-    public void setItemInRoom(int itemInRoom) {
+    public void setItemInRoom(Item itemInRoom) {
         this.itemInRoom = itemInRoom;
     }
 
@@ -142,11 +174,19 @@ public class Room {
         this.hasNPC = hasNPC;
     }
 
-    public int getNpcInRoom() {
+    public int getNpcInRoomIndex() {
+        return npcInRoomIndex;
+    }
+
+    public void setNpcInRoomIndex(int npcInRoomIndex) {
+        this.npcInRoomIndex = npcInRoomIndex;
+    }
+
+    public NPC getNpcInRoom() {
         return npcInRoom;
     }
 
-    public void setNpcInRoom(int npcInRoom) {
+    public void setNpcInRoom(NPC npcInRoom) {
         this.npcInRoom = npcInRoom;
     }
 
@@ -158,11 +198,19 @@ public class Room {
         this.hasFurniture = hasFurniture;
     }
 
-    public int getFurnitureInRoom() {
+    public int getFurnitureInRoomIndex() {
+        return furnitureInRoomIndex;
+    }
+
+    public void setFurnitureInRoomIndex(int furnitureInRoomIndex) {
+        this.furnitureInRoomIndex = furnitureInRoomIndex;
+    }
+
+    public Furniture getFurnitureInRoom() {
         return furnitureInRoom;
     }
 
-    public void setFurnitureInRoom(int furnitureInRoom) {
+    public void setFurnitureInRoom(Furniture furnitureInRoom) {
         this.furnitureInRoom = furnitureInRoom;
     }
 }

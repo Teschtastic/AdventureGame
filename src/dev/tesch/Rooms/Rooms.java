@@ -1,9 +1,30 @@
 package dev.tesch.Rooms;
 
+import dev.tesch.Furniture.Container;
+import dev.tesch.Furniture.Containers;
+import dev.tesch.Furniture.Furniture;
+import dev.tesch.Furniture.Furnitures;
+import dev.tesch.Items.*;
+import dev.tesch.NPCs.NPC;
+import dev.tesch.NPCs.NPCs;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class Rooms {
+
+    // Different item maps
+    Map<Integer, Item>          items       = new Items().itemsMap;
+    Map<Integer, Armor>         armors      = new Armors().armorMap;
+    Map<Integer, Weapon>        weapons     = new Weapons().weaponMap;
+    Map<Integer, Consumable>    consumables = new Consumables().consumablesMap;
+
+    // Different NPC maps
+    Map<Integer, NPC>           npcs        = new NPCs().npcMap;
+
+    // Different furniture maps
+    Map<Integer, Furniture>     furnitures  = new Furnitures().furnituresMap;
+    Map<Integer, Container>     containers  = new Containers().containersMap;
 
     // HashMap the rooms are stored in
     public Map<Integer, Room> roomsMap = new HashMap<>();
@@ -17,10 +38,13 @@ public class Rooms {
                 "Sean's bedroom",
                 true,
                 3,
+                items.get(3),
                 true,
                 1,
+                npcs.get(1),
                 true,
-                3));
+                3,
+                furnitures.get(3)));
 
         roomsMap.put(2, new Room(
                 2,
@@ -29,10 +53,13 @@ public class Rooms {
                 "Sean's bathroom",
                 true,
                 4,
+                items.get(4),
                 false,
                 -1,
-                false,
-                -1));
+                null,
+                true,
+                1,
+                containers.get(1)));
 
         roomsMap.put(3, new Room(
                 3,
@@ -41,10 +68,13 @@ public class Rooms {
                 "Inner hallway",
                 false,
                 -1,
+                null,
                 false,
                 -1,
+                null,
                 false,
-                -1));
+                -1,
+                null));
 
         roomsMap.put(4, new Room(
                 4,
@@ -53,10 +83,13 @@ public class Rooms {
                 "Jeff's bathroom",
                 true,
                 5,
+                items.get(5),
                 false,
                 -1,
+                null,
                 false,
-                -1));
+                -1,
+                null));
 
         roomsMap.put(5, new Room(
                 5,
@@ -65,10 +98,13 @@ public class Rooms {
                 "Jeff's bedroom",
                 false,
                 -1,
+                null,
                 true,
                 2,
+                npcs.get(2),
                 true,
-                4));
+                4,
+                furnitures.get(4)));
 
         roomsMap.put(6, new Room(
                 6,
@@ -77,10 +113,13 @@ public class Rooms {
                 "Outer hallway",
                 false,
                 -1,
+                null,
                 false,
                 -1,
+                null,
                 false,
-                -1));
+                -1,
+                null));
 
         roomsMap.put(7, new Room(
                 7,
@@ -89,10 +128,13 @@ public class Rooms {
                 "Dining room",
                 true,
                 2,
+                items.get(2),
                 false,
                 -1,
+                null,
                 true,
-                2));
+                2,
+                furnitures.get(2)));
 
         roomsMap.put(8, new Room(
                 8,
@@ -101,10 +143,13 @@ public class Rooms {
                 "Kitchen",
                 true,
                 1,
+                items.get(1),
                 false,
                 -1,
+                null,
                 false,
-                -1));
+                -1,
+                null));
 
         roomsMap.put(9, new Room(
                 9,
@@ -113,10 +158,13 @@ public class Rooms {
                 "Living room",
                 false,
                 -1,
+                null,
                 false,
                 -1,
+                null,
                 true,
-                1));
+                1,
+                furnitures.get(1)));
 
         roomsMap.put(10, new Room(
                 10,
@@ -125,9 +173,12 @@ public class Rooms {
                 "Porch",
                 false,
                 -1,
+                null,
                 true,
                 3,
+                npcs.get(3),
                 false,
-                -1));
+                -1,
+                null));
     }
 }

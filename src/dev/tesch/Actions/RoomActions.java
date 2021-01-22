@@ -12,19 +12,18 @@ import java.util.Map;
 public class RoomActions {
 
     /* Method to display which room you're in */
-    public static void printLocation(Player player, Map<Integer, Room> userRooms) {
-        Room room = userRooms.get(player.getRoomIsIn());
-
+    public static void printLocation(Player player) {
+        Room room = player.getRoomIsIn();
         room.getInMessage();
         System.out.println(room.getMoves(room.getMoveIndices()));
-
     }
 
     /* Method used to change rooms */
+    // TODO: Redo this stinky method, maybe need to edit the room class
     public static void move(Player player, Map<Integer, Room> userRooms) {
         String[] directions = {"N", "E", "S", "W"};
         String moveDirection = player.getChoice().toUpperCase();
-        Room currentRoom = userRooms.get(player.getRoomIsIn());
+        Room currentRoom = player.getRoomIsIn();
         int[] currentRoomMoves = currentRoom.getMoveIndices();
         int[] connectedRooms = currentRoom.getConnectedRooms();
 
@@ -35,7 +34,8 @@ public class RoomActions {
                 System.out.println("\nYou went " + moveDirection + "\n");
                 currentRoom.getLeaveMessage();
                 userRooms.get(connectedRooms[i]).getEnterMessage();
-                player.setRoomIsIn(connectedRooms[i]);
+                player.setRoomIsInIndex(connectedRooms[i]);
+                player.setRoomIsIn(userRooms.get(connectedRooms[i]));
                 return;
             }
         }
@@ -45,36 +45,36 @@ public class RoomActions {
     }
 
     /* Method used to look in the room you're in */
-    public static void lookAround(Player player, Map<Integer, NPC> userNpcs, Map<Integer, Room> userRooms, Map<Integer, Item> userItems, Map<Integer, Furniture> userFurnitures) {
-        Room room = userRooms.get(player.getRoomIsIn());
+    public static void lookAround(Player player) {
+        Room room = player.getRoomIsIn();
 
         room.getInMessage();
 
-        if (!room.isHasNPC()) {
-            System.out.println("\nYou don't see any people.");
-        } else {
-            NPC npc = userNpcs.get(room.getNpcInRoom());
-            System.out.println("\nYou see " + npc.getName());
+        if (!room.isHasItem())
+            System.out.println("\nYou don't see any items.");
+        else {
+            Item item = room.getItemInRoom();
+            System.out.println("\nYou see the " + item.getName());
         }
 
-        if (!room.isHasItem())
-            System.out.println("You don't see any items.");
-        else {
-            Item item = userItems.get(room.getItemInRoom());
-            System.out.println("You see the " + item.getName());
+        if (!room.isHasNPC()) {
+            System.out.println("You don't see any people.");
+        } else {
+            NPC npc = room.getNpcInRoom();
+            System.out.println("You see " + npc.getName());
         }
 
         if (!room.isHasFurniture())
             System.out.println("You don't see any furniture.");
         else {
-            Furniture furniture = userFurnitures.get(room.getFurnitureInRoom());
+            Furniture furniture = room.getFurnitureInRoom();
             System.out.println("You see the " + furniture.getName());
         }
     }
 
-    public static void useItemInRoom(Player player, Map<Integer, Room> userRooms, Map<Integer, Item> userItems) {
-        Room room = userRooms.get(player.getRoomIsIn());
-        Item item = userItems.get(room.getItemInRoom());
+    public static void useItemInRoom(Player player) {
+        Room room = player.getRoomIsIn();
+        Item item = room.getItemInRoom();
 
         if (room.isHasItem() && item.isCanUse()) {
             System.out.println(item.getUseMessage());

@@ -1,5 +1,6 @@
 package dev.tesch.Actions;
 
+import dev.tesch.Furniture.Container;
 import dev.tesch.Furniture.Furniture;
 import dev.tesch.Items.Armor;
 import dev.tesch.Items.Item;
@@ -40,7 +41,7 @@ public class PlayerActions {
     }
 
     /* Method used to use something, whether it's an item or furniture */
-    public static void useSomething(Player player, Map<Integer, Room> userRooms, Map<Integer, Item> userItems, Map<Integer, Armor> userArmors, Map<Integer, Weapon> userWeapons, Map<Integer, NPC> userNPCs, Map<Integer, Furniture> userFurnitures) {
+    public static void useSomething(Player player) {
         Scanner useIn = new Scanner(System.in);
         int useChoice = -1;
 
@@ -56,9 +57,9 @@ public class PlayerActions {
             if (useChoice == 0)
                 ItemActions.useInventoryItem(player);
             else if (useChoice == 1)
-                RoomActions.useItemInRoom(player, userRooms, userItems);
+                RoomActions.useItemInRoom(player);
             else if (useChoice == 2)
-                FurnitureActions.useFurniture(player, userRooms, userNPCs, userItems, userArmors, userWeapons, userFurnitures);
+                FurnitureActions.useFurniture(player);
             else
                 System.out.println("\nInvalid choice.");
         } catch (InputMismatchException e) {

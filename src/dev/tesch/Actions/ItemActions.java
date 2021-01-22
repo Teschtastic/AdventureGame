@@ -5,6 +5,7 @@ import dev.tesch.Items.Item;
 import dev.tesch.Items.Weapon;
 import dev.tesch.Player.EquipItemToPlayer;
 import dev.tesch.Player.Player;
+import dev.tesch.Player.UnEquipItemFromPlayer;
 import dev.tesch.Player.UsedItemOnPlayer;
 import dev.tesch.Rooms.Room;
 
@@ -13,22 +14,21 @@ import java.util.*;
 public class ItemActions {
 
     /* Method used for attempting to pickup an item */
-    public static void pickupItem(Player player, Map<Integer, Room> userRooms, Map<Integer, Item> userItems) {
-        Room room = userRooms.get(player.getRoomIsIn());
+    public static void pickupItem(Player player) {
+        Room room = player.getRoomIsIn();
 
         // If there isn't an item in the room, nothing to pickup
         if (!room.isHasItem())
             System.out.println("\nThere is no item to pickup.");
             // This means there is something in the room
         else {
-            Item item = userItems.get(room.getItemInRoom());
+            Item item = room.getItemInRoom();
             // The item is able to be picked up, so remove it from the room and remove the room tag for the item
             // then add the item to the players inventory
             if (item.getCanPickup()) {
                 System.out.println("\nYou pickup the " + item.getName());
-                room.setItemInRoom(-1);
+                room.setItemInRoomIndex(-1);
                 room.setHasItem(false);
-                item.setRoomLocation(-1);
                 player.addToInventory(item);
             }
             // Otherwise, the item isn't able to be picked up
@@ -38,12 +38,12 @@ public class ItemActions {
     }
 
     /* Method used to describe an item in your inventory */
-    public static void describeItem(Player player, Map<Integer, Item> userItems, Map<Integer, Room> userRooms) {
+    public static void describeItem(Player player) {
         List<Item> itemsToDescribe = new ArrayList<>();
         List<Item> inventory = player.getInventory();
 
-        Room room = userRooms.get(player.getRoomIsIn());
-        Item item = userItems.get(room.getItemInRoom());
+        Room room = player.getRoomIsIn();
+        Item item = room.getItemInRoom();
 
         if (!inventory.isEmpty()) {
             itemsToDescribe.addAll(inventory);
@@ -89,9 +89,9 @@ public class ItemActions {
     }
 
     /* Method used to drop and item in your inventory */
-    public static void dropItem(Player player, Map<Integer, Room> userRooms) {
+    public static void dropItem(Player player) {
         List<Item> inventory = player.getInventory();
-        Room room = userRooms.get(player.getRoomIsIn());
+        Room room = player.getRoomIsIn();
         Item item;
 
         // Nothing in inventory to drop
@@ -107,8 +107,8 @@ public class ItemActions {
             System.out.println("\nYou drop your " + item.getName());
 
             room.setHasItem(true);
-            item.setRoomLocation(player.getRoomIsIn());
-            room.setItemInRoom(item.getItemIndex());
+            room.setItemInRoomIndex(item.getItemIndex());
+            room.setItemInRoom(item);
             inventory.remove(0);
         }
         // Multiple items in inventory, choose which one to drop
@@ -134,8 +134,8 @@ public class ItemActions {
                     item = inventory.get(itemChoice);
                     System.out.println("\nYou drop your " + item.getName());
                     room.setHasItem(true);
-                    item.setRoomLocation(player.getRoomIsIn());
-                    room.setItemInRoom(item.getItemIndex());
+                    room.setItemInRoomIndex(item.getItemIndex());
+                    room.setItemInRoom(item);
                     inventory.remove(itemChoice);
                 } else
                     System.out.println("\nInvalid choice.");
@@ -265,6 +265,35 @@ public class ItemActions {
 
         } catch (InputMismatchException e) {
             System.out.println("\nInvalid input.");
+        }
+    }
+
+    public static void unEquipItem(Player player) {
+        if (!player.isHasEquippedArmor() && !player.isHasEquippedWeapon()) {
+            System.out.println("\nYou don't have anything equipped.");
+        } else {
+            Scanner unequipChoose = new Scanner(System.in);
+            int unequipChoice = -1;
+            System.out.println("\nWhat would you like to un equip?");
+            System.out.println("\n0 - Armor\n1 - Weapon");
+            Actions.typeChoice();
+
+            if (unequipChoose.hasNextInt())
+                unequipChoice = unequipChoose.nextInt();
+            else
+                unequipChoose.close();
+
+            if (unequipChoice == 0 && player.isHasEquippedArmor()) {
+                Armor armor = player.getEquippedArmor();
+                UnEquipItemFromPlayer.unEquipArmor(player, armor);
+            } else if (unequipChoice == 0 && !player.isHasEquippedArmor()){
+                System.out.println("\nYou don't have equipped armor.");
+            } else if (unequipChoice == 1 && player.isHasEquippedWeapon()) {
+                Weapon weapon = player.getEquippedWeapon();
+                UnEquipItemFromPlayer.unEquipWeapon(player, weapon);
+            } else {
+                System.out.println("\nYou don't have an equipped weapon.");
+            }
         }
     }
 }

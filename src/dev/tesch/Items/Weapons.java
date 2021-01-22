@@ -15,7 +15,6 @@ public class Weapons {
                 "Pointy and sharp.",
                 "\nOne pointy \'brush\' for each hand",
                 1,
-                -1,
                 false,
                 false,
                 true,

@@ -1,16 +1,20 @@
 package dev.tesch.NPCs;
 
+import dev.tesch.Items.*;
+
+import java.util.Map;
+
 // Placeholder for adding NPCs to the game
 public class NPC {
 
-    public NPC(String n, String m, int npcI, int h, boolean isF, int rIsIn, boolean hasI, int iInInv) {
+    public NPC(String n, String m, int npcI, int h, boolean isF, boolean hasI, int iInInvInd, Item iInInv) {
         setName(n);
         setMessage(m);
         setNpcIndex(npcI);
         setHealth(h);
         setFriendly(isF);
-        setRoomIsIn(rIsIn);
         setHasItem(hasI);
+        setItemInInventoryIndex(iInInvInd);
         setItemInInventory(iInInv);
     }
 
@@ -19,9 +23,9 @@ public class NPC {
     private int npcIndex;
     private int health;
     private boolean isFriendly;
-    private int roomIsIn;
     private boolean hasItem;
-    private int itemInInventory;
+    private int itemInInventoryIndex;
+    private Item itemInInventory;
 
     public String getName() {
         return name;
@@ -63,14 +67,6 @@ public class NPC {
         isFriendly = friendly;
     }
 
-    public int getRoomIsIn() {
-        return roomIsIn;
-    }
-
-    public void setRoomIsIn(int roomIsIn) {
-        this.roomIsIn = roomIsIn;
-    }
-
     public boolean isHasItem() {
         return hasItem;
     }
@@ -79,11 +75,19 @@ public class NPC {
         this.hasItem = hasItem;
     }
 
-    public int getItemInInventory() {
+    public int getItemInInventoryIndex() {
+        return itemInInventoryIndex;
+    }
+
+    public void setItemInInventoryIndex(int itemInInventoryIndex) {
+        this.itemInInventoryIndex = itemInInventoryIndex;
+    }
+
+    public Item getItemInInventory() {
         return itemInInventory;
     }
 
-    public void setItemInInventory(int itemInInventory) {
+    public void setItemInInventory(Item itemInInventory) {
         this.itemInInventory = itemInInventory;
     }
 }
