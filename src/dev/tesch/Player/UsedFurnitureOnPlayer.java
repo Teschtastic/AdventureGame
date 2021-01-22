@@ -1,6 +1,8 @@
 package dev.tesch.Player;
 
 import dev.tesch.Actions.Actions;
+import dev.tesch.Crafting.Recipe;
+import dev.tesch.Crafting.Recipes;
 import dev.tesch.Furniture.Container;
 import dev.tesch.Furniture.Furniture;
 import dev.tesch.Items.Armor;
@@ -16,10 +18,7 @@ public class UsedFurnitureOnPlayer {
     public static void useFurniture(
             Player player,
             Furniture furniture,
-            Room room,
-            Map<Integer, Item> userItems,
-            Map<Integer, Armor> userArmors,
-            Map<Integer, Weapon> userWeapons) {
+            Room room) {
 
         switch (furniture.getName()) {
             case "Camping chair":
@@ -35,7 +34,7 @@ public class UsedFurnitureOnPlayer {
                 break;
 
             case "Crafting Table":
-                useCraftingTable(player, userItems, userArmors, userWeapons);
+                useCraftingTable(player);
                 break;
 
             case "Chest":
@@ -59,7 +58,10 @@ public class UsedFurnitureOnPlayer {
             npc = room.getNpcInRoom();
 
             if (npc.getName().equals("Claudia")) {
-                System.out.println("\nYour max health increases by 50\nand your health has been restored.");
+                System.out.println(
+                                "\nYou and Claudia snuggle <3" +
+                                "\nYour max health increases by 50" +
+                                "\nand your health has been restored.");
                 player.setMaximumHealth(player.getMaximumHealth() + 50);
                 player.setCurrentHealth(player.getMaximumHealth());
             }
@@ -77,7 +79,9 @@ public class UsedFurnitureOnPlayer {
             npc = room.getNpcInRoom();
 
             if (npc.getName().equals("Jeff")) {
-                System.out.println("\nJeff bites you face in your sleep.\nYou lose 25 health.");
+                System.out.println(
+                                "\nJeff bites you face in your sleep." +
+                                "\nYou lose 25 health.");
                 player.setCurrentHealth(player.getCurrentHealth() - 25);
             }
         } else {
@@ -86,33 +90,39 @@ public class UsedFurnitureOnPlayer {
         }
     }
 
-    // TODO: Make a recipe object or something to reduce the method signature and limit the use of all the maps throughout the program
-    // FIXME: The crafting system has broken, need to look into this
-    private static void useCraftingTable(Player player, Map<Integer, Item> userItems, Map<Integer, Armor> userArmors, Map<Integer, Weapon> userWeapons) {
+    private static void useCraftingTable(Player player) {
         List<Item> craftingItems = new LinkedList<>();
         Item craftedItem;
         List<Item> inventory = player.getInventory();
+        List<Recipe> recipes = player.getKnownRecipes();
 
         if (!inventory.isEmpty()) {
-            if (inventory.contains(userItems.get(2))) {
-                craftingItems.add(0, userItems.get(2));
-                craftedItem = userArmors.get(1);
+            if (recipes.get(0).canCraft(inventory)) {
+                Recipe recipe = recipes.get(0);
 
-                System.out.println(craftingItems.get(0).getUseMessage());
-                inventory.remove(craftingItems.get(0));
+                craftingItems.addAll(recipe.getInputItems());
+                craftedItem = recipe.getOutputItem();
+
+                for (Item it: craftingItems) {
+                    System.out.println(it.getUseMessage());
+                }
+
+                inventory.removeAll(craftingItems);
                 inventory.add(craftedItem);
+                craftingItems.removeAll(recipe.getInputItems());
             }
-            if (inventory.containsAll(Arrays.asList(userItems.get(4), userItems.get(5)))) {
-                craftingItems.add(0, userItems.get(4));
-                craftingItems.add(1, userItems.get(5));
-                craftedItem = userWeapons.get(1);
+            if (recipes.get(1).canCraft(inventory)) {
+                Recipe recipe = recipes.get(1);
+                craftingItems.addAll(recipe.getInputItems());
+                craftedItem = recipe.getOutputItem();
 
-                System.out.println(craftingItems.get(0).getUseMessage());
-                System.out.println(craftingItems.get(1).getUseMessage());
+                for (Item it: craftingItems) {
+                    System.out.println(it.getUseMessage());
+                }
 
-                inventory.remove(craftingItems.get(0));
-                inventory.remove(craftingItems.get(1));
+                inventory.removeAll(craftingItems);
                 inventory.add(craftedItem);
+                craftingItems.removeAll(recipe.getInputItems());
             }
         }
         else {
@@ -144,11 +154,8 @@ public class UsedFurnitureOnPlayer {
             player.addToInventory(item);
             container.removeFromInventory(item);
         }
-        catch (UnsupportedOperationException e) {
-            System.out.println("Didn't work lol");
-        }
         catch (InputMismatchException e) {
-            System.out.println("\n Invalid input.");
+            System.out.println("\nInvalid input.");
         }
 
 

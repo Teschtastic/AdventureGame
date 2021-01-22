@@ -8,30 +8,6 @@ import java.util.List;
 
 public class UnEquipItemFromPlayer {
     public static void unEquipArmor(Player player, Armor armor) {
-        switch (armor.getName()) {
-
-            case "Cardboard Armor":
-                unEquipCardboardArmor(player, armor);
-                break;
-
-            default:
-                System.out.println("\nThis doesn't seem to be\nable to be unequipped");
-        }
-    }
-
-    public static void unEquipWeapon(Player player, Weapon weapon) {
-        switch (weapon.getName()) {
-
-            case "Stabby Thingies":
-                unEquipStabbyThingies(player, weapon);
-                break;
-
-            default:
-                System.out.println("\nThis doesn't seem to be\nable to be unequipped");
-        }
-    }
-
-    private static void unEquipCardboardArmor(Player player, Armor armor) {
         List<Item> inventory = player.getInventory();
 
         System.out.println("\nYou un equip your " + armor.getName());
@@ -42,7 +18,7 @@ public class UnEquipItemFromPlayer {
         inventory.add(armor);
     }
 
-    private static void unEquipStabbyThingies(Player player, Weapon weapon) {
+    public static void unEquipWeapon(Player player, Weapon weapon) {
         List<Item> inventory = player.getInventory();
 
         System.out.println("\nYou un equip your " + weapon.getName());

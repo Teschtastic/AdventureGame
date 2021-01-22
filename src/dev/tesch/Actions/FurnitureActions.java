@@ -14,20 +14,16 @@ public class FurnitureActions {
 
     /* Method used to use a furniture */
     public static void useFurniture(
-            Player player,
-            Map<Integer, Room> userRooms,
-            Map<Integer, Item> userItems,
-            Map<Integer, Armor> userArmors,
-            Map<Integer, Weapon> userWeapons) {
+            Player player) {
 
-        Room room = userRooms.get(player.getRoomIsInIndex());
+        Room room = player.getRoomIsIn();
 
         if (room.isHasFurniture()) {
             Furniture furniture = room.getFurnitureInRoom();
 
             if (furniture.isCanUse()) {
                 System.out.println(furniture.getUseMessage());
-                UsedFurnitureOnPlayer.useFurniture(player, furniture, room, userItems, userArmors, userWeapons);
+                UsedFurnitureOnPlayer.useFurniture(player, furniture, room);
             } else
                 System.out.println("\nYou can't use this furniture");
         }

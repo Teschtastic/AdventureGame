@@ -41,7 +41,7 @@ public class PlayerActions {
     }
 
     /* Method used to use something, whether it's an item or furniture */
-    public static void useSomething(Player player, Map<Integer, Room> userRooms, Map<Integer, Item> userItems, Map<Integer, Armor> userArmors, Map<Integer, Weapon> userWeapons, Map<Integer, NPC> userNPCs, Map<Integer, Furniture> userFurnitures, Map<Integer, Container> userContainers) {
+    public static void useSomething(Player player) {
         Scanner useIn = new Scanner(System.in);
         int useChoice = -1;
 
@@ -59,7 +59,7 @@ public class PlayerActions {
             else if (useChoice == 1)
                 RoomActions.useItemInRoom(player);
             else if (useChoice == 2)
-                FurnitureActions.useFurniture(player, userRooms, userItems, userArmors, userWeapons);
+                FurnitureActions.useFurniture(player);
             else
                 System.out.println("\nInvalid choice.");
         } catch (InputMismatchException e) {

@@ -1,5 +1,6 @@
 package dev.tesch.Player;
 
+import dev.tesch.Crafting.Recipe;
 import dev.tesch.Items.Armor;
 import dev.tesch.Items.Item;
 import dev.tesch.Items.Weapon;
@@ -10,7 +11,17 @@ import java.util.List;
 public class Player {
 
     // Constructing the player object
-    public Player(String n, int cH, int mH, int aC, int aDamage, List<Item> inv, int rIIIndex, boolean hEA, boolean hEW) {
+    public Player(String n,
+                  int cH,
+                  int mH,
+                  int aC,
+                  int aDamage,
+                  List<Item> inv,
+                  int rIIIndex,
+                  boolean hEA,
+                  boolean hEW,
+                  List<Recipe> r) {
+
         setName(n);
         setCurrentHealth(cH);
         setMaximumHealth(mH);
@@ -20,6 +31,7 @@ public class Player {
         setRoomIsInIndex(rIIIndex);
         setHasEquippedArmor(hEA);
         setHasEquippedWeapon(hEW);
+        setKnownRecipes(r);
     }
 
     private String name;            // Player name
@@ -34,6 +46,7 @@ public class Player {
     private boolean hasEquippedArmor;
     private Weapon equippedWeapon;
     private boolean hasEquippedWeapon;
+    private List<Recipe> knownRecipes;
     private String choice;
 
     /* Getters and setters */
@@ -150,6 +163,14 @@ public class Player {
 
     public void setHasEquippedWeapon(boolean hasEquippedWeapon) {
         this.hasEquippedWeapon = hasEquippedWeapon;
+    }
+
+    public List<Recipe> getKnownRecipes() {
+        return knownRecipes;
+    }
+
+    public void setKnownRecipes(List<Recipe> knownRecipes) {
+        this.knownRecipes = knownRecipes;
     }
 
     public String printWeapon() {

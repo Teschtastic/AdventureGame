@@ -96,4 +96,12 @@ public class Item {
     public void setWeapon(boolean weapon) {
         isWeapon = weapon;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        final Item item = (Item) obj;
+        if (item.getName().equals(this.name) && item.getItemIndex() == this.itemIndex)
+            return true;
+        return false;
+    }
 }

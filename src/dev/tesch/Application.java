@@ -2,6 +2,8 @@ package dev.tesch;
 
 import dev.tesch.Actions.Actions;
 import dev.tesch.Actions.ActionsParser;
+import dev.tesch.Crafting.Recipe;
+import dev.tesch.Crafting.Recipes;
 import dev.tesch.Furniture.Container;
 import dev.tesch.Furniture.Containers;
 import dev.tesch.Furniture.Furniture;
@@ -21,6 +23,15 @@ public class Application {
 
     public static void main(String[] args) {
 
+        // Actions object and HashMap
+        Map<Integer, List<String>> userActions = new Actions().actionsMap;
+
+        // Rooms object and HashMap
+        Map<Integer, Room> userRooms = new Rooms().roomsMap;
+
+        // Recipes object and LinkedList
+       List<Recipe> recipesList = new Recipes().recipesList;
+
         // Player object
         Player player = new Player(
                 "Sean",
@@ -31,46 +42,10 @@ public class Application {
                 new LinkedList<>(),
                 1,
                 false,
-                false);
-
-        // Actions object and HashMap
-        Map<Integer, List<String>> userActions = new Actions().actionsMap;
-
-        // NPCs object
-        Map<Integer, NPC> userNpcs = new NPCs().npcMap;
-
-        // Rooms object and HashMap
-        Map<Integer, Room> userRooms = new Rooms().roomsMap;
-
-        // Items object and HashMap
-        Map<Integer, Item> userItems = new Items().itemsMap;
-
-        // Consumables object and HashMap
-        Map<Integer, Consumable> userConsumables = new Consumables().consumablesMap;
-
-        // Armors object and HashMap
-        Map<Integer, Armor> userArmors = new Armors().armorMap;
-
-        // Weapons object and HashMap
-        Map<Integer, Weapon> userWeapons = new Weapons().weaponMap;
-
-        // Furnitures object and HashMap
-        Map<Integer, Furniture> userFurnitures = new Furnitures().furnituresMap;
-
-        // Containers object and HashMap
-        Map<Integer, Container> userContainers = new Containers().containersMap;
+                false,
+                recipesList);
 
         // Running the main game loop
-        ActionsParser.gameLoop(
-                player,
-                userActions,
-                userNpcs,
-                userRooms,
-                userItems,
-                userConsumables,
-                userArmors,
-                userWeapons,
-                userFurnitures,
-                userContainers);
+        ActionsParser.gameLoop(player, userActions, userRooms);
     }
 }

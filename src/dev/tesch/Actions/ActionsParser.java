@@ -19,16 +19,7 @@ import static dev.tesch.Actions.Actions.*;
 public class ActionsParser {
 
     public static void gameLoop(
-            Player player,
-            Map<Integer, List<String>> userActions,
-            Map<Integer, NPC> userNPCs,
-            Map<Integer, Room> userRooms,
-            Map<Integer, Item> userItems,
-            Map<Integer, Consumable> userConsumables,
-            Map<Integer, Armor> userArmors,
-            Map<Integer, Weapon> userWeapons,
-            Map<Integer, Furniture> userFurnitures,
-            Map<Integer, Container> userContainers) {
+            Player player, Map<Integer, List<String>> userActions, Map<Integer, Room> userRooms) {
 
         player.setRoomIsIn(userRooms.get(player.getRoomIsInIndex()));   // Sets player room object based on the initial index
         Scanner playerAction = new Scanner(System.in);                  // Scanner for player choices
@@ -91,15 +82,7 @@ public class ActionsParser {
                     break;
 
                 case 9:
-                    PlayerActions.useSomething(
-                            player,
-                            userRooms,
-                            userItems,
-                            userArmors,
-                            userWeapons,
-                            userNPCs,
-                            userFurnitures,
-                            userContainers);                                        // Uses something that can be used
+                    PlayerActions.useSomething(player);                              // Uses something that can be used
                     break;
 
                 case 10:

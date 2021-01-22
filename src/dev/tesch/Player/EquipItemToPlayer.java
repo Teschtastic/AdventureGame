@@ -8,30 +8,6 @@ import java.util.List;
 
 public class EquipItemToPlayer {
     public static void equipArmor(Player player, Armor armor) {
-        switch (armor.getName()) {
-
-            case "Cardboard Armor":
-                equipCardboardArmor(player, armor);
-                break;
-
-            default:
-                System.out.println("\nThis doesn't seem to be\nable to be equipped");
-        }
-    }
-
-    public static void equipWeapon(Player player, Weapon weapon) {
-        switch (weapon.getName()) {
-
-            case "Stabby Thingies":
-                equipStabbyThingies(player, weapon);
-                break;
-
-            default:
-                System.out.println("\nThis doesn't seem to be\nable to be equipped");
-        }
-    }
-
-    private static void equipCardboardArmor(Player player, Armor armor) {
         List<Item> inventory = player.getInventory();
 
         System.out.println(armor.getUseMessage());
@@ -42,7 +18,7 @@ public class EquipItemToPlayer {
         inventory.remove(armor);
     }
 
-    private static void equipStabbyThingies(Player player, Weapon weapon) {
+    public static void equipWeapon(Player player, Weapon weapon) {
         List<Item> inventory = player.getInventory();
 
         System.out.println(weapon.getUseMessage());
