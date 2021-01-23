@@ -20,8 +20,6 @@ public class Containers {
                 "Chest",
                 "A run of the mill chest.",
                 "\nYou open the chest to see what's inside.",
-                1,
-                2,
                 true,
                 new LinkedList<>(Arrays.asList(items.get(1), items.get(2), armors.get(1), weapons.get(1)))
         ));

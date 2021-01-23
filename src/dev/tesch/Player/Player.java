@@ -5,10 +5,16 @@ import dev.tesch.Items.Armor;
 import dev.tesch.Items.Item;
 import dev.tesch.Items.Weapon;
 import dev.tesch.Rooms.Room;
+import dev.tesch.Rooms.Rooms;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Player {
+
+    // HashMap the rooms are stored in
+    public Map<Integer, Room> rooms = new Rooms().roomsMap;
 
     // Constructing the player object
     public Player(String n,
@@ -17,10 +23,10 @@ public class Player {
                   int aC,
                   int aDamage,
                   List<Item> inv,
-                  int rIIIndex,
                   boolean hEA,
                   boolean hEW,
-                  List<Recipe> r) {
+                  List<Recipe> r,
+                  int room) {
 
         setName(n);
         setCurrentHealth(cH);
@@ -28,10 +34,10 @@ public class Player {
         setArmorClass(aC);
         setAttackDamage(aDamage);
         setInventory(inv);
-        setRoomIsInIndex(rIIIndex);
         setHasEquippedArmor(hEA);
         setHasEquippedWeapon(hEW);
         setKnownRecipes(r);
+        setRoomIsIn(rooms.get(room));
     }
 
     private String name;            // Player name
@@ -40,7 +46,6 @@ public class Player {
     private int armorClass;         // Player armor
     private int attackDamage;       // Player attack damage
     private List<Item> inventory;   // Player inventory
-    private int roomIsInIndex;
     private Room roomIsIn;
     private Armor equippedArmor;
     private boolean hasEquippedArmor;
@@ -100,14 +105,6 @@ public class Player {
 
     public void addToInventory(Item item) {
         this.inventory.add(item);
-    }
-
-    public int getRoomIsInIndex() {
-        return roomIsInIndex;
-    }
-
-    public void setRoomIsInIndex(int roomIsInIndex) {
-        this.roomIsInIndex = roomIsInIndex;
     }
 
     public Room getRoomIsIn() {

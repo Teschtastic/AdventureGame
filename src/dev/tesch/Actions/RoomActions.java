@@ -34,7 +34,6 @@ public class RoomActions {
                 System.out.println("\nYou went " + moveDirection + "\n");
                 currentRoom.getLeaveMessage();
                 userRooms.get(connectedRooms[i]).getEnterMessage();
-                player.setRoomIsInIndex(connectedRooms[i]);
                 player.setRoomIsIn(userRooms.get(connectedRooms[i]));
                 return;
             }

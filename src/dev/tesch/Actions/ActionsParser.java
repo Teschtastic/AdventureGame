@@ -1,12 +1,5 @@
 package dev.tesch.Actions;
 
-import dev.tesch.Furniture.Container;
-import dev.tesch.Furniture.Furniture;
-import dev.tesch.Items.Armor;
-import dev.tesch.Items.Consumable;
-import dev.tesch.Items.Item;
-import dev.tesch.Items.Weapon;
-import dev.tesch.NPCs.NPC;
 import dev.tesch.Player.Player;
 import dev.tesch.Rooms.Room;
 
@@ -20,7 +13,6 @@ public class ActionsParser {
 
     public static void gameLoop(Player player, Map<Integer, List<String>> userActions, Map<Integer, Room> userRooms) {
 
-        player.setRoomIsIn(userRooms.get(player.getRoomIsInIndex()));   // Sets player room object based on the initial index
         Scanner playerAction = new Scanner(System.in);                  // Scanner for player choices
         Actions.welcome();                                              // Welcome message
         player.getRoomIsIn().getStartMessage();                         // Tells you which room you're in
@@ -73,7 +65,7 @@ public class ActionsParser {
                     break;
 
                 case 7:
-                    ItemActions.describeItem(player);                               // Describes an item in your inventory
+                    PlayerActions.describeSomething(player);                               // Describes an item in your inventory
                     break;
 
                 case 8:
@@ -105,7 +97,7 @@ public class ActionsParser {
                     break;
 
                 case 15:
-                    ItemActions.unEquipItem(player);                                // Unequips an item from player
+                    ItemActions.unEquipItem(player);                                // Un equips an item from player
                     break;
 
                 case 0:

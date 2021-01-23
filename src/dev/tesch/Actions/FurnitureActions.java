@@ -1,14 +1,8 @@
 package dev.tesch.Actions;
 
 import dev.tesch.Furniture.Furniture;
-import dev.tesch.Items.Armor;
-import dev.tesch.Items.Item;
-import dev.tesch.Items.Weapon;
 import dev.tesch.Player.Player;
 import dev.tesch.Player.UsedFurnitureOnPlayer;
-import dev.tesch.Rooms.Room;
-
-import java.util.Map;
 
 public class FurnitureActions {
 
@@ -26,6 +20,20 @@ public class FurnitureActions {
         }
         else {
             System.out.println("\nThere isn't furniture in this room");
+        }
+    }
+
+    /* Method used to describe a furniture */
+    public static void describeFurniture(Player player) {
+
+        try {
+            Furniture furniture = player.getRoomIsIn().getFurnitureInRoom();
+
+            System.out.println("\nYou inspect the " + furniture.getName() +
+                    "\n\nYou describe it as:\n" + furniture.getDescription());
+        }
+        catch (NullPointerException e) {
+            System.out.println("\nThere isn't any furniture in this room.");
         }
     }
 }

@@ -27,8 +27,8 @@ public class ItemActions {
             // then add the item to the players inventory
             if (item.getCanPickup()) {
                 System.out.println("\nYou pickup the " + item.getName());
-                room.setItemInRoomIndex(-1);
                 room.setHasItem(false);
+                room.setItemInRoom(null);
                 player.addToInventory(item);
             }
             // Otherwise, the item isn't able to be picked up
@@ -42,8 +42,7 @@ public class ItemActions {
         List<Item> itemsToDescribe = new ArrayList<>();
         List<Item> inventory = player.getInventory();
 
-        Room room = player.getRoomIsIn();
-        Item item = room.getItemInRoom();
+        Item item = player.getRoomIsIn().getItemInRoom();
 
         if (!inventory.isEmpty()) {
             itemsToDescribe.addAll(inventory);
@@ -92,180 +91,47 @@ public class ItemActions {
     public static void dropItem(Player player) {
         List<Item> inventory = player.getInventory();
         Room room = player.getRoomIsIn();
-        Item item;
+        Item item = PlayerActions.takeItemFromInventory(player);
 
-        // Nothing in inventory to drop
-        if (inventory.isEmpty())
-            System.out.println("\nThere is nothing in your inventory to drop.");
-            // If there is an item in the room already
-        else if (room.isHasItem() && inventory.size() > 0)
-            System.out.println("\nYou cannot drop the item.\nThe room already has an item in it.");
-            // Only one item in your inventory to drop
-        else if (inventory.size() == 1) {
-            item = inventory.get(0);
+        System.out.println("\nYou drop your " + item.getName());
 
-            System.out.println("\nYou drop your " + item.getName());
-
-            room.setHasItem(true);
-            room.setItemInRoomIndex(item.getItemIndex());
-            room.setItemInRoom(item);
-            inventory.remove(0);
-        }
-        // Multiple items in inventory, choose which one to drop
-        else {
-            int i = 0;
-            int size = inventory.size() - 1;
-            Scanner itemDesc = new Scanner(System.in);
-            int itemChoice = -1;
-
-            System.out.println("\nYour inventory contains:");
-            for (Item it : inventory)
-                System.out.println(i++ + " " + it.getName());
-
-            Actions.typeChoice();
-
-            try {
-                if (itemDesc.hasNextInt())
-                    itemChoice = itemDesc.nextInt();
-                else
-                    itemDesc.close();
-
-                if (itemChoice >= 0 && itemChoice <= size) {
-                    item = inventory.get(itemChoice);
-                    System.out.println("\nYou drop your " + item.getName());
-                    room.setHasItem(true);
-                    room.setItemInRoomIndex(item.getItemIndex());
-                    room.setItemInRoom(item);
-                    inventory.remove(itemChoice);
-                } else
-                    System.out.println("\nInvalid choice.");
-            }
-            catch (InputMismatchException e) {
-                System.out.println("\n Invalid input.");
-            }
-        }
+        room.setHasItem(true);
+        room.setItemInRoom(item);
+        inventory.remove(0);
     }
 
     /* Method used to use an item in either your inventory or in the world */
     public static void useInventoryItem(Player player) {
-        Item item;
-        List<Item> inventory = player.getInventory();
+        Item item = PlayerActions.takeItemFromInventory(player);
 
-        // Only one item in your inventory to use
-        if (inventory.size() == 1) {
-            item = player.getInventory().get(0);
-
+        try {
             // If the item has the can use flag, use it and remove
             // it from the player's inventory
-            if (player.getInventory().get(0).isCanUse()) {
+            if (item.isCanUse()) {
                 System.out.println(item.getUseMessage());
                 UsedItemOnPlayer.useItem(player, item);
-            }
-            else
+            } else
                 System.out.println("\nYou can't use " + item.getName());
         }
-        // Multiple items in inventory, choose which one to use
-        else if (inventory.size() > 1) {
-            int i = 0;
-            int size = inventory.size() - 1;
-            Scanner itemDesc = new Scanner(System.in);
-            int itemChoice = -1;
+        catch (NullPointerException e) {
 
-            // Prints the inventory for the user
-            System.out.println("\nYou have multiple items\nin your inventory to use.\n\nYour inventory contains:");
-            for (Item it : inventory)
-                System.out.println(i++ + " - " + it.getName());
-
-            Actions.typeChoice();
-
-            try {
-                if (itemDesc.hasNextInt())
-                    itemChoice = itemDesc.nextInt();
-                else
-                    itemDesc.close();
-
-                if (itemChoice >= 0 && itemChoice <= size) {
-                    item = inventory.get(itemChoice);
-
-                    if (inventory.get(itemChoice).isCanUse()) {
-                        System.out.println(item.getUseMessage());
-                        UsedItemOnPlayer.useItem(player, item);
-                    } else
-                        System.out.println("\nYou can't use " + item.getName());
-                } else
-                    System.out.println("\nInvalid item.");
-
-            } catch (InputMismatchException e) {
-                System.out.println("\nInvalid input.");
-            }
         }
-        else
-            System.out.println("\nYour inventory is empty.");
     }
 
     public static void equipItem(Player player) {
-        Item item;
-        List<Item> inventory = player.getInventory();
+        Item item = PlayerActions.takeItemFromInventory(player);
 
-        try {
-
-            // Only one item in your inventory to use
-            if (inventory.size() == 1) {
-                item = player.getInventory().get(0);
-
-                // If the item is a weapon or armor class, use it and remove
-                // it from the player's inventory
-                if (item.getClass() == Armor.class) {
-                    EquipItemToPlayer.equipArmor(player, (Armor) item);
-                }
-                else if (item.getClass() == Weapon.class) {
-                    EquipItemToPlayer.equipWeapon(player, (Weapon) item);
-                }
-                else
-                    System.out.println("\nYou can't equip " + item.getName());
-            }
-            // Multiple items in inventory, choose which one to use
-            else if (inventory.size() > 1) {
-                int i = 0;
-                int size = inventory.size() - 1;
-                Scanner itemDesc = new Scanner(System.in);
-                int itemChoice = -1;
-
-                // Prints the inventory for the user
-                System.out.println("\nYou have multiple items\nin your inventory to equip.\n\nYour inventory contains:");
-                for (Item it : inventory)
-                    System.out.println(i++ + " - " + it.getName());
-
-                Actions.typeChoice();
-
-                try {
-                    if (itemDesc.hasNextInt())
-                        itemChoice = itemDesc.nextInt();
-                    else
-                        itemDesc.close();
-
-                    if (itemChoice >= 0 && itemChoice <= size) {
-                        item = inventory.get(itemChoice);
-
-                        if (item.getClass() == Armor.class) {
-                            EquipItemToPlayer.equipArmor(player, (Armor) item);
-                        } else if (item.getClass() == Weapon.class) {
-                            EquipItemToPlayer.equipWeapon(player, (Weapon) item);
-                        } else
-                            System.out.println("\nYou can't equip " + item.getName());
-                    } else
-                        System.out.println("\nInvalid item.");
-
-                } catch (InputMismatchException e) {
-                    System.out.println("\nInvalid input.");
-                }
-            }
-            else
-                System.out.println("\nYour inventory is empty.");
-
-        } catch (InputMismatchException e) {
-            System.out.println("\nInvalid input.");
+        // If the item is a weapon or armor class, use it and remove
+        // it from the player's inventory
+        if (item.getClass() == Armor.class) {
+            EquipItemToPlayer.equipArmor(player, (Armor) item);
         }
+        else if (item.getClass() == Weapon.class) {
+            EquipItemToPlayer.equipWeapon(player, (Weapon) item);
+        }
+        else
+            System.out.println("\nYou can't equip " + item.getName());
+
     }
 
     public static void unEquipItem(Player player) {

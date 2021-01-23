@@ -1,11 +1,6 @@
 package dev.tesch.Actions;
 
-import dev.tesch.Furniture.Container;
-import dev.tesch.Furniture.Furniture;
-import dev.tesch.Items.Armor;
 import dev.tesch.Items.Item;
-import dev.tesch.Items.Weapon;
-import dev.tesch.NPCs.NPC;
 import dev.tesch.Player.Player;
 import dev.tesch.Rooms.Room;
 
@@ -65,5 +60,74 @@ public class PlayerActions {
         } catch (InputMismatchException e) {
             System.out.println("\nInvalid input.");
         }
+    }
+
+    /* Method used to use something, whether it's an item or furniture */
+    public static void describeSomething(Player player) {
+        Scanner useIn = new Scanner(System.in);
+        int describeChoice = -1;
+
+        System.out.print("\nWhat would you like to describe?\n\n0 - Item\n1 - Furniture in room\n");
+        Actions.typeChoice();
+
+        try {
+            if (useIn.hasNextInt())
+                describeChoice = useIn.nextInt();
+            else
+                useIn.close();
+
+            if (describeChoice == 0)
+                ItemActions.describeItem(player);
+            else if (describeChoice == 1)
+                FurnitureActions.describeFurniture(player);
+            else
+                System.out.println("\nInvalid choice.");
+        } catch (InputMismatchException e) {
+            System.out.println("\nInvalid input.");
+        }
+    }
+
+    /* Method used to access inventory and return an item from it */
+    public static Item takeItemFromInventory(Player player) {
+        List<Item> inventory = player.getInventory();
+        Item item;
+
+        // Nothing in inventory to drop
+        if (inventory.isEmpty())
+            System.out.println("\nThere is nothing in your inventory.");
+        else if (inventory.size() == 1) {
+            item = inventory.get(0);
+            return item;
+        }
+        // Multiple items in inventory, choose which one to drop
+        else {
+            int i = 0;
+            int size = inventory.size() - 1;
+            Scanner itemDesc = new Scanner(System.in);
+            int itemChoice = -1;
+
+            System.out.println("\nYour inventory contains:");
+            for (Item it : inventory)
+                System.out.println(i++ + " " + it.getName());
+
+            Actions.typeChoice();
+
+            try {
+                if (itemDesc.hasNextInt())
+                    itemChoice = itemDesc.nextInt();
+                else
+                    itemDesc.close();
+
+                if (itemChoice >= 0 && itemChoice <= size) {
+                    item = inventory.get(itemChoice);
+                    return item;
+                } else
+                    System.out.println("\nInvalid choice.");
+            }
+            catch (InputMismatchException e) {
+                System.out.println("\n Invalid input.");
+            }
+        }
+        return null;
     }
 }

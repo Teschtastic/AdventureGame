@@ -4,13 +4,6 @@ import dev.tesch.Actions.Actions;
 import dev.tesch.Actions.ActionsParser;
 import dev.tesch.Crafting.Recipe;
 import dev.tesch.Crafting.Recipes;
-import dev.tesch.Furniture.Container;
-import dev.tesch.Furniture.Containers;
-import dev.tesch.Furniture.Furniture;
-import dev.tesch.Furniture.Furnitures;
-import dev.tesch.Items.*;
-import dev.tesch.NPCs.NPC;
-import dev.tesch.NPCs.NPCs;
 import dev.tesch.Player.Player;
 import dev.tesch.Rooms.Room;
 import dev.tesch.Rooms.Rooms;
@@ -30,7 +23,7 @@ public class Application {
         Map<Integer, Room> userRooms = new Rooms().roomsMap;
 
         // Recipes object and LinkedList
-       List<Recipe> recipesList = new Recipes().recipesList;
+        List<Recipe> recipesList = new Recipes().recipesList;
 
         // Player object
         Player player = new Player(
@@ -40,10 +33,10 @@ public class Application {
                 0,
                 10,
                 new LinkedList<>(),
-                1,
                 false,
                 false,
-                recipesList);
+                recipesList,
+                1);
 
         // Running the main game loop
         ActionsParser.gameLoop(player, userActions, userRooms);

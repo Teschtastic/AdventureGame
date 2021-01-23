@@ -1,13 +1,12 @@
 package dev.tesch.Player;
 
 import dev.tesch.Actions.Actions;
+import dev.tesch.Actions.ItemActions;
+import dev.tesch.Actions.PlayerActions;
 import dev.tesch.Crafting.Recipe;
-import dev.tesch.Crafting.Recipes;
 import dev.tesch.Furniture.Container;
 import dev.tesch.Furniture.Furniture;
-import dev.tesch.Items.Armor;
 import dev.tesch.Items.Item;
-import dev.tesch.Items.Weapon;
 import dev.tesch.NPCs.NPC;
 import dev.tesch.Rooms.Room;
 
@@ -79,7 +78,7 @@ public class UsedFurnitureOnPlayer {
 
             if (npc.getName().equals("Jeff")) {
                 System.out.println(
-                                "\nJeff bites you face in your sleep." +
+                                "\nJeff bites your face in your sleep." +
                                 "\nYou lose 25 health.");
                 player.setCurrentHealth(player.getCurrentHealth() - 25);
             }
@@ -95,14 +94,30 @@ public class UsedFurnitureOnPlayer {
         List<Item> inventory = player.getInventory();
         List<Recipe> recipes = player.getKnownRecipes();
 
-        if (!inventory.isEmpty()) {
-            if (recipes.get(0).canCraft(inventory)) {
-                Recipe recipe = recipes.get(0);
+        if (!inventory.isEmpty() && !recipes.isEmpty()) {
+
+            Scanner craftChoice = new Scanner(System.in);
+            int craftIndex = -1;
+            int i = 0;
+
+            System.out.println("\nWhat would you like to craft?");
+            for (Recipe r: recipes) {
+                System.out.println(i++ + " - " + r.getOutputItem().getName());
+            }
+            Actions.typeChoice();
+
+            if (craftChoice.hasNextInt())
+                craftIndex = craftChoice.nextInt();
+            else
+                craftChoice.close();
+
+            Recipe recipe = recipes.get(craftIndex);
+            if (recipe.canCraft(inventory)) {
 
                 craftingItems.addAll(recipe.getInputItems());
                 craftedItem = recipe.getOutputItem();
 
-                for (Item it: craftingItems) {
+                for (Item it : craftingItems) {
                     System.out.println(it.getUseMessage());
                 }
 
@@ -110,19 +125,8 @@ public class UsedFurnitureOnPlayer {
                 inventory.add(craftedItem);
                 craftingItems.removeAll(recipe.getInputItems());
             }
-            if (recipes.get(1).canCraft(inventory)) {
-                Recipe recipe = recipes.get(1);
-                craftingItems.addAll(recipe.getInputItems());
-                craftedItem = recipe.getOutputItem();
-
-                for (Item it: craftingItems) {
-                    System.out.println(it.getUseMessage());
-                }
-
-                inventory.removeAll(craftingItems);
-                inventory.add(craftedItem);
-                craftingItems.removeAll(recipe.getInputItems());
-            }
+            else
+                System.out.println("\nYou don't have the required materials.");
         }
         else {
             System.out.println("\nYou have nothing to craft with.");
@@ -130,33 +134,68 @@ public class UsedFurnitureOnPlayer {
     }
 
     private static void useChest(Player player, Container container) {
-        System.out.println("What would you like to take: \n");
-        Scanner take = new Scanner(System.in);
+
+        System.out.println("\nHow do you want to use the chest?");
+        System.out.println(
+                        "\n0 - View " + container.getName() + "'s inventory" +
+                        "\n1 - Take item from" +
+                        "\n2 - Put item into");
+        
         List<Item> containerInventory = container.getContainerInventory();
-        int i = 0;
-        int itemIndex = -1;
-        Item item;
-        for (Item it: containerInventory) {
-            System.out.println(i++ + " " + it.getName());
-        }
+        Scanner chestChoice = new Scanner(System.in);
+        int chestIndex = -1;
+
         Actions.typeChoice();
 
-        try {
-            if (take.hasNext())
-                itemIndex = take.nextInt();
-            else
-                take.close();
+        if (chestChoice.hasNextInt())
+            chestIndex = chestChoice.nextInt();
+        else
+            chestChoice.close();
 
-            item = containerInventory.get(itemIndex);
-
-            System.out.println("\nYou take the " + item.getName());
-            player.addToInventory(item);
-            container.removeFromInventory(item);
-        }
-        catch (InputMismatchException e) {
-            System.out.println("\nInvalid input.");
+        if (chestIndex == 0) {
+            int i = 0;
+            System.out.println("\nInside the " + container.getName() + " you see:\n");
+            for (Item it: containerInventory) {
+                System.out.println(i++ + " " + it.getName());
+            }
         }
 
+        if (chestIndex == 1) {
+            System.out.println("\nWhat would you like to take: \n");
+            Scanner take = new Scanner(System.in);
+            int i = 0;
+            int itemIndex = -1;
+            Item item;
+            for (Item it: containerInventory) {
+                System.out.println(i++ + " " + it.getName());
+            }
+            Actions.typeChoice();
 
+            try {
+                if (take.hasNext())
+                    itemIndex = take.nextInt();
+                else
+                    take.close();
+
+                item = containerInventory.get(itemIndex);
+
+                System.out.println("\nYou take the " + item.getName());
+                player.addToInventory(item);
+                container.removeFromInventory(item);
+            }
+            catch (InputMismatchException e) {
+                System.out.println("\nInvalid input.");
+            }
+        }
+        else if (chestIndex == 2) {
+            Item item  = PlayerActions.takeItemFromInventory(player);
+
+            System.out.println(
+                            "\nYou remove the " + item.getName() + " from " +
+                            "\nyour inventory and place it into the\n" + container.getName());
+
+            container.addToInventory(item);
+            player.getInventory().remove(item);
+        }
     }
 }

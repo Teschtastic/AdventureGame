@@ -12,6 +12,10 @@ public class UsedItemOnPlayer {
                 usedDrPepper(player, item);
                 break;
 
+            case "Desktop PC":
+                usedPC(player);
+                break;
+
             default:
                 System.out.println("\nThis doesn't seem to help you");
         }
@@ -23,5 +27,13 @@ public class UsedItemOnPlayer {
         System.out.println("\nYour attack damage increased by 10.");
         player.setAttackDamage(player.getAttackDamage() + 10);
         inventory.remove(item);
+    }
+
+    private static void usedPC(Player player) {
+        System.out.println(
+                "\nYou look up self defense on the internet." +
+                "\nYour armor class goes up by 10.");
+
+        player.setArmorClass(player.getArmorClass() + 10);
     }
 }

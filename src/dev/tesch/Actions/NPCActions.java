@@ -7,7 +7,6 @@ import dev.tesch.Rooms.Room;
 
 import java.util.InputMismatchException;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 public class NPCActions {
@@ -46,7 +45,6 @@ public class NPCActions {
                 // Removes item from your inventory and adds to the NPCs
                 inventory.remove(0);
                 npc.setHasItem(true);
-                npc.setItemInInventoryIndex(item.getItemIndex());
                 npc.setItemInInventory(item);
                 System.out.println("\nYou gave " + npc.getName() + " your " + item.getName());
             }
@@ -80,7 +78,6 @@ public class NPCActions {
                     else {
                         inventory.remove(itemChoice);
                         npc.setHasItem(true);
-                        npc.setItemInInventoryIndex(item.getItemIndex());
                         npc.setItemInInventory(item);
                         System.out.println("\nYou gave " + npc.getName() + " your " + item.getName());
                     }
@@ -106,7 +103,6 @@ public class NPCActions {
             // The item is able to be taken, so remove it from the NPCs inventory and add it tyo yours
 
             npc.setHasItem(false);
-            npc.setItemInInventoryIndex(-1);
             npc.setItemInInventory(null);
             player.addToInventory(item);
             System.out.println("\nYou take the " + item.getName() +

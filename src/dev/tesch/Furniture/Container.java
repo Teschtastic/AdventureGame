@@ -6,8 +6,8 @@ import java.util.List;
 
 public class Container extends Furniture {
 
-    public Container(String n, String d, String uMessage, int cIndex, int rL, boolean cUse, List<Item> cInventory) {
-        super(n, d, uMessage, cIndex, rL, cUse);
+    public Container(String n, String d, String uMessage, boolean cUse, List<Item> cInventory) {
+        super(n, d, uMessage, cUse);
         setContainerInventory(cInventory);
     }
 

@@ -20,31 +20,25 @@ public class NPCs {
         npcMap.put(1, new NPC(
                 "Claudia",
                 "Hi Seanie!",
-                1,
                 100,
                 true,
                 false,
-                -1,
                 null));
 
         npcMap.put(2, new NPC(
                 "Jeff",
                 "Hi bitch!",
-                2,
                 100,
                 true,
                 false,
-                -1,
                 null));
 
         npcMap.put(3, new NPC(
                 "Michaela",
                 "My Man!",
-                3,
                 100,
                 true,
                 false,
-                -1,
                 null));
     }
 }
