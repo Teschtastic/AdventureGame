@@ -7,7 +7,6 @@ import dev.tesch.Items.Weapon;
 import dev.tesch.Rooms.Room;
 import dev.tesch.Rooms.Rooms;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +21,8 @@ public class Player {
                   int mH,
                   int aC,
                   int aDamage,
+                  double cCW,
+                  double mCW,
                   List<Item> inv,
                   boolean hEA,
                   boolean hEW,
@@ -33,6 +34,8 @@ public class Player {
         setMaximumHealth(mH);
         setArmorClass(aC);
         setAttackDamage(aDamage);
+        setCurrentCarryWeight(cCW);
+        setMaximumCarryWeight(mCW);
         setInventory(inv);
         setHasEquippedArmor(hEA);
         setHasEquippedWeapon(hEW);
@@ -52,6 +55,8 @@ public class Player {
     private Weapon equippedWeapon;
     private boolean hasEquippedWeapon;
     private List<Recipe> knownRecipes;
+    private double currentCarryWeight;
+    private double maximumCarryWeight;
     private String choice;
 
     /* Getters and setters */
@@ -105,6 +110,26 @@ public class Player {
 
     public void addToInventory(Item item) {
         this.inventory.add(item);
+        this.currentCarryWeight += item.getItemWeight();
+    }
+
+    public void addToInventory(List<Item> items) {
+        for (Item i: items) {
+            this.inventory.add(i);
+            this.currentCarryWeight += i.getItemWeight();
+        }
+    }
+
+    public void removeFromInventory(Item item) {
+        this.inventory.remove(item);
+        this.currentCarryWeight -= item.getItemWeight();
+    }
+
+    public void removeFromInventory(List<Item> items) {
+        for (Item i: items) {
+            this.inventory.remove(i);
+            this.currentCarryWeight -= i.getItemWeight();
+        }
     }
 
     public Room getRoomIsIn() {
@@ -162,6 +187,13 @@ public class Player {
         this.hasEquippedWeapon = hasEquippedWeapon;
     }
 
+    public String printWeapon() {
+        if (getEquippedWeapon() == null)
+            return "Fists";
+        else
+            return getEquippedWeapon().getName();
+    }
+
     public List<Recipe> getKnownRecipes() {
         return knownRecipes;
     }
@@ -170,22 +202,33 @@ public class Player {
         this.knownRecipes = knownRecipes;
     }
 
-    public String printWeapon() {
-        if (getEquippedWeapon() == null)
-            return "Fists";
-        else
-            return getEquippedWeapon().getName();
+    public double getCurrentCarryWeight() {
+        return currentCarryWeight;
+    }
+
+    public void setCurrentCarryWeight(double currentCarryWeight) {
+        this.currentCarryWeight = currentCarryWeight;
+    }
+
+    public double getMaximumCarryWeight() {
+        return maximumCarryWeight;
+    }
+
+    public void setMaximumCarryWeight(double maximumCarryWeight) {
+        this.maximumCarryWeight = maximumCarryWeight;
     }
 
     @Override
     public String toString() {
         return  "\nPlayer Description:\n\n" +
-                "Name:            " + getName()          + "\n" +
-                "Current health:  " + getCurrentHealth() + "\n" +
-                "Maximum health:  " + getMaximumHealth() + "\n" +
-                "Armor class:     " + getArmorClass()    + "\n" +
-                "Attack damage:   " + getAttackDamage()  + "\n" +
-                "Equipped armor:  " + printArmor()       + "\n" +
+                "Name:            " + getName()                 + "\n" +
+                "Current health:  " + getCurrentHealth()        + "\n" +
+                "Maximum health:  " + getMaximumHealth()        + "\n" +
+                "Current weight:  " + getCurrentCarryWeight()   + "\n" +
+                "Maximum weight:  " + getMaximumCarryWeight()   + "\n" +
+                "Armor class:     " + getArmorClass()           + "\n" +
+                "Attack damage:   " + getAttackDamage()         + "\n" +
+                "Equipped armor:  " + printArmor()              + "\n" +
                 "Equipped weapon: " + printWeapon();
     }
 }

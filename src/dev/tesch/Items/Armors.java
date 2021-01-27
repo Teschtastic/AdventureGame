@@ -14,6 +14,7 @@ public class Armors {
                 "Cardboard Armor",
                 "Protects from pointy sharp things.",
                 "\nYou put on the cardboard armor.\nYou feel more protected.",
+                2.0,
                 true,
                 false,
                 true,

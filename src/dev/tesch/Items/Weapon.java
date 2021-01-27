@@ -2,8 +2,18 @@ package dev.tesch.Items;
 
 public class Weapon extends Item {
 
-    public Weapon(String n, String d, String uMessage, boolean cPickup, boolean cUse, boolean cC, boolean iA, boolean iW, int aD) {
-        super(n, d, uMessage, cPickup, cUse, cC, iA, iW);
+    public Weapon(
+            String n,
+            String d,
+            String uMessage,
+            double itW,
+            boolean cPickup,
+            boolean cUse,
+            boolean cC,
+            boolean iA,
+            boolean iW,
+            int aD) {
+        super(n, d, uMessage, itW, cPickup, cUse, cC, iA, iW);
         setAttackDamage(aD);
     }
 

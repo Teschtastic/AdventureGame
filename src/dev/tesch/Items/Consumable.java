@@ -2,7 +2,29 @@ package dev.tesch.Items;
 
 public class Consumable extends Item {
 
-    public Consumable(String n, String d, String uMessage , boolean cPickup, boolean cUse, boolean cC, boolean iA, boolean iW) {
-        super(n, d, uMessage, cPickup, cUse, cC, iA, iW);
+    public Consumable(
+            String n,
+            String d,
+            String uMessage,
+            double itW,
+            boolean cPickup,
+            boolean cUse,
+            boolean cC,
+            boolean iA,
+            boolean iW,
+            int sM) {
+        super(n, d, uMessage, itW, cPickup, cUse, cC, iA, iW);
+        setStatusModifier(sM);
+    }
+
+    private int statusModifier;
+    private int playerStatusModified;
+
+    public int getStatusModifier() {
+        return statusModifier;
+    }
+
+    public void setStatusModifier(int statusModifier) {
+        this.statusModifier = statusModifier;
     }
 }

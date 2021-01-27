@@ -25,7 +25,9 @@ public class ItemActions {
             Item item = room.getItemInRoom();
             // The item is able to be picked up, so remove it from the room and remove the room tag for the item
             // then add the item to the players inventory
-            if (item.getCanPickup()) {
+            if ((player.getCurrentCarryWeight() + item.getItemWeight()) > player.getMaximumCarryWeight())
+                System.out.println("\nYour inventory is too full to pickup\nthe " + item.getName());
+            else if (item.getCanPickup()) {
                 System.out.println("\nYou pickup the " + item.getName());
                 room.setHasItem(false);
                 room.setItemInRoom(null);
@@ -54,8 +56,10 @@ public class ItemActions {
         if (itemsToDescribe.isEmpty())
             System.out.println("\nThere are no items to describe.");
         else if (itemsToDescribe.size() == 1)
-            System.out.println("\nYou inspect the " + itemsToDescribe.get(0).getName() +
-                    "\n\nYou describe it as:\n" + itemsToDescribe.get(0).getDescription());
+            System.out.println(
+                    "\nYou inspect the " + itemsToDescribe.get(0).getName() +
+                    "\n\nYou describe it as:\n" + itemsToDescribe.get(0).getDescription() +
+                    "\n\nWith a weight of: " + item.getItemWeight());
         else {
             int i = 0;
             int size = itemsToDescribe.size() - 1;
@@ -76,8 +80,10 @@ public class ItemActions {
                     itemDesc.close();
 
                 if (itemChoice >= 0 && itemChoice <= size)
-                    System.out.println("\nYou inspect the " + itemsToDescribe.get(itemChoice).getName() +
-                            "\n\nYou describe it as:\n" + itemsToDescribe.get(itemChoice).getDescription());
+                    System.out.println(
+                            "\nYou inspect the " + itemsToDescribe.get(itemChoice).getName() +
+                            "\n\nYou describe it as:\n" + itemsToDescribe.get(itemChoice).getDescription() +
+                            "\n\nith a weight of: " + item.getItemWeight());
                 else
                     System.out.println("\nInvalid choice.");
             }
@@ -89,33 +95,29 @@ public class ItemActions {
 
     /* Method used to drop and item in your inventory */
     public static void dropItem(Player player) {
-        List<Item> inventory = player.getInventory();
         Room room = player.getRoomIsIn();
         Item item = PlayerActions.takeItemFromInventory(player);
 
+        assert item != null;
         System.out.println("\nYou drop your " + item.getName());
 
         room.setHasItem(true);
         room.setItemInRoom(item);
-        inventory.remove(0);
+        player.removeFromInventory(item);
     }
 
     /* Method used to use an item in either your inventory or in the world */
     public static void useInventoryItem(Player player) {
         Item item = PlayerActions.takeItemFromInventory(player);
 
-        try {
-            // If the item has the can use flag, use it and remove
-            // it from the player's inventory
-            if (item.isCanUse()) {
-                System.out.println(item.getUseMessage());
-                UsedItemOnPlayer.useItem(player, item);
-            } else
-                System.out.println("\nYou can't use " + item.getName());
-        }
-        catch (NullPointerException e) {
-
-        }
+        // If the item has the can use flag, use it and remove
+        // it from the player's inventory
+        assert item != null;
+        if (item.isCanUse()) {
+            System.out.println(item.getUseMessage());
+            UsedItemOnPlayer.useItem(player, item);
+        } else
+            System.out.println("\nYou can't use " + item.getName());
     }
 
     public static void equipItem(Player player) {
@@ -123,6 +125,7 @@ public class ItemActions {
 
         // If the item is a weapon or armor class, use it and remove
         // it from the player's inventory
+        assert item != null;
         if (item.getClass() == Armor.class) {
             EquipItemToPlayer.equipArmor(player, (Armor) item);
         }

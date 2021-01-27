@@ -17,12 +17,12 @@ public class Recipes {
 
     public Recipes() {
         recipesList.add(0, new Recipe(
-                new LinkedList<>(Arrays.asList(items.get(2))),
+                new LinkedList<>(Arrays.asList(items.get(1), items.get(1))),
                 armors.get(1)
         ));
 
         recipesList.add(1, new Recipe(
-                new LinkedList<>(Arrays.asList(items.get(4), items.get(5))),
+                new LinkedList<>(Arrays.asList(items.get(3), items.get(4))),
                 weapons.get(1)
         ));
     }

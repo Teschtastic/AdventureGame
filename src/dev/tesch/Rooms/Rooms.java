@@ -36,7 +36,7 @@ public class Rooms {
                 new int[] {-1, 3, 2, -1},
                 "Sean's bedroom",
                 true,
-                items.get(3),
+                items.get(2),
                 true,
                 npcs.get(1),
                 true,
@@ -47,7 +47,7 @@ public class Rooms {
                 new int[] {1, -1, -1, -1},
                 "Sean's bathroom",
                 true,
-                items.get(4),
+                items.get(3),
                 false,
                 null,
                 true,
@@ -69,7 +69,7 @@ public class Rooms {
                 new int[] {3, -1, -1, -1},
                 "Jeff's bathroom",
                 true,
-                items.get(5),
+                items.get(4),
                 false,
                 null,
                 false,
@@ -82,7 +82,7 @@ public class Rooms {
                 false,
                 null,
                 true,
-                npcs.get(2),
+                npcs.get(1),
                 true,
                 furnitures.get(4)));
 
@@ -102,7 +102,7 @@ public class Rooms {
                 new int[] {-1, -1, -1, 6},
                 "Dining room",
                 true,
-                items.get(2),
+                items.get(1),
                 false,
                 null,
                 true,
@@ -112,12 +112,12 @@ public class Rooms {
                 new int[] {0, 0, 1, 0},
                 new int[] {-1, -1, 6, -1},
                 "Kitchen",
-                true,
-                items.get(1),
                 false,
                 null,
                 false,
-                null));
+                null,
+                true,
+                containers.get(2)));
 
         roomsMap.put(9, new Room(
                 new int[] {0, 1, 0, 1},

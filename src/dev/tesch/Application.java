@@ -32,6 +32,8 @@ public class Application {
                 100,
                 0,
                 10,
+                0.0,
+                25.0,
                 new LinkedList<>(),
                 false,
                 false,
