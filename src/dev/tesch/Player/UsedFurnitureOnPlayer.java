@@ -22,11 +22,9 @@ public class UsedFurnitureOnPlayer {
                 break;
 
             case "Sean's Bed":
-                usedSeansBed(player);
-                break;
 
             case "Jeff's Bed":
-                usedJeffsBed(player);
+                usedBed(player);
                 break;
 
             case "Crafting Table":
@@ -52,7 +50,7 @@ public class UsedFurnitureOnPlayer {
     }
 
     // Method for using Sean's bed
-    private static void usedSeansBed(Player player) {
+    private static void usedBed(Player player) {
         NPC npc;
         Room room = player.getRoomIsIn();
 
@@ -68,31 +66,15 @@ public class UsedFurnitureOnPlayer {
                 player.setMaximumHealth(player.getMaximumHealth() + 50);
                 player.setCurrentHealth(player.getMaximumHealth());
             }
-        }
-        // Or else only increases health
-        else {
-            System.out.println("\nYour max health increases by 25");
-            player.setMaximumHealth(player.getMaximumHealth() + 25);
-        }
-    }
-
-    // Method for using Jeff's bed
-    private static void usedJeffsBed(Player player) {
-        NPC npc;
-        Room room = player.getRoomIsIn();
-
-        if (room.isHasNPC()) {
-            npc = room.getNpcInRoom();
-
             // If jeff is in the room he deals damage to the player
-            if (npc.getName().equals("Jeff")) {
+            else if (npc.getName().equals("Jeff")) {
                 System.out.println(
-                                "\nJeff bites your face in your sleep." +
+                        "\nJeff bites your face in your sleep." +
                                 "\nYou lose 25 health.");
                 player.setCurrentHealth(player.getCurrentHealth() - 25);
             }
         }
-        // Or the bed increases your health
+        // Or else only increases health
         else {
             System.out.println("\nYour max health increases by 25");
             player.setMaximumHealth(player.getMaximumHealth() + 25);
@@ -195,7 +177,7 @@ public class UsedFurnitureOnPlayer {
             double totalWeight = 0.0;
             Item item;
 
-            // CHoice for which item to take: one, all, or none
+            // Choice for which item to take: one, all, or none
             for (Item it: containerInventory) {
                 System.out.println(i++ + " - " + it.getName());
             }
@@ -245,14 +227,50 @@ public class UsedFurnitureOnPlayer {
         }
         // Puts an item from the inventory into the container
         else if (containerIndex == 3) {
-            Item item  = PlayerActions.takeItemFromInventory(player);
+            Scanner place = new Scanner(System.in);
+            int itemIndex = -1;
+            Item item;
+            List<Item> playerInventory = player.getInventory();
 
+            System.out.println("\nWhat would you like to place: \n");
             System.out.println(
-                            "\nYou remove the " + item.getName() + " from " +
-                            "\nyour inventory and place it into the\n" + container.getName());
+                        "\n1 - Single inventory item" +
+                        "\n2 - All inventory items" +
+                        "\n0 - Exit putting item");
 
-            container.addToInventory(item);
-            player.removeFromInventory(item);
+            Actions.typeChoice();
+
+            try {
+
+                if (place.hasNextInt())
+                    itemIndex = place.nextInt();
+                else
+                    place.close();
+
+                if (itemIndex == 1) {
+                    item = PlayerActions.takeItemFromInventory(player.getInventory());
+
+                    if (item != null) {
+                        System.out.println(
+                                "\nYou remove the " + item.getName() + " from " +
+                                "\nyour inventory and place it into the\n" + container.getName());
+
+                        container.addToInventory(item);
+                        player.removeFromInventory(item);
+                    }
+                }
+                else if (itemIndex == 2) {
+                    System.out.println(
+                                    "\nYou place all your items" +
+                                    "\ninto the " + container.getName());
+
+                    container.addToInventory(playerInventory);
+                    player.removeFromInventory(playerInventory);
+                }
+            }
+            catch (InputMismatchException e) {
+                System.out.println("\nInvalid input.");
+            }
         }
         else if (containerIndex == 0)
             System.out.println("\nYou left the " + container.getName());

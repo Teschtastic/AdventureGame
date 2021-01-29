@@ -40,7 +40,13 @@ public class PlayerActions {
         Scanner useIn = new Scanner(System.in);
         int useChoice = -1;
 
-        System.out.print("\nWhat would you like to use?\n\n0 - Item in inventory\n1 - Item in room\n2 - Furniture in room\n");
+        System.out.print(
+                "\nWhat would you like to use?\n" +
+                        "\n1 - Item in inventory" +
+                        "\n2 - Item in room" +
+                        "\n3 - Furniture in room" +
+                        "\n0 - Exit using\n");
+
         Actions.typeChoice();
 
         try {
@@ -49,12 +55,14 @@ public class PlayerActions {
             else
                 useIn.close();
 
-            if (useChoice == 0)
+            if (useChoice == 1)
                 ItemActions.useInventoryItem(player);
-            else if (useChoice == 1)
-                RoomActions.useItemInRoom(player);
             else if (useChoice == 2)
+                RoomActions.useItemInRoom(player);
+            else if (useChoice == 3)
                 FurnitureActions.useFurniture(player);
+            else if (useChoice == 0)
+                System.out.println("\nYou decide to use nothing.");
             else
                 System.out.println("\nInvalid choice.");
         } catch (InputMismatchException e) {
@@ -67,7 +75,11 @@ public class PlayerActions {
         Scanner useIn = new Scanner(System.in);
         int describeChoice = -1;
 
-        System.out.print("\nWhat would you like to describe?\n\n0 - Item\n1 - Furniture in room\n");
+        System.out.print(
+                "\nWhat would you like to describe?\n" +
+                "\n1 - Item" +
+                "\n2 - Furniture in room" +
+                "\n0 - Exit describing\n");
         Actions.typeChoice();
 
         try {
@@ -76,10 +88,12 @@ public class PlayerActions {
             else
                 useIn.close();
 
-            if (describeChoice == 0)
+            if (describeChoice == 1)
                 ItemActions.describeItem(player);
-            else if (describeChoice == 1)
+            else if (describeChoice == 2)
                 FurnitureActions.describeFurniture(player);
+            else if (describeChoice == 0)
+                System.out.println("\nYou decide to describe nothing.");
             else
                 System.out.println("\nInvalid choice.");
         } catch (InputMismatchException e) {
@@ -88,17 +102,12 @@ public class PlayerActions {
     }
 
     /* Method used to access inventory and return an item from it */
-    public static Item takeItemFromInventory(Player player) {
-        List<Item> inventory = player.getInventory();
-        Item item;
-
+    public static Item takeItemFromInventory(List<Item> inventory) {
         // Nothing in inventory to drop
         if (inventory.isEmpty())
-            System.out.println("\nThere is nothing in your inventory.");
-        else if (inventory.size() == 1) {
-            item = inventory.get(0);
-            return item;
-        }
+            System.out.println("\nThere are no items available.");
+        else if (inventory.size() == 1)
+            return inventory.get(0);
         // Multiple items in inventory, choose which one to drop
         else {
             int i = 0;
@@ -106,7 +115,7 @@ public class PlayerActions {
             Scanner itemDesc = new Scanner(System.in);
             int itemChoice = -1;
 
-            System.out.println("\nYour inventory contains:");
+            System.out.println("\nYour available items are:");
             for (Item it : inventory)
                 System.out.println(i++ + " " + it.getName());
 
@@ -118,10 +127,9 @@ public class PlayerActions {
                 else
                     itemDesc.close();
 
-                if (itemChoice >= 0 && itemChoice <= size) {
-                    item = inventory.get(itemChoice);
-                    return item;
-                } else
+                if (itemChoice >= 0 && itemChoice <= size)
+                    return inventory.get(itemChoice);
+                else
                     System.out.println("\nInvalid choice.");
             }
             catch (InputMismatchException e) {

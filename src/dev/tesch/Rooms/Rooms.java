@@ -82,7 +82,7 @@ public class Rooms {
                 false,
                 null,
                 true,
-                npcs.get(1),
+                npcs.get(2),
                 true,
                 furnitures.get(4)));
 

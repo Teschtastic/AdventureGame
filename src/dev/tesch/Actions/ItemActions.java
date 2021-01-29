@@ -44,59 +44,31 @@ public class ItemActions {
         List<Item> itemsToDescribe = new ArrayList<>();
         List<Item> inventory = player.getInventory();
 
-        Item item = player.getRoomIsIn().getItemInRoom();
+        Item itemInRoom = player.getRoomIsIn().getItemInRoom();
 
         if (!inventory.isEmpty()) {
             itemsToDescribe.addAll(inventory);
         }
-        if (item != null){
-            itemsToDescribe.add(item);
+        if (itemInRoom != null){
+            itemsToDescribe.add(itemInRoom);
         }
+
+        Item item = PlayerActions.takeItemFromInventory(itemsToDescribe);
 
         if (itemsToDescribe.isEmpty())
             System.out.println("\nThere are no items to describe.");
-        else if (itemsToDescribe.size() == 1)
+        else
             System.out.println(
-                    "\nYou inspect the " + itemsToDescribe.get(0).getName() +
-                    "\n\nYou describe it as:\n" + itemsToDescribe.get(0).getDescription() +
+                    "\nYou inspect the " + item.getName() +
+                    "\n\nYou describe it as:\n" + item.getDescription() +
                     "\n\nWith a weight of: " + item.getItemWeight());
-        else {
-            int i = 0;
-            int size = itemsToDescribe.size() - 1;
-            Scanner itemDesc = new Scanner(System.in);
-            int itemChoice = -1;
 
-            System.out.println("\nYou have multiple items available to you:");
-
-            for (Item it : itemsToDescribe)
-                System.out.println(i++ + " " + it.getName());
-
-            Actions.typeChoice();
-
-            try {
-                if (itemDesc.hasNextInt())
-                    itemChoice = itemDesc.nextInt();
-                else
-                    itemDesc.close();
-
-                if (itemChoice >= 0 && itemChoice <= size)
-                    System.out.println(
-                            "\nYou inspect the " + itemsToDescribe.get(itemChoice).getName() +
-                            "\n\nYou describe it as:\n" + itemsToDescribe.get(itemChoice).getDescription() +
-                            "\n\nith a weight of: " + item.getItemWeight());
-                else
-                    System.out.println("\nInvalid choice.");
-            }
-            catch (InputMismatchException e) {
-                System.out.println("\nInvalid input.");
-            }
-        }
     }
 
     /* Method used to drop and item in your inventory */
     public static void dropItem(Player player) {
         Room room = player.getRoomIsIn();
-        Item item = PlayerActions.takeItemFromInventory(player);
+        Item item = PlayerActions.takeItemFromInventory(player.getInventory());
 
         assert item != null;
         System.out.println("\nYou drop your " + item.getName());
@@ -108,7 +80,7 @@ public class ItemActions {
 
     /* Method used to use an item in either your inventory or in the world */
     public static void useInventoryItem(Player player) {
-        Item item = PlayerActions.takeItemFromInventory(player);
+        Item item = PlayerActions.takeItemFromInventory(player.getInventory());
 
         // If the item has the can use flag, use it and remove
         // it from the player's inventory
@@ -121,7 +93,7 @@ public class ItemActions {
     }
 
     public static void equipItem(Player player) {
-        Item item = PlayerActions.takeItemFromInventory(player);
+        Item item = PlayerActions.takeItemFromInventory(player.getInventory());
 
         // If the item is a weapon or armor class, use it and remove
         // it from the player's inventory

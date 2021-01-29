@@ -7,6 +7,8 @@ import dev.tesch.Items.Weapon;
 import dev.tesch.Rooms.Room;
 import dev.tesch.Rooms.Rooms;
 
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -126,7 +128,7 @@ public class Player {
     }
 
     public void removeFromInventory(List<Item> items) {
-        for (Item i: items) {
+        for (Item i : new LinkedList<>(items)) {
             this.inventory.remove(i);
             this.currentCarryWeight -= i.getItemWeight();
         }

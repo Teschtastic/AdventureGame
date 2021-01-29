@@ -2,6 +2,7 @@ package dev.tesch.Furniture;
 
 import dev.tesch.Items.Item;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Container extends Furniture {
@@ -36,7 +37,7 @@ public class Container extends Furniture {
     }
 
     public void removeFromInventory(List<Item> items) {
-        for (Item i: items) {
+        for (Item i : new LinkedList<>(items)) {
             this.containerInventory.remove(i);
         }
     }
