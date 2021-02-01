@@ -18,7 +18,6 @@ public class Consumable extends Item {
     }
 
     private int statusModifier;
-    private int playerStatusModified;
 
     public int getStatusModifier() {
         return statusModifier;

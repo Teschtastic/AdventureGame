@@ -99,11 +99,10 @@ public class Room {
 
     public String getMoves(int[] moves) {
         String[] directions = {"N", "E", "S", "W"};
-        String move = new String();
-        int[] mvs = moves;
+        String move = "";
 
         for (int i = 0; i < directions.length; i++) {
-            if (mvs[i] == 1) {
+            if (moves[i] == 1) {
                 move = move.concat(" " + directions[i]);
             }
         }

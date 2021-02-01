@@ -15,9 +15,7 @@ public class Recipe {
     private Item outputItem;
 
     public boolean canCraft(List<Item> inventory) {
-        if (inventory.containsAll(getInputItems()))
-            return true;
-        return false;
+        return inventory.containsAll(getInputItems());
     }
 
     public List<Item> getInputItems() {

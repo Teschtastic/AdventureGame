@@ -53,15 +53,16 @@ public class ItemActions {
             itemsToDescribe.add(itemInRoom);
         }
 
-        Item item = PlayerActions.takeItemFromInventory(itemsToDescribe);
-
         if (itemsToDescribe.isEmpty())
             System.out.println("\nThere are no items to describe.");
-        else
+        else {
+            Item item = PlayerActions.takeItemFromInventory(itemsToDescribe);
+            assert item != null;
             System.out.println(
                     "\nYou inspect the " + item.getName() +
-                    "\n\nYou describe it as:\n" + item.getDescription() +
-                    "\n\nWith a weight of: " + item.getItemWeight());
+                            "\n\nYou describe it as:\n" + item.getDescription() +
+                            "\n\nWith a weight of: " + item.getItemWeight());
+        }
 
     }
 

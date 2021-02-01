@@ -83,7 +83,6 @@ public class UsedFurnitureOnPlayer {
 
     // Method for using the crafting table
     private static void useCraftingTable(Player player) {
-        List<Item> craftingItems = new LinkedList<>();
         Item craftedItem;
         List<Item> inventory = player.getInventory();
         List<Recipe> recipes = player.getKnownRecipes();
@@ -116,7 +115,7 @@ public class UsedFurnitureOnPlayer {
                 // to craft the chosen recipe, then crafts
                 if (recipe.canCraft(inventory)) {
 
-                    craftingItems.addAll(recipe.getInputItems());
+                    List<Item> craftingItems = new LinkedList<>(recipe.getInputItems());
                     craftedItem = recipe.getOutputItem();
 
                     for (Item it : craftingItems) {

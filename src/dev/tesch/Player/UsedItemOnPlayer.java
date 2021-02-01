@@ -1,10 +1,7 @@
 package dev.tesch.Player;
 
 import dev.tesch.Items.Consumable;
-import dev.tesch.Items.Consumables;
 import dev.tesch.Items.Item;
-
-import java.util.List;
 
 public class UsedItemOnPlayer {
 
