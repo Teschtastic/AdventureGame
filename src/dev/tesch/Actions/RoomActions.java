@@ -15,29 +15,22 @@ public class RoomActions {
     public static void printLocation(Player player) {
         Room room = player.getRoomIsIn();
         room.getInMessage();
-        System.out.println(room.getMoves(room.getMoveIndices()));
+        System.out.println(room.getMoves());
     }
 
     /* Method used to change rooms */
-    // TODO: Redo this stinky method, maybe need to edit the room class
-    public static void move(Player player, Map<Integer, Room> userRooms) {
-        String[] directions = {"N", "E", "S", "W"};
+    public static void move(Player player) {
         String moveDirection = player.getChoice().toUpperCase();
         Room currentRoom = player.getRoomIsIn();
-        int[] currentRoomMoves = currentRoom.getMoveIndices();
-        int[] connectedRooms = currentRoom.getConnectedRooms();
 
-        // Checks which direction you want to move and if you can move there
-        for (int i = 0; i < directions.length; i++) {
-            // If you can move there, prints which room you're leaving
-            if (moveDirection.equals(directions[i]) && currentRoomMoves[i] == 1) {
-                System.out.println("\nYou went " + moveDirection + "\n");
+        for (Map.Entry<String, Room> entry : currentRoom.getConnRooms().entrySet())
+            if (entry.getKey().equals(moveDirection)) {
+                System.out.println("\nYou went " + entry.getKey() + "\n");
                 currentRoom.getLeaveMessage();
-                userRooms.get(connectedRooms[i]).getEnterMessage();
-                player.setRoomIsIn(userRooms.get(connectedRooms[i]));
+                entry.getValue().getEnterMessage();
+                player.setRoomIsIn(entry.getValue());
                 return;
             }
-        }
 
         // If you can't move, tells you so
         System.out.println("\nCouldn't move that way.");

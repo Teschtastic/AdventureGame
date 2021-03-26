@@ -4,13 +4,14 @@ import dev.tesch.Furniture.Furniture;
 import dev.tesch.Items.Item;
 import dev.tesch.NPCs.NPC;
 
+import java.util.HashMap;
+import java.util.Map;
+
 // Class for the structure of each room
 public class Room {
 
     // Constructing the room object
     public Room(
-            int[] moves,
-            int[] connections,
             String name,
             boolean hasItem,
             Item iIR,
@@ -20,12 +21,10 @@ public class Room {
             Furniture fIR) {
 
         setName(name);
-        setStartMessage(name, moves);
+        setStartMessage(name);
         setInMessage(name);
-        setEnterMessage(name, moves);
+        setEnterMessage(name);
         setLeaveMessage(name);
-        setMoves(moves);
-        setConnectedRooms(connections);
         setHasItem(hasItem);
         setItemInRoom(iIR);
         setHasNPC(hNPC);
@@ -40,8 +39,7 @@ public class Room {
     private String enterMessage;        // Message for when you enter a room
     private String leaveMessage;        // Message for when you leave a room
     private String inMessage;           // Message for when you're already in a room
-    private int[] moves;                // Directions [N, E, S, W] that are essentially exits
-    private int[] connectedRooms;       // Stores either the rooms Key index if it's connected, or else -1
+    private HashMap<String, Room> connRooms;
     private boolean hasItem;            // Flag for if there is an item in the room
     private Item itemInRoom;            // Item object in the room
     private boolean hasNPC;             // Flag for if there is an NPC in the room
@@ -62,9 +60,8 @@ public class Room {
         System.out.println(startMessage);
     }
 
-    public void setStartMessage(String name, int[] moves) {
-        this.startMessage = "You start in " + name +
-                            getMoves(moves);
+    public void setStartMessage(String name) {
+        this.startMessage = "You start in " + name;
 
     }
 
@@ -72,9 +69,8 @@ public class Room {
         System.out.println(enterMessage);
     }
 
-    public void setEnterMessage(String name, int[] moves) {
-        this.enterMessage = "You've entered " + name +
-                            getMoves(moves);
+    public void setEnterMessage(String name) {
+        this.enterMessage = "You've entered " + name;
     }
 
     public void getLeaveMessage() {
@@ -93,32 +89,22 @@ public class Room {
         this.inMessage = "\nYou're in " + name;
     }
 
-    public int[] getMoveIndices() {
-        return moves;
-    }
-
-    public String getMoves(int[] moves) {
-        String[] directions = {"N", "E", "S", "W"};
+    public String getMoves() {
         String move = "";
 
-        for (int i = 0; i < directions.length; i++) {
-            if (moves[i] == 1) {
-                move = move.concat(" " + directions[i]);
-            }
-        }
+        for (Map.Entry<String, Room> entry : getConnRooms().entrySet())
+            if (entry.getValue() != null)
+                move = move.concat(" " + entry.getKey());
+
         return "\nYou can move:" + move;
     }
 
-    public void setMoves(int[] moves) {
-        this.moves = moves;
+    public HashMap<String, Room> getConnRooms() {
+        return connRooms;
     }
 
-    public int[] getConnectedRooms() {
-        return connectedRooms;
-    }
-
-    public void setConnectedRooms(int[] connectedRooms) {
-        this.connectedRooms = connectedRooms;
+    public void setConnRooms(HashMap<String, Room> connRooms) {
+        this.connRooms = connRooms;
     }
 
     public boolean isHasItem() {

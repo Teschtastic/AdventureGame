@@ -1,7 +1,6 @@
 package dev.tesch.Actions;
 
 import dev.tesch.Player.Player;
-import dev.tesch.Rooms.Room;
 
 import java.util.List;
 import java.util.Map;
@@ -11,7 +10,7 @@ import static dev.tesch.Actions.Actions.*;
 
 public class ActionsParser {
 
-    public static void gameLoop(Player player, Map<Integer, List<String>> userActions, Map<Integer, Room> userRooms) {
+    public static void gameLoop(Player player, Map<Integer, List<String>> userActions) {
 
         Scanner playerAction = new Scanner(System.in);                  // Scanner for player choices
         Actions.welcome();                                              // Welcome message
@@ -53,7 +52,7 @@ public class ActionsParser {
                     break;
 
                 case 4:
-                    RoomActions.move(player, userRooms);                            // Moves into a new room
+                    RoomActions.move(player);                            // Moves into a new room
                     break;
 
                 case 5:

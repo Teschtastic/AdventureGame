@@ -5,8 +5,6 @@ import dev.tesch.Actions.ActionsParser;
 import dev.tesch.Crafting.Recipe;
 import dev.tesch.Crafting.Recipes;
 import dev.tesch.Player.Player;
-import dev.tesch.Rooms.Room;
-import dev.tesch.Rooms.Rooms;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -18,9 +16,6 @@ public class Application {
 
         // Actions object and HashMap
         Map<Integer, List<String>> userActions = new Actions().actionsMap;
-
-        // Rooms object and HashMap
-        Map<Integer, Room> userRooms = new Rooms().roomsMap;
 
         // Recipes object and LinkedList
         List<Recipe> recipesList = new Recipes().recipesList;
@@ -41,6 +36,6 @@ public class Application {
                 1);
 
         // Running the main game loop
-        ActionsParser.gameLoop(player, userActions, userRooms);
+        ActionsParser.gameLoop(player, userActions);
     }
 }
