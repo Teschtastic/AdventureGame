@@ -13,8 +13,8 @@ public class Containers {
     public Containers() {
         Map<Integer, Item> items = new Items().itemsMap;
         Map<Integer, Consumable> consumables = new Consumables().consumablesMap;
-        Map<Integer, Armor> armors = new Armors().armorMap;
-        Map<Integer, Weapon> weapons = new Weapons().weaponMap;
+        //Map<Integer, Armor> armors = new Armors().armorMap;
+        //Map<Integer, Weapon> weapons = new Weapons().weaponMap;
 
         containersMap.put(1, new Container(
                 "Chest",

@@ -11,7 +11,7 @@ public class Consumables {
                 "Dr. Pepper",
                 "Yummy, delicious nectar of the gods",
                 "\nYou drink your Dr. Pepper.\nYou feel powerful!",
-                1.0,
+                1,
                 true,
                 true,
                 false,

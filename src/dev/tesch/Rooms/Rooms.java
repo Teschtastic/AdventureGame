@@ -14,7 +14,7 @@ import java.util.Map;
 public class Rooms {
 
     // Different item maps
-    Map<Integer, Item> items       = new Items().itemsMap;
+    Map<Integer, Item>          items       = new Items().itemsMap;
     Map<Integer, Armor>         armors      = new Armors().armorMap;
     Map<Integer, Weapon>        weapons     = new Weapons().weaponMap;
     Map<Integer, Consumable>    consumables = new Consumables().consumablesMap;

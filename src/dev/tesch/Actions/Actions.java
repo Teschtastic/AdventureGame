@@ -28,6 +28,7 @@ public class Actions {
         actionsMap.put(13, Arrays.asList("ch", "character"));
         actionsMap.put(14, Arrays.asList("eq", "equip"));
         actionsMap.put(15, Arrays.asList("une", "unequip"));
+        actionsMap.put(16, Arrays.asList("sa", "save"));
         actionsMap.put(0, Arrays.asList("q", "quit"));
     }
 
@@ -57,10 +58,10 @@ public class Actions {
     
     /* Method used to display exit message */
     public static void deathMessage() {
-        System.out.println("\n======================================\n" + 
+        System.out.println("\n#====================================#\n" + 
                              "#      Your character has died       #\n" + 
                              "#        Now exiting the game        #\n" + 
-                             "======================================");
+                             "#====================================#");
         System.exit(0);
     }
 

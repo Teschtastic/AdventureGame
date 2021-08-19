@@ -2,63 +2,46 @@ package dev.tesch.Player;
 
 import dev.tesch.Crafting.Recipe;
 import dev.tesch.Items.Armor;
+import dev.tesch.Items.Armors;
 import dev.tesch.Items.Item;
 import dev.tesch.Items.Weapon;
+import dev.tesch.Items.Weapons;
 import dev.tesch.Rooms.Room;
 import dev.tesch.Rooms.Rooms;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Map.Entry;
 
 public class Player {
 
-    // HashMap the rooms are stored in
-    public Map<Integer, Room> rooms = new Rooms().roomsMap;
+    // HashMaps
+    public Map<Integer, Room>       rooms = new Rooms().roomsMap;
+    public Map<Integer, Armor>      armors = new Armors().armorMap;
+    public Map<Integer, Weapon>     weapons = new Weapons().weaponMap;
 
     // Constructing the player object
-    public Player(String n,
-                  int cH,
-                  int mH,
-                  int aC,
-                  int aDamage,
-                  double cCW,
-                  double mCW,
-                  List<Item> inv,
-                  boolean hEA,
-                  boolean hEW,
-                  List<Recipe> r,
-                  int room) {
-
-        setName(n);
-        setCurrentHealth(cH);
-        setMaximumHealth(mH);
-        setArmorClass(aC);
-        setAttackDamage(aDamage);
-        setCurrentCarryWeight(cCW);
-        setMaximumCarryWeight(mCW);
-        setInventory(inv);
-        setHasEquippedArmor(hEA);
-        setHasEquippedWeapon(hEW);
-        setKnownRecipes(r);
-        setRoomIsIn(rooms.get(room));
+    public Player() {
+        setInventory(new LinkedList<Item>());
     }
 
-    private String name;            // Player name
-    private int currentHealth;      // Player current health
-    private int maximumHealth;      // PLayer max health
-    private int armorClass;         // Player armor
-    private int attackDamage;       // Player attack damage
-    private List<Item> inventory;   // Player inventory
-    private Room roomIsIn;
-    private Armor equippedArmor;
-    private boolean hasEquippedArmor;
-    private Weapon equippedWeapon;
-    private boolean hasEquippedWeapon;
-    private List<Recipe> knownRecipes;
-    private double currentCarryWeight;
-    private double maximumCarryWeight;
-    private String choice;
+    private String name;                // Player name
+    private int currentHealth;          // Player current health
+    private int maximumHealth;          // PLayer max health
+    private int armorClass;             // Player armor
+    private int attackDamage;           // Player attack damage
+    private List<Item> inventory;       // Player inventory
+    private Room roomIsIn;              // Room object the player is in
+    private Armor equippedArmor;        // Armor object equipped to the player
+    private boolean hasEquippedArmor;   // Flag for if armor is equipped
+    private Weapon equippedWeapon;      // Weapon object equipped to the player
+    private boolean hasEquippedWeapon;  // Flag for if a weapon is equipped
+    private List<Recipe> knownRecipes;  // List of known recipes
+    private int currentCarryWeight;  // Value for current carry weight
+    private int maximumCarryWeight;  // Value for maximum carry weight
+    private String choice;              // Value for player choice
 
     /* Getters and setters */
     public String getName() {
@@ -133,12 +116,25 @@ public class Player {
         }
     }
 
+    public Integer getRoomIndex() {
+        for (Entry<Integer, Room> entry : rooms.entrySet()) {
+            if (Objects.equals(roomIsIn, entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return 1;
+    }
+
     public Room getRoomIsIn() {
         return roomIsIn;
     }
 
     public void setRoomIsIn(Room roomIsIn) {
         this.roomIsIn = roomIsIn;
+    }
+    
+    public void setRoomIsIn(int roomIsInIndex) {
+        this.roomIsIn = rooms.get(roomIsInIndex);
     }
 
     public String getChoice() {
@@ -149,12 +145,25 @@ public class Player {
         this.choice = choice;
     }
 
+    public Integer getArmorIndex() {
+        for (Entry<Integer, Armor> entry : armors.entrySet()) {
+            if (Objects.equals(equippedArmor, entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return 0;
+    }
+
     public Armor getEquippedArmor() {
         return equippedArmor;
     }
 
     public void setEquippedArmor(Armor equippedArmor) {
         this.equippedArmor = equippedArmor;
+    }
+
+    public void setEquippedArmor(int equippedArmorIndex) {
+        this.equippedArmor = armors.get(equippedArmorIndex);
     }
 
     public boolean isHasEquippedArmor() {
@@ -172,12 +181,25 @@ public class Player {
             return getEquippedArmor().getName();
     }
 
+    public Integer getWeaponIndex() {
+        for (Entry<Integer, Weapon> entry : weapons.entrySet()) {
+            if (Objects.equals(equippedWeapon, entry.getValue())) {
+                return entry.getKey();
+            }
+        }
+        return 0;
+    }
+
     public Weapon getEquippedWeapon() {
         return equippedWeapon;
     }
 
     public void setEquippedWeapon(Weapon equippedWeapon) {
         this.equippedWeapon = equippedWeapon;
+    }
+    
+    public void setEquippedWeapon(int equippedWeaponIndex) {
+        this.equippedWeapon = weapons.get(equippedWeaponIndex);
     }
 
     public boolean isHasEquippedWeapon() {
@@ -203,19 +225,29 @@ public class Player {
         this.knownRecipes = knownRecipes;
     }
 
-    public double getCurrentCarryWeight() {
+    public void addToRecipes(Recipe recipe) {
+        this.knownRecipes.add(recipe);
+    }
+
+    public void addToRecipes(List<Recipe> recipe) {
+        for (Recipe i : recipe) {
+            this.knownRecipes.add(i);
+        }
+    }
+
+    public int getCurrentCarryWeight() {
         return currentCarryWeight;
     }
 
-    public void setCurrentCarryWeight(double currentCarryWeight) {
+    public void setCurrentCarryWeight(int currentCarryWeight) {
         this.currentCarryWeight = currentCarryWeight;
     }
 
-    public double getMaximumCarryWeight() {
+    public int getMaximumCarryWeight() {
         return maximumCarryWeight;
     }
 
-    public void setMaximumCarryWeight(double maximumCarryWeight) {
+    public void setMaximumCarryWeight(int maximumCarryWeight) {
         this.maximumCarryWeight = maximumCarryWeight;
     }
 

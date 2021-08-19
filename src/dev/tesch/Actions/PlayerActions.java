@@ -1,12 +1,23 @@
 package dev.tesch.Actions;
 
+import dev.tesch.Items.Armor;
+import dev.tesch.Items.Armors;
+import dev.tesch.Items.Consumable;
+import dev.tesch.Items.Consumables;
 import dev.tesch.Items.Item;
+import dev.tesch.Items.Items;
+import dev.tesch.Items.Weapon;
+import dev.tesch.Items.Weapons;
 import dev.tesch.Player.Player;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Scanner;
+import java.util.Map.Entry;
 
 public class PlayerActions {
 
@@ -136,5 +147,69 @@ public class PlayerActions {
             }
         }
         return null;
+    }
+
+    public static void saveGame(Player player) {
+
+        final String saveFilePath = "src/dev/tesch/save/player/playerStats.txt";
+        final String inventoryFilePath = "src/dev/tesch/save/player/playerInventory.txt";
+        
+        Map<Integer, Item> items = new Items().itemsMap;
+        Map<Integer, Armor> armors = new Armors().armorMap;
+        Map<Integer, Weapon> weapons = new Weapons().weaponMap;
+        Map<Integer, Consumable> consumables = new Consumables().consumablesMap;
+
+        try {
+            FileWriter playerWriter = new FileWriter(saveFilePath);
+            FileWriter inventoryWriter = new FileWriter(inventoryFilePath);
+
+            playerWriter.write("Current Health:" + player.getCurrentHealth() + "\n");
+            playerWriter.write("Maximum Health:" + player.getMaximumHealth() + "\n");
+            playerWriter.write("Current Weight:" + player.getCurrentCarryWeight() + "\n");
+            playerWriter.write("Maximum Weight:" + player.getMaximumCarryWeight() + "\n");
+            playerWriter.write("Armor Class:" + player.getArmorClass() + "\n");
+            playerWriter.write("Attack Damage:" + player.getAttackDamage() + "\n");
+            playerWriter.write("Equipped Armor:" + player.getArmorIndex() + "\n");
+            playerWriter.write("Equipped Weapon:" + player.getWeaponIndex() + "\n");
+            playerWriter.write("Current Room:" + player.getRoomIndex() + "\n");
+
+            playerWriter.close();
+
+            for (Item item : player.getInventory()) {
+                if (item.getClass() == Armor.class) {
+                    for (Entry<Integer, Armor> entry : armors.entrySet()) {
+                        if (Objects.equals(item, entry.getValue())) {
+                            inventoryWriter.write("Armor:" + entry.getKey() + "\n");
+                        }
+                    }
+                } else if (item.getClass() == Weapon.class) {
+                    for (Entry<Integer, Weapon> entry : weapons.entrySet()) {
+                        if (Objects.equals(item, entry.getValue())) {
+                            inventoryWriter.write("Weapon:" + entry.getKey() + "\n");
+                        }
+                    }
+                } else if (item.getClass() == Consumable.class) {
+                    for (Entry<Integer, Consumable> entry : consumables.entrySet()) {
+                        if (Objects.equals(item, entry.getValue())) {
+                            inventoryWriter.write("Consumable:" + entry.getKey() + "\n");
+                        }
+                    }
+                } else {
+                    for (Entry<Integer, Item> entry : items.entrySet()) {
+                        if (Objects.equals(item, entry.getValue())) {
+                            inventoryWriter.write("Item:" + entry.getKey() + "\n");
+                        }
+                    }
+                }
+            }
+
+            inventoryWriter.close();
+
+            System.out.println("\n*    You have saved your progress    *");
+
+        } catch (IOException e) {
+            System.out.println("An error occurred while writing to save file.");
+            e.printStackTrace();
+        }
     }
 }

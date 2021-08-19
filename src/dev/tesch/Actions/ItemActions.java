@@ -98,16 +98,16 @@ public class ItemActions {
 
         // If the item is a weapon or armor class, use it and remove
         // it from the player's inventory
-        assert item != null;
-        if (item.getClass() == Armor.class) {
-            EquipItemToPlayer.equipArmor(player, (Armor) item);
+        if (item != null) {
+            if (item.getClass() == Armor.class) {
+                EquipItemToPlayer.equipArmor(player, (Armor) item);
+            }
+            else if (item.getClass() == Weapon.class) {
+                EquipItemToPlayer.equipWeapon(player, (Weapon) item);
+            }
+            else
+                System.out.println("\nYou can't equip " + item.getName());
         }
-        else if (item.getClass() == Weapon.class) {
-            EquipItemToPlayer.equipWeapon(player, (Weapon) item);
-        }
-        else
-            System.out.println("\nYou can't equip " + item.getName());
-
     }
 
     public static void unEquipItem(Player player) {
@@ -117,7 +117,7 @@ public class ItemActions {
             Scanner unequipChoose = new Scanner(System.in);
             int unequipChoice = -1;
             System.out.println("\nWhat would you like to un equip?");
-            System.out.println("\n0 - Armor\n1 - Weapon");
+            System.out.println("\n1 - Armor\n2 - Weapon\n0 - Nothing");
             Actions.typeChoice();
 
             if (unequipChoose.hasNextInt())
@@ -125,16 +125,18 @@ public class ItemActions {
             else
                 unequipChoose.close();
 
-            if (unequipChoice == 0 && player.isHasEquippedArmor()) {
+            if (unequipChoice == 1 && player.isHasEquippedArmor()) {
                 Armor armor = player.getEquippedArmor();
                 UnEquipItemFromPlayer.unEquipArmor(player, armor);
-            } else if (unequipChoice == 0 && !player.isHasEquippedArmor()){
+            } else if (unequipChoice == 1 && !player.isHasEquippedArmor()){
                 System.out.println("\nYou don't have equipped armor.");
             } else if (unequipChoice == 1 && player.isHasEquippedWeapon()) {
                 Weapon weapon = player.getEquippedWeapon();
                 UnEquipItemFromPlayer.unEquipWeapon(player, weapon);
-            } else {
+            } else if (unequipChoice == 1 && !player.isHasEquippedWeapon()) {
                 System.out.println("\nYou don't have an equipped weapon.");
+            } else if (unequipChoice == 0) {
+                System.out.println("\nYou un-equip nothing.");
             }
         }
     }

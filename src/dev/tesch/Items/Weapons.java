@@ -14,7 +14,7 @@ public class Weapons {
                 "Stabby Thingies",
                 "Pointy and sharp.",
                 "\nOne pointy 'brush' for each hand",
-                1.0,
+                2,
                 true,
                 false,
                 true,

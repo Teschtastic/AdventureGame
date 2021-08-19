@@ -7,7 +7,7 @@ public class Item {
             String n,
             String d,
             String uMessage,
-            double itW,
+            int itW,
             boolean cPickup,
             boolean cUse,
             boolean cC,
@@ -28,7 +28,7 @@ public class Item {
     private String name;
     private String description;
     private String useMessage;
-    private double itemWeight;
+    private int itemWeight;
     private boolean canPickup;
     private boolean canUse;
     private boolean canCraft;
@@ -59,11 +59,11 @@ public class Item {
         this.useMessage = useMessage;
     }
 
-    public double getItemWeight() {
+    public int getItemWeight() {
         return itemWeight;
     }
 
-    public void setItemWeight(double itemWeight) {
+    public void setItemWeight(int itemWeight) {
         this.itemWeight = itemWeight;
     }
 

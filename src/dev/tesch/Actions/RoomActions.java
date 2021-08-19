@@ -24,7 +24,7 @@ public class RoomActions {
         Room currentRoom = player.getRoomIsIn();
 
         for (Map.Entry<String, Room> entry : currentRoom.getConnRooms().entrySet())
-            if (entry.getKey().equals(moveDirection)) {
+            if (entry.getKey().equals(moveDirection) && entry.getValue() != null) {
                 System.out.println("\nYou went " + entry.getKey() + "\n");
                 currentRoom.getLeaveMessage();
                 entry.getValue().getEnterMessage();
@@ -39,7 +39,6 @@ public class RoomActions {
     /* Method used to look in the room you're in */
     public static void lookAround(Player player) {
         Room room = player.getRoomIsIn();
-
         room.getInMessage();
 
         if (!room.isHasItem())

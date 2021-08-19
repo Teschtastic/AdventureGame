@@ -1,0 +1,9 @@
+Current Health:100
+Maximum Health:100
+Current Weight:0
+Maximum Weight:25
+Armor Class:0
+Attack Damage:5
+Equipped Armor:0
+Equipped Weapon:0
+Current Room:1

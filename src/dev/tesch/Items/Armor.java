@@ -6,7 +6,7 @@ public class Armor extends Item {
             String n,
             String d,
             String uMessage,
-            double itW,
+            int itW,
             boolean cPickup,
             boolean cUse,
             boolean cC,

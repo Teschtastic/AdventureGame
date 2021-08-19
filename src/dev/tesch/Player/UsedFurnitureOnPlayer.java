@@ -173,7 +173,7 @@ public class UsedFurnitureOnPlayer {
             Scanner take = new Scanner(System.in);
             int i = 1;
             int itemIndex = -1;
-            double totalWeight = 0.0;
+            int totalWeight = 0;
             Item item;
 
             // Choice for which item to take: one, all, or none

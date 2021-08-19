@@ -15,11 +15,14 @@ public class ActionsParser {
         Scanner playerAction = new Scanner(System.in);                  // Scanner for player choices
         Actions.welcome();                                              // Welcome message
         player.getRoomIsIn().getStartMessage();                         // Tells you which room you're in
+        boolean isGameRunning = true;                                   // Game running flag
 
-        while(true) {                                                   // Main game loop
+        while(isGameRunning) {                                          // Main game loop
             
-            if(player.getCurrentHealth() <= 0)                          // Checks if player is dead, and ends game
+            if(player.getCurrentHealth() <= 0) {                        // Checks if player is dead, and ends game
                 Actions.deathMessage();
+                isGameRunning = false;
+            }
             
             Integer choiceIndex = null;
             Actions.typeChoice();
@@ -29,86 +32,89 @@ public class ActionsParser {
             else
                 playerAction.close();
 
-            // Checks to see if the user choice is defined in the actions scope, then assigns it to an Integer
-            for (Map.Entry<Integer, List<String>> entry: userActions.entrySet()) {
-                if (entry.getValue().contains(player.getChoice().toLowerCase())) {
+            for (Map.Entry<Integer, List<String>> entry:                // Checks to see if the user choice is defined
+                                userActions.entrySet()) {               // in the actions scope, then assigns it to an Integer
+                if (entry.getValue().contains(player.getChoice())) {
                     choiceIndex = entry.getKey();
                 }
             }
 
-            // If there was no action for the choice given, set to error choice
-            // else use the choice given index above
-            switch (choiceIndex != null ? choiceIndex : -1) {                       // Switch case to parse the user's choice
+            switch (choiceIndex != null ? choiceIndex : -1) {           // Switch case to parse the user's choice
                 case 1:
-                    PlayerActions.inventory(player);                                // Accesses the inventory
+                    PlayerActions.inventory(player);                    // Accesses the inventory
                     break;
 
                 case 2:
-                    PlayerActions.help(userActions);                                // Accesses the help menu
+                    PlayerActions.help(userActions);                    // Accesses the help menu
                     break;
 
                 case 3:
-                    RoomActions.printLocation(player);                              // Prints your location
+                    RoomActions.printLocation(player);                  // Prints your location
                     break;
 
                 case 4:
-                    RoomActions.move(player);                            // Moves into a new room
+                    RoomActions.move(player);                           // Moves into a new room
                     break;
 
                 case 5:
-                    RoomActions.lookAround(player);                                 // Looks around the room
+                    RoomActions.lookAround(player);                     // Looks around the room
                     break;
 
                 case 6:
-                    ItemActions.pickupItem(player);                                 // Attempts to pickup an item
+                    ItemActions.pickupItem(player);                     // Attempts to pickup an item
                     break;
 
                 case 7:
-                    PlayerActions.describeSomething(player);                               // Describes an item in your inventory
+                    PlayerActions.describeSomething(player);            // Describes an item in your inventory
                     break;
 
                 case 8:
-                    ItemActions.dropItem(player);                                   // Drops an item into the current room
+                    ItemActions.dropItem(player);                       // Drops an item into the current room
                     break;
 
                 case 9:
-                    PlayerActions.useSomething(player);                              // Uses something that can be used
+                    PlayerActions.useSomething(player);                 // Uses something that can be used
                     break;
 
                 case 10:
-                    NPCActions.talkToNPC(player);                                   // Talks to the NPC in the room
+                    NPCActions.talkToNPC(player);                       // Talks to the NPC in the room
                     break;
 
                 case 11:
-                    NPCActions.giveItem(player);                                    // Gives item to the NPC in the room
+                    NPCActions.giveItem(player);                        // Gives item to the NPC in the room
                     break;
 
                 case 12:
-                    NPCActions.takeItem(player);                                    // Gives item to the NPC in the room
+                    NPCActions.takeItem(player);                        // Gives item to the NPC in the room
                     break;
 
                 case 13:
-                    PlayerActions.describePlayer(player);                           // Describes the player character
+                    PlayerActions.describePlayer(player);               // Describes the player character
                     break;
 
                 case 14:
-                    ItemActions.equipItem(player);                                  // Equips an item to player
+                    ItemActions.equipItem(player);                      // Equips an item to player
                     break;
 
                 case 15:
-                    ItemActions.unEquipItem(player);                                // Un equips an item from player
+                    ItemActions.unEquipItem(player);                    // Un equips an item from player
+                    break;
+
+                case 16:
+                    PlayerActions.saveGame(player);                     // Un equips an item from player
                     break;
 
                 case 0:
-                    exitMessage();                                                  // Quits the game
+                    exitMessage();                                      // Quits the game
+                    isGameRunning = false;
                     break;
 
                 case -1:
-                    inputError();                                                   // Input error
+                    inputError();                                       // Input error
                     break;
 
                 default:
-                    genericError();                                                 // Outputs a generic error to the user
+                    genericError();                                     // Outputs a generic error to the user
                     break;
             }
         }
