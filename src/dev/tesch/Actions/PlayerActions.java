@@ -120,15 +120,15 @@ public class PlayerActions {
             return inventory.get(0);
         // Multiple items in inventory, choose which one to drop
         else {
-            int i = 0;
+            int i = 1;
             int size = inventory.size() - 1;
             Scanner itemDesc = new Scanner(System.in);
             int itemChoice = -1;
 
             System.out.println("\nYour available items are:");
             for (Item it : inventory)
-                System.out.println(i++ + " " + it.getName());
-
+                System.out.println(i++ + " - " + it.getName());
+            System.out.println("0 - Nothing");
             Actions.typeChoice();
 
             try {
@@ -137,9 +137,11 @@ public class PlayerActions {
                 else
                     itemDesc.close();
 
-                if (itemChoice >= 0 && itemChoice <= size)
-                    return inventory.get(itemChoice);
-                else
+                if (itemChoice > 0 && itemChoice <= size)
+                    return inventory.get(itemChoice - 1);
+                else if (itemChoice == 0) {
+                    System.out.println("\nYou choose nothing.");
+                } else
                     System.out.println("\nInvalid choice.");
             }
             catch (InputMismatchException e) {

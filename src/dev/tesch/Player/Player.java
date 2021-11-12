@@ -24,7 +24,7 @@ public class Player {
 
     // Constructing the player object
     public Player() {
-        setInventory(new LinkedList<Item>());
+        setInventory(new LinkedList<>());
     }
 
     private String name;                // Player name
@@ -230,9 +230,7 @@ public class Player {
     }
 
     public void addToRecipes(List<Recipe> recipe) {
-        for (Recipe i : recipe) {
-            this.knownRecipes.add(i);
-        }
+        this.knownRecipes.addAll(recipe);
     }
 
     public int getCurrentCarryWeight() {

@@ -19,7 +19,7 @@ public class ActionsParser {
 
         while(isGameRunning) {                                          // Main game loop
             
-            if(player.getCurrentHealth() <= 0) {                        // Checks if player is dead, and ends game
+            if(player.getCurrentHealth() <= 0) {                        // Checks if player is dead, and ends game if so
                 Actions.deathMessage();
                 isGameRunning = false;
             }
@@ -33,8 +33,8 @@ public class ActionsParser {
                 playerAction.close();
 
             for (Map.Entry<Integer, List<String>> entry:                // Checks to see if the user choice is defined
-                                userActions.entrySet()) {               // in the actions scope, then assigns it to an Integer
-                if (entry.getValue().contains(player.getChoice())) {
+                                userActions.entrySet()) {               // in the actions scope, then assigns it to an
+                if (entry.getValue().contains(player.getChoice())) {    // integer used in a switch case
                     choiceIndex = entry.getKey();
                 }
             }
@@ -61,7 +61,7 @@ public class ActionsParser {
                     break;
 
                 case 6:
-                    ItemActions.pickupItem(player);                     // Attempts to pickup an item
+                    ItemActions.pickupItem(player);                     // Attempts to pick up an item
                     break;
 
                 case 7:
