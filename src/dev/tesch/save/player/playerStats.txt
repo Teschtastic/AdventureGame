@@ -6,4 +6,4 @@ Armor Class:10
 Attack Damage:15
 Equipped Armor:1
 Equipped Weapon:1
-Current Room:8
+Current Room:2

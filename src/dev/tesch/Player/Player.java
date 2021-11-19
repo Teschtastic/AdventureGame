@@ -39,8 +39,8 @@ public class Player {
     private Weapon equippedWeapon;      // Weapon object equipped to the player
     private boolean hasEquippedWeapon;  // Flag for if a weapon is equipped
     private List<Recipe> knownRecipes;  // List of known recipes
-    private int currentCarryWeight;  // Value for current carry weight
-    private int maximumCarryWeight;  // Value for maximum carry weight
+    private int currentCarryWeight;     // Value for current carry weight
+    private int maximumCarryWeight;     // Value for maximum carry weight
     private String choice;              // Value for player choice
 
     /* Getters and setters */

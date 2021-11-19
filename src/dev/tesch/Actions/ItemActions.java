@@ -8,14 +8,15 @@ import dev.tesch.Player.Player;
 import dev.tesch.Player.UnEquipItemFromPlayer;
 import dev.tesch.Player.UsedItemOnPlayer;
 import dev.tesch.Rooms.Room;
+import dev.tesch.Rooms.Rooms;
 
 import java.util.*;
 
 public class ItemActions {
 
     /* Method used for attempting to pick up an item */
-    public static void pickupItem(Player player) {
-        Room room = player.getRoomIsIn();
+    public static void pickupItem(Player player, Map<Integer, Room> rooms) {
+        Room room = rooms.get(player.getRoomIndex());
 
         // If there isn't an item in the room, nothing to pickup
         if (!room.isHasItem())
@@ -67,8 +68,8 @@ public class ItemActions {
     }
 
     /* Method used to drop and item in your inventory */
-    public static void dropItem(Player player) {
-        Room room = player.getRoomIsIn();
+    public static void dropItem(Player player, Map<Integer, Room> rooms) {
+        Room room = rooms.get(player.getRoomIndex());
         Item item = PlayerActions.takeItemFromInventory(player.getInventory());
 
         assert item != null;
