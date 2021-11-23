@@ -1,18 +1,19 @@
 package dev.tesch.save;
 
 import dev.tesch.Furniture.Container;
-import dev.tesch.Furniture.Containers;
 import dev.tesch.Furniture.Furniture;
-import dev.tesch.Furniture.Furnitures;
-import dev.tesch.Items.*;
+import dev.tesch.Items.Armor;
+import dev.tesch.Items.Consumable;
+import dev.tesch.Items.Item;
+import dev.tesch.Items.Weapon;
 import dev.tesch.NPCs.NPC;
-import dev.tesch.NPCs.NPCs;
 import dev.tesch.Player.Player;
 import dev.tesch.Rooms.Room;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -20,11 +21,6 @@ public class SaveToFile {
     public static void savePlayerToFile(Player player) {
         final String saveFilePath       = "src/dev/tesch/save/player/playerStats.txt";
         final String inventoryFilePath  = "src/dev/tesch/save/player/playerInventory.txt";
-
-        Map<Integer, Item>          items       = new Items().itemsMap;
-        Map<Integer, Armor>         armors      = new Armors().armorMap;
-        Map<Integer, Weapon>        weapons     = new Weapons().weaponMap;
-        Map<Integer, Consumable>    consumables = new Consumables().consumablesMap;
 
         try {
             FileWriter playerWriter     = new FileWriter(saveFilePath);
@@ -44,25 +40,25 @@ public class SaveToFile {
 
             for (Item item : player.getInventory()) {
                 if (item.getClass() == Armor.class) {
-                    for (Map.Entry<Integer, Armor> entry : armors.entrySet()) {
+                    for (Map.Entry<Integer, Armor> entry : player.getAllObjects().allItems.armors.entrySet()) {
                         if (Objects.equals(item, entry.getValue())) {
                             inventoryWriter.write("Armor:" + entry.getKey() + "\n");
                         }
                     }
                 } else if (item.getClass() == Weapon.class) {
-                    for (Map.Entry<Integer, Weapon> entry : weapons.entrySet()) {
+                    for (Map.Entry<Integer, Weapon> entry : player.getAllObjects().allItems.weapons.entrySet()) {
                         if (Objects.equals(item, entry.getValue())) {
                             inventoryWriter.write("Weapon:" + entry.getKey() + "\n");
                         }
                     }
                 } else if (item.getClass() == Consumable.class) {
-                    for (Map.Entry<Integer, Consumable> entry : consumables.entrySet()) {
+                    for (Map.Entry<Integer, Consumable> entry : player.getAllObjects().allItems.consumables.entrySet()) {
                         if (Objects.equals(item, entry.getValue())) {
                             inventoryWriter.write("Consumable:" + entry.getKey() + "\n");
                         }
                     }
                 } else {
-                    for (Map.Entry<Integer, Item> entry : items.entrySet()) {
+                    for (Map.Entry<Integer, Item> entry : player.getAllObjects().allItems.items.entrySet()) {
                         if (Objects.equals(item, entry.getValue())) {
                             inventoryWriter.write("Item:" + entry.getKey() + "\n");
                         }
@@ -77,25 +73,13 @@ public class SaveToFile {
         }
     }
 
-    public static void saveRoomsToFile(Map<Integer, Room> rooms) {
+    public static void saveRoomsToFile(Player player) {
         final String saveRoomFilePath = "src/dev/tesch/save/rooms/rooms.txt";
-
-        Map<Integer, Item>          items           = new Items().itemsMap;
-        Map<Integer, Armor>         armors          = new Armors().armorMap;
-        Map<Integer, Weapon>        weapons         = new Weapons().weaponMap;
-        Map<Integer, Consumable>    consumables     = new Consumables().consumablesMap;
-
-        // Different NPC maps
-        Map<Integer, NPC>           npcs            = new NPCs().npcMap;
-
-        // Different furniture maps
-        Map<Integer, Furniture>     furnitures      = new Furnitures().furnituresMap;
-        Map<Integer, Container>     containers      = new Containers().containersMap;
 
         try {
             FileWriter roomWrite = new FileWriter(saveRoomFilePath);
 
-            for (Map.Entry<Integer, Room> e : rooms.entrySet()) {
+            for (Map.Entry<Integer, Room> e : player.getRooms().entrySet()) {
                 Integer k = e.getKey();
                 Room v = e.getValue();
                 String itemChar = "NA", npcChar = "NA", furnitureChar = "NA",
@@ -107,7 +91,7 @@ public class SaveToFile {
 
                 if (v.isHasItem() && Item.class.equals(item.getClass())) {
                     itemChar = "I";
-                    for (Map.Entry<Integer, Item> entry : items.entrySet()) {
+                    for (Map.Entry<Integer, Item> entry : player.getAllObjects().allItems.items.entrySet()) {
                         if (Objects.equals(item.getName(), entry.getValue().getName())) {
                             itemNum = entry.getKey().toString();
                         }
@@ -115,21 +99,21 @@ public class SaveToFile {
 
                 } else if (v.isHasItem() && Consumable.class.equals(item.getClass())) {
                     itemChar = "C";
-                    for (Map.Entry<Integer, Consumable> entry : consumables.entrySet()) {
+                    for (Map.Entry<Integer, Consumable> entry : player.getAllObjects().allItems.consumables.entrySet()) {
                         if (Objects.equals(item.getName(), entry.getValue().getName())) {
                             itemNum = entry.getKey().toString();
                         }
                     }
                 } else if (v.isHasItem() && Weapon.class.equals(item.getClass())) {
                     itemChar = "W";
-                    for (Map.Entry<Integer, Weapon> entry : weapons.entrySet()) {
+                    for (Map.Entry<Integer, Weapon> entry : player.getAllObjects().allItems.weapons.entrySet()) {
                         if (Objects.equals(item.getName(), entry.getValue().getName())) {
                             itemNum = entry.getKey().toString();
                         }
                     }
                 } else if (v.isHasItem() && Armor.class.equals(item.getClass())) {
                     itemChar = "A";
-                    for (Map.Entry<Integer, Armor> entry : armors.entrySet()) {
+                    for (Map.Entry<Integer, Armor> entry : player.getAllObjects().allItems.armors.entrySet()) {
                         if (Objects.equals(item.getName(), entry.getValue().getName())) {
                             itemNum = entry.getKey().toString();
                         }
@@ -138,7 +122,7 @@ public class SaveToFile {
 
                 if (v.isHasNPC() && NPC.class.equals(npc.getClass())) {
                     npcChar = "N";
-                    for (Map.Entry<Integer, NPC> entry : npcs.entrySet()) {
+                    for (Map.Entry<Integer, NPC> entry : player.getAllObjects().npcs.entrySet()) {
                         if (Objects.equals(npc.getName(), entry.getValue().getName())) {
                             npcNum = entry.getKey().toString();
                         }
@@ -147,7 +131,7 @@ public class SaveToFile {
 
                 if (v.isHasFurniture() && Furniture.class.equals(furniture.getClass())) {
                     furnitureChar = "F";
-                    for (Map.Entry<Integer, Furniture> entry : furnitures.entrySet()) {
+                    for (Map.Entry<Integer, Furniture> entry : player.getAllObjects().furnitures.entrySet()) {
                         if (Objects.equals(furniture.getName(), entry.getValue().getName())) {
                             furnitureNum = entry.getKey().toString();
                         }
@@ -155,7 +139,7 @@ public class SaveToFile {
 
                 } else if (v.isHasFurniture() && Container.class.equals(furniture.getClass())) {
                     furnitureChar = "C";
-                    for (Map.Entry<Integer, Container> entry : containers.entrySet()) {
+                    for (Map.Entry<Integer, Container> entry : player.getAllObjects().containers.entrySet()) {
                         if (Objects.equals(furniture.getName(), entry.getValue().getName())) {
                             furnitureNum = entry.getKey().toString();
                         }
@@ -172,6 +156,70 @@ public class SaveToFile {
                         ));
             }
             roomWrite.close();
+        }
+        catch (IOException e) {
+            System.out.println("An error occurred while writing to save file. " + e);
+        }
+    }
+
+    public static void saveContainersInRoomInventory(Player player) {
+        final String saveRoomFilePath = "src/dev/tesch/save/furniture/containerInventory.txt";
+
+        try {
+            FileWriter inventoryWrite = new FileWriter(saveRoomFilePath);
+
+            for (Map.Entry<Integer, Room> e : player.getRooms().entrySet()) {
+                Integer k = e.getKey();
+                Room v = e.getValue();
+
+                String itemChar = "NA", itemNum = null;
+
+                if (v.isHasFurniture() && Container.class.equals(v.getFurnitureInRoom().getClass())) {
+                    Container container = (Container) v.getFurnitureInRoom();
+
+                    List<Item> containerInventory = container.getContainerInventory();
+
+                    inventoryWrite.write("\nR" + ";" + k.toString() + ":");
+
+                    for (Item item: containerInventory) {
+
+                        if (Item.class.equals(item.getClass())) {
+                            itemChar = "I";
+                            for (Map.Entry<Integer, Item> entry : player.getAllObjects().allItems.items.entrySet()) {
+                                if (Objects.equals(item.getName(), entry.getValue().getName())) {
+                                    itemNum = entry.getKey().toString();
+                                }
+                            }
+
+                        } else if (Consumable.class.equals(item.getClass())) {
+                            itemChar = "C";
+                            for (Map.Entry<Integer, Consumable> entry : player.getAllObjects().allItems.consumables.entrySet()) {
+                                if (Objects.equals(item.getName(), entry.getValue().getName())) {
+                                    itemNum = entry.getKey().toString();
+                                }
+                            }
+                        } else if (Weapon.class.equals(item.getClass())) {
+                            itemChar = "W";
+                            for (Map.Entry<Integer, Weapon> entry : player.getAllObjects().allItems.weapons.entrySet()) {
+                                if (Objects.equals(item.getName(), entry.getValue().getName())) {
+                                    itemNum = entry.getKey().toString();
+                                }
+                            }
+                        } else if (Armor.class.equals(item.getClass())) {
+                            itemChar = "A";
+                            for (Map.Entry<Integer, Armor> entry : player.getAllObjects().allItems.armors.entrySet()) {
+                                if (Objects.equals(item.getName(), entry.getValue().getName())) {
+                                    itemNum = entry.getKey().toString();
+                                }
+                            }
+                        }
+
+                        inventoryWrite.write(itemChar + ";" + itemNum + ":");
+                    }
+                    inventoryWrite.write("-");
+                }
+            }
+            inventoryWrite.close();
         }
         catch (IOException e) {
             System.out.println("An error occurred while writing to save file. " + e);

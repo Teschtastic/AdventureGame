@@ -26,4 +26,10 @@ public class Consumable extends Item {
     public void setStatusModifier(int statusModifier) {
         this.statusModifier = statusModifier;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        final Consumable consumable = (Consumable) obj;
+        return consumable.getName().equals(this.getName());
+    }
 }

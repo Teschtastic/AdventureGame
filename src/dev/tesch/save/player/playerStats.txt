@@ -1,6 +1,6 @@
 Current Health:100
 Maximum Health:100
-Current Weight:5
+Current Weight:6
 Maximum Weight:25
 Armor Class:10
 Attack Damage:15

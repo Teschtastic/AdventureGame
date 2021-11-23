@@ -1,0 +1,2 @@
+1:Chest:A run-of-the-mill chest.:You open the chest to see what's inside.:true:
+2:Refrigerator:Used to keep things cold.:You check for something cold inside.:true:

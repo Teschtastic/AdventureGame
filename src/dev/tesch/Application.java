@@ -16,11 +16,17 @@ public class Application {
         // Actions object and HashMap
         Map<Integer, List<String>> userActions = new Actions().actionsMap;
 
+        // One object for all the other objects
+        AllObjects allObjects = new AllObjects();
+
+        Map<Integer, Room> rooms = new Rooms(allObjects).roomsMap;
+
         // Player object
-        Player player = new Player();
+        Player player = new Player(rooms, allObjects);
 
         // Load player information from player files
-        LoadFromFile.loadPlayerFromFile(player);
+        LoadFromFile.LoadPlayerFromFile(player);
+        LoadFromFile.LoadContainersInRoomInventory(player.getRooms(), player.getAllObjects().containers, player.getAllObjects().allItems);
 
         // Running the main game loop
         ActionsParser.gameLoop(player, userActions);

@@ -9,7 +9,7 @@ public class Items {
     public Map<Integer, Item> itemsMap = new HashMap<>();
 
     public Items() {
-        // Constructs each item with it's index, name, description, room location, and if the player can pick it up
+        // Constructs each item with its index, name, description, room location, and if the player can pick it up
         itemsMap.put(1, new Item(
                 "Cardboard boxes",
                 "What can I say?\nI like ordering from Amazon",

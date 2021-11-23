@@ -1,14 +1,13 @@
 package dev.tesch.save;
 
+import dev.tesch.AllItems;
+import dev.tesch.AllObjects;
 import dev.tesch.Crafting.Recipe;
 import dev.tesch.Crafting.Recipes;
 import dev.tesch.Furniture.Container;
-import dev.tesch.Furniture.Containers;
 import dev.tesch.Furniture.Furniture;
-import dev.tesch.Furniture.Furnitures;
-import dev.tesch.Items.*;
+import dev.tesch.Items.Item;
 import dev.tesch.NPCs.NPC;
-import dev.tesch.NPCs.NPCs;
 import dev.tesch.Player.Player;
 import dev.tesch.Rooms.Room;
 
@@ -17,17 +16,11 @@ import java.util.*;
 
 public class LoadFromFile {
 
-    public static void loadPlayerFromFile(Player player) {
+    public static void LoadPlayerFromFile(Player player) {
         final String saveFilePath = "src/dev/tesch/save/player/playerStats.txt";
         final String inventoryFilePath = "src/dev/tesch/save/player/playerInventory.txt";
 
         List<Item> inventory = new LinkedList<>();
-
-        // Items, Armors, Weapons, and Consumables objects and HashMaps
-        Map<Integer, Item>          items       = new Items().itemsMap;
-        Map<Integer, Armor>         armors      = new Armors().armorMap;
-        Map<Integer, Weapon>        weapons     = new Weapons().weaponMap;
-        Map<Integer, Consumable>    consumables = new Consumables().consumablesMap;
 
         // Recipes object and LinkedList
         List<Recipe> recipesList = new Recipes().recipesList;
@@ -73,16 +66,16 @@ public class LoadFromFile {
                     Integer itemInt = Integer.parseInt(itemString);
                     switch (type) {
                         case "Item":
-                            inventory.add(items.get(itemInt));
+                            inventory.add(player.getAllObjects().allItems.items.get(itemInt));
                             break;
                         case "Armor":
-                            inventory.add(armors.get(itemInt));
+                            inventory.add(player.getAllObjects().allItems.armors.get(itemInt));
                             break;
                         case "Weapon":
-                            inventory.add(weapons.get(itemInt));
+                            inventory.add(player.getAllObjects().allItems.weapons.get(itemInt));
                             break;
                         case "Consumable":
-                            inventory.add(consumables.get(itemInt));
+                            inventory.add(player.getAllObjects().allItems.consumables.get(itemInt));
                             break;
                     }
                 }
@@ -123,21 +116,8 @@ public class LoadFromFile {
         }
     }
 
-    public static void loadRoomsFromFile(Map<Integer, Room>  rooms) {
+    public static void LoadRoomsFromFile(Map<Integer, Room> rooms, AllObjects allObjects) {
         final String roomFilePath = "src/dev/tesch/save/rooms/rooms.txt";
-
-        // Different item maps
-        Map<Integer, Item>          items       = new Items().itemsMap;
-        Map<Integer, Armor>         armors      = new Armors().armorMap;
-        Map<Integer, Weapon>        weapons     = new Weapons().weaponMap;
-        Map<Integer, Consumable>    consumables = new Consumables().consumablesMap;
-
-        // Different NPC maps
-        Map<Integer, NPC>           npcs        = new NPCs().npcMap;
-
-        // Different furniture maps
-        Map<Integer, Furniture>     furnitures  = new Furnitures().furnituresMap;
-        Map<Integer, Container>     containers  = new Containers().containersMap;
 
         try {
             BufferedReader in = new BufferedReader(new FileReader(roomFilePath), 16*1024);
@@ -166,16 +146,16 @@ public class LoadFromFile {
 
                 switch (itemType) {
                     case "I":
-                        it = items.get(Integer.parseInt(item));
+                        it = allObjects.allItems.items.get(Integer.parseInt(item));
                         break;
                     case "C":
-                        it = consumables.get(Integer.parseInt(item));
+                        it = allObjects.allItems.consumables.get(Integer.parseInt(item));
                         break;
                     case "A":
-                        it = armors.get(Integer.parseInt(item));
+                        it = allObjects.allItems.armors.get(Integer.parseInt(item));
                         break;
                     case "W":
-                        it = weapons.get(Integer.parseInt(item));
+                        it = allObjects.allItems.weapons.get(Integer.parseInt(item));
                         break;
                     case "NA":
                         it = null;
@@ -184,7 +164,7 @@ public class LoadFromFile {
 
                 switch (NPCType) {
                     case "N":
-                        np = npcs.get(Integer.parseInt(NPC));
+                        np = allObjects.npcs.get(Integer.parseInt(NPC));
                         break;
                     case "NA":
                         np = null;
@@ -193,10 +173,10 @@ public class LoadFromFile {
 
                 switch (furnitureType) {
                     case "F":
-                        fur = furnitures.get(Integer.parseInt(furniture));
+                        fur = allObjects.furnitures.get(Integer.parseInt(furniture));
                         break;
                     case "C":
-                        fur = containers.get(Integer.parseInt(furniture));
+                        fur = allObjects.containers.get(Integer.parseInt(furniture));
                         break;
                     case "NA":
                         fur = null;
@@ -221,7 +201,7 @@ public class LoadFromFile {
         }
     }
 
-    public static void LoadConnectedRooms(Map<Integer, Room>  rooms) {
+    public static void LoadConnectedRooms(Map<Integer, Room> rooms) {
         final String connectedRoomFilePath = "src/dev/tesch/save/rooms/connectedRooms.txt";
 
         try {
@@ -252,6 +232,102 @@ public class LoadFromFile {
                         }}
                 );
             }
+            read.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void LoadContainersFromFile(Map<Integer, Container> containers) {
+        final String containerFilePath = "src/dev/tesch/save/furniture/containers.txt";
+
+        try {
+            BufferedReader in = new BufferedReader(new FileReader(containerFilePath), 16*1024);
+            Scanner read = new Scanner(in);
+            read.useDelimiter(":");
+            String container, name, description, message, canUse;
+
+            while(read.hasNext())
+            {
+                container = read.next().trim();
+                name = read.next().trim();
+                description = read.next().trim();
+                message = read.next().trim();
+                canUse = read.next().trim();
+
+                containers.put(Integer.parseInt(container), new Container(
+                        name,
+                        description,
+                       "\n" + message,
+                        Boolean.parseBoolean(canUse),
+                        new LinkedList<>()));
+            }
+            read.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void LoadContainersInRoomInventory(Map<Integer, Room> roomsMap, Map<Integer, Container> containers, AllItems allItems) {
+        final String containerInventoryPath = "src/dev/tesch/save/furniture/containerInventory.txt";
+
+        try {
+            BufferedReader in = new BufferedReader(new FileReader(containerInventoryPath), 16*1024);
+            Scanner read = new Scanner(in);
+            read.useDelimiter("-");
+            String room = null;
+            ArrayList<String> rooms = new ArrayList<>();
+            ArrayList<String> items = new ArrayList<>();
+            List<Item> inventory = new LinkedList<>();
+            while(read.hasNext()) {
+                rooms.add(read.next().trim());
+            }
+
+            for (String r: rooms) {
+                items.add(Arrays.toString(r.split(":")));
+            }
+
+            for (String i: items) {
+
+                String[] split = i.split(",");
+                for (String s: split) {
+
+                    String sT = s.trim().replace("[", "").replace("]", "");
+                    String[] sTS = sT.split(";");
+
+                    switch (sTS[0]) {
+                        case "R":
+                            room = sTS[1];
+                            break;
+                        case "I":
+                            inventory.add(allItems.items.get(Integer.parseInt(sTS[1])));
+                            break;
+                        case "C":
+                            inventory.add(allItems.consumables.get(Integer.parseInt(sTS[1])));
+                            break;
+                        case "A":
+                            inventory.add(allItems.armors.get(Integer.parseInt(sTS[1])));
+                            break;
+                        case "W":
+                            inventory.add(allItems.weapons.get(Integer.parseInt(sTS[1])));
+                            break;
+                    }
+                }
+
+                for (Map.Entry<Integer, Room> roomEntry : roomsMap.entrySet()) {
+                    if (Objects.equals(roomsMap.get(Integer.parseInt(Objects.requireNonNull(room))), roomEntry.getValue())) {
+                        for (Map.Entry<Integer, Container> containerEntry: containers.entrySet()) {
+                            if (Objects.equals(roomEntry.getValue().getFurnitureInRoom(), containerEntry.getValue())) {
+                                containers.get(containerEntry.getKey()).addToInventory(inventory);
+                            }
+                        }
+                    }
+                }
+                inventory.clear();
+            }
+
             read.close();
 
         } catch (FileNotFoundException e) {

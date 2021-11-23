@@ -1,5 +1,6 @@
 package dev.tesch.Actions;
 
+import dev.tesch.AllObjects;
 import dev.tesch.Furniture.Furniture;
 import dev.tesch.Items.Item;
 import dev.tesch.NPCs.NPC;
@@ -38,7 +39,7 @@ public class RoomActions {
 
     /* Method used to look in the room you're in */
     public static void lookAround(Player player) {
-        Room room = player.getRoomIsIn();
+        Room room = player.getRooms().get(player.getRoomIndex());
         room.getInMessage();
 
         if (!room.isHasItem())

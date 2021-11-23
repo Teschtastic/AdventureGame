@@ -1,8 +1,6 @@
 package dev.tesch.Actions;
 
 import dev.tesch.Player.Player;
-import dev.tesch.Rooms.Room;
-import dev.tesch.Rooms.Rooms;
 
 import java.util.List;
 import java.util.Map;
@@ -18,8 +16,6 @@ public class ActionsParser {
         Actions.welcome();                                              // Welcome message
         player.getRoomIsIn().getStartMessage();                         // Tells you which room you're in
         boolean isGameRunning = true;                                   // Game running flag
-
-        Map<Integer, Room> rooms = new Rooms().roomsMap;                // Rooms map object
 
         while(isGameRunning) {                                          // Main game loop
             
@@ -65,7 +61,7 @@ public class ActionsParser {
                     break;
 
                 case 6:
-                    ItemActions.pickupItem(player, rooms);              // Attempts to pick up an item
+                    ItemActions.pickupItem(player);              // Attempts to pick up an item
                     break;
 
                 case 7:
@@ -73,7 +69,7 @@ public class ActionsParser {
                     break;
 
                 case 8:
-                    ItemActions.dropItem(player, rooms);                // Drops an item into the current room
+                    ItemActions.dropItem(player);                // Drops an item into the current room
                     break;
 
                 case 9:
@@ -105,7 +101,7 @@ public class ActionsParser {
                     break;
 
                 case 16:
-                    PlayerActions.saveGame(player, rooms);              // Un equips an item from player
+                    PlayerActions.saveGame(player);              // Un equips an item from player
                     break;
 
                 case 0:

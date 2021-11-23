@@ -1,29 +1,26 @@
 package dev.tesch.Crafting;
 
-import dev.tesch.Items.*;
+import dev.tesch.AllObjects;
 
 import java.util.*;
 
 public class Recipes {
 
-    // Different item maps
-    Map<Integer, Item>          items       = new Items().itemsMap;
-    Map<Integer, Armor>         armors      = new Armors().armorMap;
-    Map<Integer, Weapon>        weapons     = new Weapons().weaponMap;
-    Map<Integer, Consumable>    consumables = new Consumables().consumablesMap;
+    // All Objects object
+    AllObjects allObjects = new AllObjects();
 
     // Recipes map
     public List<Recipe> recipesList = new LinkedList<>();
 
     public Recipes() {
         recipesList.add(0, new Recipe(
-                new LinkedList<>(Arrays.asList(items.get(1), items.get(1))),
-                armors.get(1)
+                new LinkedList<>(Arrays.asList(allObjects.allItems.items.get(1), allObjects.allItems.items.get(1))),
+                allObjects.allItems.armors.get(1)
         ));
 
         recipesList.add(1, new Recipe(
-                new LinkedList<>(Arrays.asList(items.get(3), items.get(4))),
-                weapons.get(1)
+                new LinkedList<>(Arrays.asList(allObjects.allItems.items.get(3), allObjects.allItems.items.get(4))),
+                allObjects.allItems.weapons.get(1)
         ));
     }
 }

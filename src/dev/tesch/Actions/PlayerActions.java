@@ -2,7 +2,6 @@ package dev.tesch.Actions;
 
 import dev.tesch.Items.Item;
 import dev.tesch.Player.Player;
-import dev.tesch.Rooms.Room;
 import dev.tesch.save.SaveToFile;
 
 import java.util.InputMismatchException;
@@ -142,9 +141,10 @@ public class PlayerActions {
         return null;
     }
 
-    public static void saveGame(Player player, Map<Integer, Room> rooms) {
+    public static void saveGame(Player player) {
         SaveToFile.savePlayerToFile(player);
-        SaveToFile.saveRoomsToFile(rooms);
+        SaveToFile.saveRoomsToFile(player);
+        SaveToFile.saveContainersInRoomInventory(player);
         System.out.println("\n*    You have saved your progress    *");
     }
 }

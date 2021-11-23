@@ -1,17 +1,9 @@
 package dev.tesch.NPCs;
 
-import dev.tesch.Items.*;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class NPCs {
-
-    // Different item maps
-    Map<Integer, Item>          items       = new Items().itemsMap;
-    Map<Integer, Armor>         armors      = new Armors().armorMap;
-    Map<Integer, Weapon>        weapons     = new Weapons().weaponMap;
-    Map<Integer, Consumable>    consumables = new Consumables().consumablesMap;
 
     // HashMap the NPCs are stored in
     public Map<Integer, NPC> npcMap = new HashMap<>();

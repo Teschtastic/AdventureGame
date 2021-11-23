@@ -26,4 +26,10 @@ public class Weapon extends Item {
     public void setAttackDamage(int attackDamage) {
         this.attackDamage = attackDamage;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        final Weapon weapon = (Weapon) obj;
+        return weapon.getName().equals(this.getName());
+    }
 }

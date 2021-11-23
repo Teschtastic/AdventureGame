@@ -1,3 +1,4 @@
-Consumable:1
 Weapon:1
+Consumable:1
 Armor:1
+Item:3

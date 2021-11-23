@@ -8,15 +8,14 @@ import dev.tesch.Player.Player;
 import dev.tesch.Player.UnEquipItemFromPlayer;
 import dev.tesch.Player.UsedItemOnPlayer;
 import dev.tesch.Rooms.Room;
-import dev.tesch.Rooms.Rooms;
 
 import java.util.*;
 
 public class ItemActions {
 
     /* Method used for attempting to pick up an item */
-    public static void pickupItem(Player player, Map<Integer, Room> rooms) {
-        Room room = rooms.get(player.getRoomIndex());
+    public static void pickupItem(Player player) {
+        Room room = player.getRooms().get(player.getRoomIndex());
 
         // If there isn't an item in the room, nothing to pickup
         if (!room.isHasItem())
@@ -68,16 +67,44 @@ public class ItemActions {
     }
 
     /* Method used to drop and item in your inventory */
-    public static void dropItem(Player player, Map<Integer, Room> rooms) {
-        Room room = rooms.get(player.getRoomIndex());
-        Item item = PlayerActions.takeItemFromInventory(player.getInventory());
+    public static void dropItem(Player player) {
+        Room room = player.getRooms().get(player.getRoomIndex());
 
-        assert item != null;
-        System.out.println("\nYou drop your " + item.getName());
+        if (!room.isHasItem()) {
+            Item item = PlayerActions.takeItemFromInventory(player.getInventory());
 
-        room.setHasItem(true);
-        room.setItemInRoom(item);
-        player.removeFromInventory(item);
+            if (item != null) {
+                System.out.println("\nYou drop your " + item.getName());
+
+                room.setHasItem(true);
+                room.setItemInRoom(item);
+                player.removeFromInventory(item);
+            }
+            else
+                System.out.println("\nYou drop nothing.");
+        }
+        else {
+            Scanner dropChoose = new Scanner(System.in);
+            int dropChoice = -1;
+
+            System.out.println("\nThere is already an item in the room.\nWould you like to pick that item up?");
+            System.out.println("\n1 - Yes\n0 - No");
+            Actions.typeChoice();
+
+            if (dropChoose.hasNextInt())
+                dropChoice = dropChoose.nextInt();
+            else
+                dropChoose.close();
+
+            if (dropChoice == 1) {
+                pickupItem(player);
+                dropItem(player);
+            }
+            else {
+                System.out.println("\nYou don't pick up the itm in the room.\nYou don't drop the item.");
+            }
+
+        }
     }
 
     /* Method used to use an item in either your inventory or in the world */
@@ -89,8 +116,10 @@ public class ItemActions {
         if (item != null && item.isCanUse()) {
             System.out.println(item.getUseMessage());
             UsedItemOnPlayer.useItem(player, item);
-        } else
+        } else if (item != null && !item.isCanUse())
             System.out.println("\nYou can't use " + item.getName());
+        else
+            System.out.println("\nNo item to describe.");
     }
 
     public static void equipItem(Player player) {
@@ -134,7 +163,7 @@ public class ItemActions {
                         EquipItemToPlayer.equipWeapon(player, (Weapon) item);
                     }  else
                         System.out.println("\nInvalid choice.");
-                } else if (item == null && equipChoice == 0) {
+                } else if (equipChoice == 0) {
                     System.out.println("\nYou equip nothing.");
                 }
             }

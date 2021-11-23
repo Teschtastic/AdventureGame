@@ -26,4 +26,10 @@ public class Armor extends Item {
     public void setArmorClass(int armorClass) {
         this.armorClass = armorClass;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        final Armor armor = (Armor) obj;
+        return armor.getName().equals(this.getName());
+    }
 }

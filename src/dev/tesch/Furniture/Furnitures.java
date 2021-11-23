@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class Furnitures {
 
-    // HashMap the rooms are stored in
+    // HashMap the furnitures are stored in
     public Map<Integer, Furniture> furnituresMap = new HashMap<>();
 
     public Furnitures() {

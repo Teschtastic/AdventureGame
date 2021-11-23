@@ -1,13 +1,11 @@
 package dev.tesch.Player;
 
+import dev.tesch.AllObjects;
 import dev.tesch.Crafting.Recipe;
 import dev.tesch.Items.Armor;
-import dev.tesch.Items.Armors;
 import dev.tesch.Items.Item;
 import dev.tesch.Items.Weapon;
-import dev.tesch.Items.Weapons;
 import dev.tesch.Rooms.Room;
-import dev.tesch.Rooms.Rooms;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -17,14 +15,11 @@ import java.util.Map.Entry;
 
 public class Player {
 
-    // HashMaps
-    public Map<Integer, Room>       rooms = new Rooms().roomsMap;
-    public Map<Integer, Armor>      armors = new Armors().armorMap;
-    public Map<Integer, Weapon>     weapons = new Weapons().weaponMap;
-
     // Constructing the player object
-    public Player() {
+    public Player(Map<Integer, Room> r, AllObjects allO) {
         setInventory(new LinkedList<>());
+        setRooms(r);
+        setAllObjects(allO);
     }
 
     private String name;                // Player name
@@ -42,6 +37,8 @@ public class Player {
     private int currentCarryWeight;     // Value for current carry weight
     private int maximumCarryWeight;     // Value for maximum carry weight
     private String choice;              // Value for player choice
+    private Map<Integer, Room> rooms;   // Rooms
+    private AllObjects allObjects;
 
     /* Getters and setters */
     public String getName() {
@@ -146,7 +143,7 @@ public class Player {
     }
 
     public Integer getArmorIndex() {
-        for (Entry<Integer, Armor> entry : armors.entrySet()) {
+        for (Entry<Integer, Armor> entry : allObjects.allItems.armors.entrySet()) {
             if (Objects.equals(equippedArmor, entry.getValue())) {
                 return entry.getKey();
             }
@@ -163,7 +160,7 @@ public class Player {
     }
 
     public void setEquippedArmor(int equippedArmorIndex) {
-        this.equippedArmor = armors.get(equippedArmorIndex);
+        this.equippedArmor = allObjects.allItems.armors.get(equippedArmorIndex);
     }
 
     public boolean isHasEquippedArmor() {
@@ -182,7 +179,7 @@ public class Player {
     }
 
     public Integer getWeaponIndex() {
-        for (Entry<Integer, Weapon> entry : weapons.entrySet()) {
+        for (Entry<Integer, Weapon> entry : allObjects.allItems.weapons.entrySet()) {
             if (Objects.equals(equippedWeapon, entry.getValue())) {
                 return entry.getKey();
             }
@@ -199,7 +196,7 @@ public class Player {
     }
     
     public void setEquippedWeapon(int equippedWeaponIndex) {
-        this.equippedWeapon = weapons.get(equippedWeaponIndex);
+        this.equippedWeapon = allObjects.allItems.weapons.get(equippedWeaponIndex);
     }
 
     public boolean isHasEquippedWeapon() {
@@ -247,6 +244,22 @@ public class Player {
 
     public void setMaximumCarryWeight(int maximumCarryWeight) {
         this.maximumCarryWeight = maximumCarryWeight;
+    }
+
+    public Map<Integer, Room> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(Map<Integer, Room> rooms) {
+        this.rooms = rooms;
+    }
+
+    public AllObjects getAllObjects() {
+        return allObjects;
+    }
+
+    public void setAllObjects(AllObjects allObjects) {
+        this.allObjects = allObjects;
     }
 
     @Override
